@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+
+<style>
+	.style0{
+		stroke:	#ffd700;
+		stroke-width:	2;
+		stroke-miterlimit:	10;
+		fill:	none;
+	}
+</style><polygon points="25,3.6 30.7,18.3 46.5,19.2 34.2,29.2 38.3,44.4 25,35.8 11.7,44.4 15.8,29.2 3.5,19.2 19.3,18.3" class="style0"/>
+</svg>

@@ -1,0 +1,8 @@
+<span class="label label-success" ng-show="card.primaryImage">Primary Image</span>
+<span class="label label-info">{{card.$index+1}}</span>
+<div class="create-listing-image-preview margin-top-20">
+    <img class="img-responsive" ng-class="{'cropped': card.croppedPath, 'original': !card.croppedPath}" ng-attr-id="{{card.croppedPath ? card.croppedPath : card.path}}" ng-src="{{card.croppedPath ? card.croppedPath : card.path}}" ng-click="mother.makePrimary(card._id)">
+</div>
+<div class="remove-image">
+    <a ng-click="mother.removeImage(card._id)">Remove</a>
+</div>

@@ -1,0 +1,100 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Merchant Plans</h2>
+        <hr>
+    </div>
+    <section ng-init="getCurrentSubscription(); getAllPlans();">
+        <div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset1 margin-top-50">
+                    <merchant-plans></merchant-plans>
+                </div>
+            </div>
+            <div class="row" ng-show="currentPlanGroup">
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset1">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="subscription-faqs">
+                                <div class="question">
+                                    <div class="question-heading">WHAT IS A MODERATED PAYMENT?</div>
+                                    <div class="question-text">
+                                        A Moderated Payment is used by merchants on a Business plan that have not been ID verified, and merchants
+                                        on a Business Plus plan that have been ID verified and want to go above and beyond in establishing trust
+                                        with the buyer.
+                                        <span style="text-indent: 20px">When a buyer purchases an item using the Moderated Payment method, the buyer is requested to make the
+                                        payment into the multi-signature address. The merchant can verify that the payment is secured in the
+                                            multi-signature account and provides the goods to the buyer.</span>
+                                        The payment is locked for the duration of the trade, until two of the three parties buyer, merchant and
+                                        moderator agree to release it.
+
+                                        There are two potential outcomes:
+
+                                        When everything goes well, the buyer & merchant agree and release the payment to the control of the merchant.
+                                        No intervention by the moderator is required in this case.
+                                        When a dispute arises, the moderator can intervene, review the case and decide which party to side with
+                                        either refunding the payment to the buyer, or releasing it to the merchant.
+                                    </div>
+                                </div>
+                                <div class="question">
+                                    <div class="question-heading">WHAT IS A BITCOIN DIRECT PAYMENT?</div>
+                                    <div class="question-text">
+                                        A Bitcoin Direct payment is offered by merchants on a Business Plus plan that have been ID verified.
+                                        Funds are directed to the sellers digital wallet after a commission has been deducted. Payment is quick.
+                                    </div>
+                                </div>
+                                <div class="question">
+                                    <div class="question-heading">WHAT IS MERCHANT VERIFICATION?</div>
+                                    <div class="question-text">
+                                        Verification is activated after creating and connecting an ID verified BitPOS account to your
+                                        trajans.market dashboard.
+                                        Verified merchants display a 'Verified' badge on both their product pages and store front.
+                                        Verification prevents fraud on the trajans.market platform and establishes a reputation of trust with
+                                        potential buyers.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="subscription-faqs no-margin-top-mobile">
+                                <div class="question">
+                                    <div class="question-heading">DO YOU HOLD USER FUNDS?</div>
+                                    <div class="question-text">
+                                        trajans.market never holds user funds. All funds are either locked in a 'multi signature account' or
+                                        immediately directed to the merchants choice of digital wallet or BitPOS account after a sales
+                                        commission has been deducted.
+                                    </div>
+                                </div>
+                                <div class="question">
+                                    <div class="question-heading">HOW DO I ACCEPT PAYMENTS?</div>
+                                    <div class="question-text">
+                                        Payment can be made by buyers in more than 20 digital currencies and are remitted to the merchant in bitcoin.
+                                        Bitcoin funds are directed to the merchants digital wallet or BitPOS account. Merchants can easily enter
+                                        their digital wallet address or BitPOS credential in the trajans.market dashboard.
+                                    </div>
+                                </div>
+                                <div class="question">
+                                    <div class="question-heading">WHO ARE BITPOS?</div>
+                                    <div class="question-text">
+                                        BitPOS has been serving the market since 2013, making them Australia's preferred, longest serving,
+                                        and most experienced Bitcoin and Blockchain solution provider.
+                                        Bitcoin remittance can be settled in AUD direct to a merchants bank account for a low 1% fee
+                                        (deducted by BitPOS) or a combination of Bitcoin and AUD can be paid out depending on the merchants
+                                        predefined preferences.
+                                    </div>
+                                </div>
+                                <div class="question">
+                                    <div class="question-heading">HAVE MORE QUESTION?</div>
+                                    <div class="question-text">
+                                        Our support is available around the clock. Visit our <a target="_blank" href="http://Trajansmarket.zendesk.com">Help & Support Centre</a>
+                                        to read FAQ's and other articles or contact us from the dashboard assistance.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr ng-show="currentPlanGroup" class="hidden-xs hidden-sm">
+    </section>
+</div>

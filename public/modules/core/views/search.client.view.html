@@ -1,0 +1,61 @@
+<div class="container-fluid border-bottom"></div>
+<section class="search-page"  data-ng-init="initSearch()">
+    <div>
+        <section class="search-listings">
+            <div class="container recently-added-listings category-search-container">
+                <div ng-if="!maxPrice" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom margin-top-50">
+                    <h1 class="turq-light">Searching {{getDisplayCategory()}}</h1>
+                </div>
+                <div ng-if="maxPrice" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom">
+                    <h1>Searching Products Under {{currencySymbol ? currencySymbol : '$'}}{{100}}</h1>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom">
+                    <h4>
+                        Showing {{listings.length}} of {{foundListings}} products.
+                    </h4>
+                    <hr>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 listing-search">
+                    <search-sidebar></search-sidebar>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding" ng-if="listings.length">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 no-padding hidden-sm hidden-xs">
+                            <p>Order items by:</p>
+                            <select class="form-control" ng-change="sortListings(orderBy)" ng-model="orderBy"
+                                    ng-options="sort.title for sort in sortOptions">
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <hr/>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding" ng-if="!listings.length">
+                        <div class="alert alert-warning" ng-if="dataLoaded">
+                            No listings found, please try re-defining your search criteria...
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="search-results-container">
+                            <div class="row">
+                                <div deckgrid source='listings' cardTemplate='/modules/core/directives/boxListing.html' class='deckgrid'></div>
+                            </div>
+                        </div>
+
+                        <div class="text-center load-more-button-container" ng-if="showLoadBtn()">
+                            <button class="btn btn-primary btn-white turq" ng-click="loadMode()">LOAD MORE</button>
+                        </div>
+
+                        <div class="text-center no-padding" ng-if="!listingsReady">
+                            <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+                            <p class="text-muted margin-top-20">Loading Listings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+ <div class="container-fluid border-bottom"></div>

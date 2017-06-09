@@ -1,0 +1,26 @@
+<div class="margin-top-20">
+    <div scroll-bottom="messages" class="messages">
+        <div class="message" ng-repeat="message in conversation.messages track by $index">
+            <div class="from">
+                <p ng-class="{bold : message.from.displayName === user.displayName}">
+                    <span ng-if="message.from.displayName === user.displayName"><i class="green icon icon-arrow-right5"></i></span>
+                    <span ng-if="message.from.displayName !== user.username"><i class="red icon icon-arrow-left4"></i></span> {{message.from.displayName}} said:
+                </p>
+            </div>
+            <p class="message-text">
+                {{message.message}}
+            </p>
+        </div>
+    </div>
+    <h4 class="margin-top-20">
+        Type your message here:
+    </h4>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 no-padding-left">
+        <form name="replymessage">
+            <textarea id="message-text" rows="5" class="form-control" ng-model="conversationMessage.message" autofocus required></textarea>
+            <div class="margin-top-20">
+                <input ng-click="addMessageToConversation()" type="submit" value="Send Message" class="btn btn-primary btn-sm">
+            </div>
+        </form>
+    </div>
+</div>

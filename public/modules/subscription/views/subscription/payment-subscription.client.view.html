@@ -1,0 +1,36 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Subscription Signup</h2>
+        <hr>
+    </div>
+    <section ng-init="getSubscriptionByName();">
+        <div ng-if="newPlan.name">
+            <div class="subscription-details">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h3>You have chosen the <u>{{newPlan.group}}</u> plan</h3>
+                        </div>
+                        <div class="dashboard-content subscription-details">
+                            <ul>
+                                <li>Opt-out at any time</li>
+                                <li>{{newPlan.percentage}}% charged on each bitcoin transaction</li>
+                                <li>A confirmation email will be sent out</li>
+                            </ul>
+                            <div class="margin-top-20">
+                                <a id="cancel" class="btn btn-secondary" ng-href="/#!/dashboard/home">Cancel</a>
+                                <button class="btn btn-primary" ng-click="confirm()">Sign me up</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="currentPlanGroup" ng-if="currentPlanGroup === pricePlans.Plan" class="row subscription-details">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h3>You're already on this plan...</h3>
+                        <p>You are already subscribed to this plan. There is therefore no need to subscribe to it. Should you wish to change plans, please navigate to our <strong><a ng-href="/#!/subscription/priceplans">price plans</a></strong> and choose a plan other than the one you are currently on.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

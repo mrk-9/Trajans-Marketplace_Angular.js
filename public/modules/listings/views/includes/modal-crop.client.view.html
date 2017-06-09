@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h4 class="modal-title">Crop Images / View Listing</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>Listing Created!</h3>
+
+            <p><strong>What would you like to do now?</strong></p>
+            <div class="recommendation">
+                <p><i><i class="glyphicon glyphicon-info-sign"></i> We strongly recommend that the images for your listing are cropped down to a square size so they are displayed well across all site features and all devices.</i></p>
+            </div>
+            {{user}}
+            <a class="btn btn-primary btn-dash" ng-href="#!/listings/{{listing._id}}/crop" ng-click="cancelModal()">Crop Images</a>
+            <a class="btn btn-secondary" ng-click="cancelModal()">View Listing</a>
+        </div>
+    </div>
+</div>
+

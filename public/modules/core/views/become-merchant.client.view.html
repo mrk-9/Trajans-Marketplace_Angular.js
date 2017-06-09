@@ -1,0 +1,113 @@
+<section data-ng-controller="HomeController">
+    <div class="home">
+        <!-- Merchant banner -->
+        <div class="merchant-banner">
+            <div class="banner-text">
+                <div class="banner-type">
+                    <h1>Sell for bitcoin today, receive payment today.</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
+                    <div class="home-merchant-blurb text-center padding-top-50">
+                        <h4 class="bold">Start selling today from $0 per month, no success fees, no listing fees. Become a part of the new eCommerce revolution.</h4>
+                        <p class="padding-top-20">
+                            Bob Dylan said it best "The times, they are a-changing". Businesses that adapt to change move to the top.<br/>
+                            join the marketplace that takes you there. trajans.market has everything you need to start selling for bitcoin today.
+                        </p>
+                        <hr/>
+                        <a ng-if="!authentication.user" class="btn btn-primary" ng-href="/#!/signin">Start Selling</a>
+                        <a ng-if="authentication.user" class="btn btn-primary" ng-href="/#!/dashboard/addlisting">Start Selling</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 margin-top-40 become-merchant-features">
+                    <h2>Features</h2>
+                </div>
+            </div>
+
+            <div class="benefits-section">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                        <div class="benefits-icon">
+                            <img ng-src="/img/icons/LowPrice.svg" alt="low fees" height="60" />
+                        </div>
+                        <div class="benefits-heading">
+                            LOW FEES
+                        </div>
+                        <div class="benefits-description">
+                            With no listing or success fees, you get to keep more of your hard earned <span class="red-lined">cash</span> bitcoin.
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                        <div class="benefits-icon">
+                            <img ng-src="/img/icons/Ok.svg" alt="low fees" height="60" />
+                        </div>
+                        <div class="benefits-heading">
+                            FROM $0 PER MONTH
+                        </div>
+                        <div class="benefits-description">
+                            We're committed to your success. Start selling today on a Pro Plan for $0 per month. You'll get access to all our core features and can upgrade at any time.
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                        <div class="benefits-icon">
+                            <img ng-src="/img/icons/Library.svg" alt="low fees" height="60" />
+                        </div>
+                        <div class="benefits-heading">
+                            CONVERT BTC/AUD
+                        </div>
+                        <div class="benefits-description">
+                            Rest easy knowing that you can automatically convert your bitcoin to Australian dollar thanks to our friends at BitPOS. We've enabled your dashboard for quick access.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                        <div class="benefits-icon">
+                            <img ng-src="/img/icons/Wallet.svg" alt="low fees" height="60" />
+                        </div>
+                        <div class="benefits-heading">
+                            BRING YOUR OWN WALLET
+                        </div>
+                        <div class="benefits-description">
+                            We believe you should have access to your funds whenever you want - that's why we choose not to hold them. Bring your own digital wallet so you can call the shots.
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                        <div class="benefits-icon">
+                            <img ng-src="/img/icons/Present.svg" alt="low fees" height="60" />
+                        </div>
+                        <div class="benefits-heading">
+                            SELL TODAY, PAID TODAY
+                        </div>
+                        <div class="benefits-description">
+                            When you're a verified merchant, sell today with our Bitcoin Direct and you'll get paid today with trajans.market. Welcome to the world of bitcoin.
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                        <div class="benefits-icon">
+                            <img ng-src="/img/icons/BitcoinBlueHome.svg" alt="low fees" height="60" />
+                        </div>
+                        <div class="benefits-heading">
+                            20+ DIGITAL CURRENCIES
+                        </div>
+                        <div class="benefits-description">
+                            Expand your market; we've partnered with Shapeshift.io so buyers can convert more than 20 digital currencies to bitcoin at the point of sale.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-controller="HomeController" class="pricing margin-top-50 margin-bottom-50">
+                <h2>Pricing</h2>
+                <section class="margin-top-100" ng-init="getAllPlans();">
+                    <merchant-plans></merchant-plans>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>

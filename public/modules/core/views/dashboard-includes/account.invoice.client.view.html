@@ -1,0 +1,26 @@
+<h4>Ship to</h4>
+<div data-ng-bind="invoiceOrder.user.displayName"></div>
+<div data-ng-bind="invoiceOrder.streetAddress"></div>
+<div data-ng-bind="invoiceOrder.city"></div>
+<div data-ng-bind="invoiceOrder.country"></div>
+<div data-ng-bind="invoiceOrder.postcode"></div>
+<div data-ng-bind="invoiceOrder.telephoneNumber"></div>
+<br/>
+<h4>Order Information</h4>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Quantity</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="order in invoiceOrder.order_items">
+				<td data-ng-bind="order.name"></td>
+				<td data-ng-bind="order.quantity"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<button class="btn btn-large" ng-click="backToOrders()">Back to orders</button>

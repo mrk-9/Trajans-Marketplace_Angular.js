@@ -1,0 +1,202 @@
+<section class="dashboard-container">
+    <div class="hidden-sm hidden-xs">
+        <ul class="nav navbar-nav side-nav-dash">
+            <li class="user-info">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="dash-user-image text-center">
+                        <div class="user-dashboard-image">
+                            <div>
+                                <div>
+                                    <img dropzone class="img-user pointer" ng-src="{{user.profileImage}}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                    <div>
+                        <b class="user-name">
+                            {{user.displayName}}
+                        </b>
+                    </div>
+                </div>
+            </li>
+            <li ng-class="{active: activeTab === '/dashboard/home'}">
+                <a class="border-top" ng-click="route('/dashboard/home')" href="/#!/dashboard/home">
+                    OVERVIEW
+                </a>
+            </li>
+            <li ng-class="{active: activeTab === '/dashboard/settings'}">
+                <a ng-click="route('/dashboard/settings')" href="/#!/dashboard/settings">
+                     Account Settings
+                </a>
+            </li>
+            <li ng-class="{active: activeTab === '/dashboard/merchant' || activeTab === '/dashboard/paymentpreferences' || activeTab === '/dashboard/merchantplans'}">
+                <a ng-click="route('/dashboard/merchant')" href="/#!/dashboard/merchant">
+                    Merchant Settings
+                </a>
+                <ul class="secondary-tabs fade-in-div" ng-if="activeTab === '/dashboard/merchant' || activeTab === '/dashboard/paymentpreferences' || activeTab === '/dashboard/merchantplans'">
+                    <li ng-class="{active: activeTab === '/dashboard/merchant'}" class="secondary-tab" ng-click="route('/dashboard/merchant')">
+                        <a href="/#!/dashboard/merchant">
+                             Profile
+                        </a>
+                    </li>
+                    <li ng-class="{active: activeTab === '/dashboard/paymentpreferences'}" class="secondary-tab" ng-click="route('/dashboard/paymentpreferences')">
+                        <a>
+                          Payment Preferences
+                        </a>
+                    </li>
+                    <li ng-class="{active: activeTab === '/dashboard/merchantplans'}" class="secondary-tab" ng-click="route('/dashboard/merchantplans')">
+                        <a>
+                             Merchant Plans
+                        </a>
+                    </li>
+                    <li class="secondary-tab" ng-click="route('/#!/settings/verification', true)">
+                        <a href="/#!/settings/verification">
+                           Verification
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-class="{active: activeTab === '/dashboard/selling' || activeTab === '/dashboard/addlisting' || activeTab === '/dashboard/managelistings' || activeTab === '/dashboard/escrowsselling'}">
+                <a ng-click="route('/dashboard/selling')" href="/#!/dashboard/selling">
+                   Selling
+                </a>
+                <ul class="secondary-tabs fade-in-div" ng-if="activeTab === '/dashboard/selling' || activeTab === '/dashboard/addlisting' || activeTab === '/dashboard/managelistings' || activeTab === '/dashboard/escrowsselling'">
+                    <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/selling'}" ng-click="route('/dashboard/selling')">
+                        <a>
+                             Orders
+                        </a>
+                    </li>
+                    <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/addlisting'}" class="secondary-tab" ng-click="route('/dashboard/addlisting')">
+                        <a>
+                           Add a Listing
+                        </a>
+                    </li>
+                    <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/managelistings'}" class="secondary-tab" ng-click="route('/dashboard/managelistings')">
+                        <a href="/#!/dashboard/managelistings">
+                            Manage Listings
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-class="{active: activeTab === '/dashboard/buying' || activeTab === '/dashboard/buyingpreferences' || activeTab === '/dashboard/escrowsbuying'}">
+                <a ng-click="route('/dashboard/buying')" href="/#!/dashboard/buying">
+                    Buying
+                </a>
+                <ul class="secondary-tabs fade-in-div" ng-if="activeTab === '/dashboard/buying' || activeTab === '/dashboard/buyingpreferences' || activeTab === '/dashboard/escrowsbuying'">
+                    <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/buying'}" ng-click="route('/dashboard/buying')">
+                        <a>
+                            Orders
+                        </a>
+                    </li>
+                    <li ng-class="{active: activeTab === '/dashboard/buyingpreferences'}" class="secondary-tab" ng-click="route('/dashboard/buyingpreferences')">
+                        <a>
+                             Buyer Preferences
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-class="{active: activeTab === '/dashboard/messages'}">
+                <a ng-click="route('/dashboard/messages')" href="/#!/dashboard/messages">
+                     Messages <span class="pull-right label label-warning"> {{unreadMessages}}</span>
+                </a>
+            </li>
+            <li ng-class="{active: activeTab === '/dashboard/security'}">
+                <a ng-click="route('/dashboard/security')" href="/#!/dashboard/security">
+                   Security
+                </a>
+            </li>
+        </ul>
+    </div>
+    <nav class="navbar navbar-default navbar-inverse hidden-md hidden-lg" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-ng-click="toggleCollapsibleMenu()" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">DASHBOARD</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse" collapse="!isCollapsed" role="navigation">
+            <ul class="nav navbar-nav">
+                <li ng-class="{active: activeTab === '/dashboard/home'}">
+                    <a ng-click="toggleCollapsibleMenu(); route('/dashboard/home')" href="/#!/dashboard/home">DASHBOARD</a>
+                </li>
+                <li ng-class="{active: activeTab === '/dashboard/settings'}">
+                    <a ng-click="toggleCollapsibleMenu(); route('/dashboard/settings')" href="/#!/dashboard/settings">ACCOUNT SETTINGS</a>
+                </li>
+                <li ng-class="{active: activeTab === '/dashboard/merchant' || activeTab === '/dashboard/paymentpreferences'}">
+                    <a ng-click="route('/dashboard/merchant')" href="/#!/dashboard/merchant">MERCHANT SETTINGS</a>
+                    <ul class="secondary-tabs fade-in-div" ng-if="activeTab === '/dashboard/merchant' || activeTab === '/dashboard/paymentpreferences'">
+                        <li ng-class="{active: activeTab === '/dashboard/merchant'}" class="secondary-tab" ng-click="toggleCollapsibleMenu(); route('/dashboard/merchant')">
+                            <a href="/#!/dashboard/merchant">
+                                 PROFILE
+                            </a>
+                        </li>
+                        <li ng-class="{active: activeTab === '/dashboard/paymentpreferences'}" class="secondary-tab" ng-click="toggleCollapsibleMenu(); route('/dashboard/paymentpreferences')">
+                            <a>
+                                 PAYMENT PREFERENCES
+                            </a>
+                        </li>
+                        <li class="secondary-tab" ng-click="toggleCollapsibleMenu(); route('/#!/subscription/priceplans', true)">
+                            <a href="/#!/subscription/priceplans">
+                                 MERCHANT PLANS
+                            </a>
+                        </li>
+                        <li class="secondary-tab" ng-click="toggleCollapsibleMenu(); route('/#!/settings/verification', true)">
+                            <a href="/#!/settings/verification">
+                                 VERIFICATION
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-class="{active: activeTab === '/dashboard/selling' || activeTab === '/dashboard/addlisting' || activeTab === '/dashboard/managelistings' || activeTab === '/dashboard/escrowsselling'}">
+                    <a ng-click="route('/dashboard/selling')" href="/#!/dashboard/selling">SELLING</a>
+                    <ul class="secondary-tabs fade-in-div" ng-if="activeTab === '/dashboard/selling' || activeTab === '/dashboard/addlisting' || activeTab === '/dashboard/managelistings' || activeTab === '/dashboard/escrowsselling'">
+                        <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/selling'}" ng-click="toggleCollapsibleMenu(); route('/dashboard/selling')">
+                            <a>
+                                ORDERS
+                            </a>
+                        </li>
+                        <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/addlisting'}" class="secondary-tab" ng-click="toggleCollapsibleMenu(); route('/dashboard/addlisting')">
+                            <a>
+                               ADD A LISTING
+                            </a>
+                        </li>
+                        <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/managelistings'}" class="secondary-tab" ng-click="toggleCollapsibleMenu(); route('/dashboard/managelistings')">
+                            <a href="/#!/dashboard/managelistings">
+                                MANAGE LISTINGS
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li ng-class="{active: activeTab === '/dashboard/buying' || activeTab === '/dashboard/buyingpreferences' || activeTab === '/dashboard/escrowsbuying'}">
+                    <a ng-click="route('/dashboard/buying')" href="/#!/dashboard/buying">BUYING</a>
+                    <ul class="secondary-tabs fade-in-div" ng-if="activeTab === '/dashboard/buying' || activeTab === '/dashboard/buyingpreferences' || activeTab === '/dashboard/escrowsbuying'">
+                        <li class="secondary-tab" ng-class="{active: activeTab === '/dashboard/buying'}" ng-click="toggleCollapsibleMenu(); route('/dashboard/buying')">
+                            <a>
+                                 ORDERS
+                            </a>
+                        </li>
+                        <li ng-class="{active: activeTab === '/dashboard/buyingpreferences'}" class="secondary-tab" ng-click="toggleCollapsibleMenu(); route('/dashboard/buyingpreferences')">
+                            <a>
+                                 BUYER PREFERENCES
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-class="{active: activeTab === '/dashboard/messages'}">
+                    <a ng-click="toggleCollapsibleMenu(); route('/dashboard/messages')" href="/#!/dashboard/messages">MESSAGES <span class="pull-right label label-warning"> {{unreadMessages}}</span></a>
+                </li>
+                <li ng-class="{active: activeTab === '/dashboard/security'}" ng-click="route('/dashboard/security')">
+                    <a ng-click="toggleCollapsibleMenu(); route('/dashboard/security')" href="/#!/dashboard/security">SECURITY</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div ui-view></div>
+</section>

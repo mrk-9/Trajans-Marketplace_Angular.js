@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h3 class="modal-title">Sign Escrow With Your Private Key</h3>
+</div>
+<div class="modal-body">
+    <div>
+	    <p class="red">
+	    	<i class="icon icon-warning"></i> Warning! The other escrow party will be able to release the funds from this escrow with their private key, once you sign with your private key.
+	    </p>
+        <p class="text-info">
+            We sent you your private key in an e-mail when the escrow was created.
+        </p>
+    </div>
+    <div class="margin-top-20">
+        <form name="signKey ">
+            <fieldset>
+                <div>
+                    <div>
+                        <label>Private Key</label>
+                    </div>
+                    <div>
+                        <input type="text" ng-model="privateKey" placeholder="Your private key" class="form-control" required>
+                    </div>
+                </div>
+                <div class="margin-top-20">
+                    <div>
+                        <button ng-if="signed" class="btn-primary btn btn-sm" ng-click="signAndRelease(privateKey)">Sign And Release Escrow</button>
+                        <button ng-if="!signed" class="btn-primary btn btn-sm" ng-click="confirmSign(privateKey)">Sign This Escrow</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-secondary" ng-click="dontCancel()">Cancel</button>
+</div>

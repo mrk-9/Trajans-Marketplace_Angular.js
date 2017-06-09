@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-resource/angular-resource.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <script type="text/javascript">
+        angular.module('admin', ['ngResource']);
+        angular.module('admin').controller('AdminController', function($scope, $http) {
+            $scope.view = 'escrows';
+
+            $scope.escrowById = function() {
+                if ($scope.escrowId) {
+                    $http.get('/admin/escrows/' + $scope.escrowId).then(function(response) {
+                        $scope.escrow = response.data;
+                    });
+                } else {
+                    alert('no id!');
+                }
+            }
+
+            $scope.decoedeMultisigKey = function() {
+                $http.post('/admin/decodemultisig', {
+                    key: $scope.key,
+                    password: $scope.password
+                }).then(function(response) {
+                    $scope.privKey = response.data.key;
+                });
+            }
+
+            $scope.releaseFunds = function() {
+                var keys = [$scope.key1, $scope.key2];
+                $http.post('/admin/releasefunds', {
+                    relaseEscrowId: $scope.relaseEscrowId,
+                    keys: keys,
+                    toAddress: $scope.toAddress,
+                    change: $scope.change
+                }).then(function(response) {
+                    $scope.transactionId = response.data.txid;
+                });
+            }
+
+            $scope.generatePrivateKey = function() {
+                $http.post('/admin/createhdkey').then(function(response) {
+                    $scope.hdKey = response;
+                });
+            }
+
+            $scope.getHdKey = function() {
+                $http.get('/admin/gethdkey').then(function(response) {
+                    $scope.hdKey = response;
+                });
+            }
+
+            $scope.getHdKey();
+        });
+    </script>
+</head>
+
+<body ng-app="admin">
+    <div>
+        <div class="container margin-top-20" ng-controller="AdminController">
+            <div>
+                <h1>Admin Panel</h1>
+            </div>
+            <hr>
+            <div class="row" ng-show="view === 'escrows'">
+                <h3>Manage escrows</h3>
+                <hr>
+                <h5>Get escrow</h5>
+                <div>
+                    <input class="form-control" placeholder="escrow id" type="text" ng-model="escrowId" />
+                    <button class="btn btn-primary btn-sm margin-top-20" ng-click="escrowById()">Get Escrow by ID</button>
+                </div>
+                <div ng-if="escrow">
+                    <pre ng-bind="escrow | json"></pre>
+                </div>
+                <hr>
+                <div>
+                    <h5>Decode key</h5>
+                    <input class="form-control margin-bottom-20" placeholder="key" type="text" ng-model="key" />
+                    <input class="form-control" placeholder="password" type="text" ng-model="password" />
+                    <button class="btn btn-primary btn-sm margin-top-20" ng-click="decoedeMultisigKey()">Decode multisig</button>
+                </div>
+                <div ng-if="privKey">
+                    Private Key <pre ng-bind="privKey"></pre>
+                </div>
+                <hr>
+                <div class="margin-bottom-20">
+                    <h5>Release Escrow Transaction</h5>
+                    <input class="form-control" placeholder="relase Escrow Id" type="text" ng-model="relaseEscrowId" />
+                    <br>
+                    <input class="form-control" placeholder="toAddress" type="text" ng-model="toAddress" />
+                    <br>
+                    <input class="form-control" type="text" placeholder="change" type="text" ng-model="change" />
+                    <br>
+                    <input class="form-control" placeholder="key one" type="text" ng-model="key1" />
+                    <br>
+                    <input class="form-control" placeholder="key two" type="text" ng-model="key2" />
+                    <br>
+                    <button class="btn btn-primary btn-sm" ng-click="releaseFunds()">Release funds</button>
+                </div>
+                <div>
+                    <pre ng-bind="transactionId"></pre>
+                </div>
+            </div>
+            <div class="row" ng-show="view === 'escrows'">
+                <h3>Generate new HD key for Featured Merchants</h3>
+                <hr>
+                <p>Generate a new HD master key for featured merchants.</p>
+                <div class="margin-top-20">
+                    <button class="btn btn-primary btn-sm" ng-click="generatePrivateKey()">Generate New Master Private Key</button>
+                </div>
+                <div ng-if="hdKey">
+                    <pre ng-bind="hdKey.data | json"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-init="getOrderEscrow(order)">
+    <h3>
+        Order status
+    </h3>
+    <hr>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 no-padding-left">
+        <div class="margin-top-20">
+             <h4><i class="icon icon-checkmark" ng-if="order.status === 'COMPLETE'"></i> <span ng-class="{'red' : order.status==='UNPAID', 'green' : order.status==='PAID'}">{{order.status}}</span></h4>
+        </div>
+        <div class="margin-top-20">
+            <h4>Shipping status:</h4>
+            <div ng-class="{'green': order.shippingStatus === 'Shipped', 'red': order.shippingStatus === 'Not shipped'}">
+                <span ng-if="order.shippingStatus === 'Shipped'">
+                    <i class="icon icon-checkmark green"></i>
+                </span> {{order.shippingStatus}}
+            </div>
+        </div>
+        <div>
+            <div>
+                <h4>Shipping to</h4>
+            </div>
+            <div class="margin-top-20 text-muted">
+                {{order.streetAddress}}
+                <br> {{order.town}}
+                <br> {{order.country}}
+                <br> {{order.postcode}}
+                <br>
+            </div>
+        </div>
+    </div>
+    <div ng-if="type === 'Selling'">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 order-details-padding margin-top-15">
+            <h4> Mark the order as shipped:</h4>
+            <div class="margin-top-20">
+                <p class="text-muted">
+                    You can mark the order as shipped here.
+                </p>
+
+                <p>
+                    <span ng-if="order.shippingStatus === 'Not shipped'">
+                    <a class="btn btn-primary" ng-click="markOrderShipped(order)">Mark as shipped</a>
+                </span>
+                    <span ng-if="order.shippingStatus === 'Shipped'">
+                <a class="btn btn-secondary" ng-click="markOrderNotShipped(order)">Mark not shipped</a>
+            </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 no-padding-left margin-top-20" ng-if="(escrowSelected && escrow.seller._id === user._id) && (escrow.status === 'REFUND REQUESTED')">
+        <hr>
+        <h4 class="margin-top-20">A Refund has been requested from the buyer</h4>
+        <h5 class="bold margin-top-20">
+            Reason
+        </h5>
+        <p>
+            {{escrow.refundReason}}
+        </p>
+        <h5 class="bold">
+            Refund address
+        </h5>
+        <p>
+            {{escrow.refundAddress}}
+        </p>
+        <div>
+            <button class="btn btn-sm btn-primary" ng-click="confirmRefund(escrow)">Confirm Refund</button>
+            <button class="btn btn-sm btn-secndary" ng-click="cancelRefund(escrow)">Decline Refund</button>
+        </div>
+        <div>
+            <div class="alert alert-info">
+                If you confirm the refund, both you and the buyer will still need to sign the escrow off, however funds will then be released to the agreed refund adresss, not the original recipient address.
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 no-padding-left margin-top-20" class="margin-bottom-20" ng-if="(escrowSelected && escrow.buyer._id === user._id) && (escrow.status === 'ESCROW PAID' || escrow.status === 'SIGNED WITH ONE KEY' || escrow.status === 'REFUND REQUESTED')">
+        <div ng-if="!escrow.refundRequested">
+            <h3>Request a refund from the seller</h3>
+            <button class="btn btn-sm btn-primary" ng-click="requestRefund(escrow)"><i class="icon icon-arrow"></i> Request Refund</button>
+        </div>
+        <div ng-if="escrow.refundRequested">
+            <hr>
+            <h4 class="margin-top-20">Refund has been requested from the buyer</h4>
+
+            <h5 class="bold">
+                Reason
+            </h5>
+            <p>
+                {{escrow.refundReason}}
+            </p>
+            <h5 class="bold">
+                Refund address
+            </h5>
+            <p>
+                {{escrow.refundAddress}}
+            </p>
+            <div class="margin-top-20">
+                <div class="alert alert-info">
+                    The seller has been notified of the refund request, and will be able to confirm or cancel the refund. If they confirm the refund, this will update the escrow's recipient address to your refund address. Once this has been done, you still both need sign
+                    the escrow and release the funds.
+                </div>
+            </div>
+            <div>
+                <p class="text-muted">
+                    Having problems, is the freelancer unresponsive? Please get in touch with our <a href="http://Trajansmarket.zendesk.com/">support team</a> and we can look into the dispute for you. Please give a detailed explanation why you are contacting
+                    us.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<section>
+    <form action="" method="POST" role="form">
+        <div class="form-group">
+            <p class="margin-top-20">Subject</p>
+            <input type="text" name="subject" id="input" class="form-control" required="required" placeholder="Subject" ng-model="response.subject" required>
+        </div>
+        <p class="margin-top-20">Message</p>
+        <div class="form-group">
+            <textarea class="form-control" required="required" placeholder="Message" cols="70" rows="5" ng-model="response.content" required></textarea>
+        </div>
+        <p class="text-info small">Note: We'll send your message to {{username}}'s inbox and email address.</p>
+        <button type="submit" class="btn btn-primary" ng-click="message.send(response);">Send</button>
+        <button class="btn btn-secondary" ng-click="cancel()">Cancel</button>
+    </form>
+</section>

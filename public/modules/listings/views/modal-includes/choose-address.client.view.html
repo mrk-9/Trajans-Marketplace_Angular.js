@@ -1,0 +1,121 @@
+<div class="row extra-padding">
+    <div ng-if="!showAddAddress || !authentication.user.fullAddress">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="bold text-muted" ng-if="user.fullAddress">
+                Select a shipping address or create a new one.
+            </p>
+            <p class="bold text-muted" ng-if="!user.fullAddress">
+                You have not entered an address, please create a new one.
+            </p>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div ng-if="authentication.user.fullAddress">
+                <div class="radio padding-left-20">
+                    <label>
+                        <input type="radio" checked>
+                        <span ng-bind="authentication.user.fullAddress"></span>
+                    </label>
+                </div>
+            </div>
+            <div ng-if="!authentication.user.fullAddress && hasAddress">
+                <div>
+                    <div class="radio padding-left-20">
+                        <label>
+                            <input type="radio" checked>
+                            <span ng-bind="deducedAddress"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-primary pull-right" ng-click="createNewAddress()">Create new</button>
+        </div>
+    </div>
+    <div ng-if="showAddAddress && !hasAddress">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="bold text-muted">
+                Enter your shipping address:
+            </p>
+            <p class="text-muted">
+                Your order will be shipped to this address.
+            </p>
+        </div>
+        <div>
+            <form class="address-form" autocomplete="off" name="addressForm" ng-submit="chooseAddress(addressForm)">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="streetAddress">Street Address</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="text" id="checkoutStreetAddress" name="checkoutStreetAddress" class="form-control" data-ng-model="user.checkoutStreetAddress" placeholder="Street Address" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="town">Town</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="text" id="checkoutTown" name="checkoutTown" class="form-control" data-ng-model="user.checkoutTown" placeholder="Town" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="city">City, Country</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" ng-model="user.checkoutCountry" placeholder="Search location" typeahead-loading="loadingLocations" typeahead="address for address in getLocation($viewValue)" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="postcode">Postcode</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="text" id="checkoutPostcode" name="checkoutPostcode" class="form-control" data-ng-model="user.checkoutPostcode" placeholder="Postcode" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="telephoneNumber">Telephone</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="text" id="checkoutTelephoneNumber" name="checkoutTelephoneNumber" class="form-control" data-ng-model="user.checkoutTelephoneNumber" placeholder="Telephone" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group ">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                            <div class="controls">
+                                <button ng-click="cancelAddAddress()" class="btn btn-dash btn-large btn-red">Cancel</button>
+                                <button type="submit" class="btn btn-large btn-dash btn-primary">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

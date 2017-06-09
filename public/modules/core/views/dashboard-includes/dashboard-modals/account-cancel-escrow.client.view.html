@@ -1,0 +1,10 @@
+<div class="modal-header">
+    <h3 class="modal-title">Cancel Escrow and Order?</h3>
+</div>
+<div class="modal-body text-left">
+	<p class="text-muted">
+		<i class="icon icon-notification"></i> This escrow is related to an order and will also cancel the related order.
+	</p>
+    <button class="btn btn-sm btn-primary" ng-click="confirmCancel()">Cancel Escrow <span ng-if="escrow.order">and order</span></button>
+    <button class="btn btn-sm btn-secondary" ng-click="dontCancel()">Don't Cancel</button>
+</div>

@@ -1,0 +1,81 @@
+<section data-ng-init="findPopular()">
+    <div class="container recently-added-listings">
+        <div class="col-md-4 col-lg-4 col-sm-4 hidden-xs" data-ng-repeat="listing in popularListings | limitTo: 3">
+			<box-listing />
+        </div>
+        <!--  MOBILE SILDER    -->
+        <div class="col-xs-12 hidden-sm hidden-lg hidden-md" ng-if="popularListings">
+            <div class="swiper-container">
+                <div class="swiper-pagination"></div>
+                <div class="swiper-wrapper">
+                    <div data-ng-repeat="listing in getPopularListingsMobile | limitTo: 3" end-repeat class="swiper-slide">
+                        <div class="box-listing">
+                            <div class="box-listing-image-container">
+                                <div class="box-listing-image">
+                                    <div ng-if="listing.primaryImage">
+                                        <img ng-src="{{listing.primaryImage}}">
+                                    </div>
+                                    <div ng-if="!listing.images[0]">
+                                        <img ng-src="img/placeholder.png">
+                                    </div>
+                                    <div class="box-listing-overlay">
+                                    </div>
+                                    <div class="box-listing-overlay-description">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                            <a data-ng-href="#!/listings/{{listing._id}}" type="button" class="btn btn-transparent">
+                                                DETAILS
+                                            </a>
+                                            <span ng-if="!addedToBasket">
+                                                <span ng-if="!listing.priceBTC">
+                                                    <i class="icon icon-spinner rotate margin-10"></i>
+                                                </span>
+                                                <a ng-if="listing.priceBTC && authentication.user._id !== listing.user._id" ng-click="addToBasket(listing)" type="button" class="btn btn-transparent">
+                                                    BUY NOW
+                                                </a>
+                                            </span>
+                                            <span ng-if="addedToBasket">
+                                                <a ng-href="/#!/basket" type="button" class="btn btn-transparent">
+                                                    CHECKOUT
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <h4 class="text-center">
+                                                <div ng-if="!listing.priceBTC">
+                                                    <div>
+                                                        Loading Bitcoin Prices
+                                                    </div>
+                                                </div>
+                                                <span ng-if="listing.priceBTC">
+                                                    <span ng-bind="currencySymbol"></span>{{listing.priceFiat}}  <span class="pipe">|</span>  {{listing.priceBTC}} BTC
+                                                </span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-listing-info">
+                                <h4 class="list-group-item-heading">
+                                    {{listing.name | characters:25}}
+                                </h4>
+                                <small class="list-group-item-text">
+                                    <span>by</span>
+                                    <span>
+                                        <a href="/#!/users/{{listing.user._id}}">{{listing.user.merchantName ? listing.user.merchantName : listing.user.username | characters:50}}</a>
+                                    </span>
+                                    <span ng-if="listing.user.hasUploadedImage" class="small-listing-image">
+                                        <img ng-src="/userimageuploads/{{listing.user.userImageName}}"/>
+                                    </span>
+                                    <span ng-if="!listing.user.hasUploadedImage" class="small-listing-image">
+                                        <img  data-ng-src="http://placehold.it/50x50&amp;text={{listing.user.merchantName ? listing.user.merchantName : listing.user.username | limitTo: 1 | uppercase}}"/>
+                                    </span>
+                                </small>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

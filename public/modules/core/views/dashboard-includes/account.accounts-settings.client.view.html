@@ -1,0 +1,66 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Account Settings</h2>
+        <hr>
+    </div>
+    <div ng-if="emailSent" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center content">
+        <h3 class="col-md-12">
+            <i class="icon icon-checkmark green"></i> Confirm profile update
+        </h3>
+        <p class="text-muted">
+            Great! We have e-mailed you a confirmation link.
+        </p>
+        <p class="text-muted">
+            Please check your email and confirm your profile update by clicking on the link we sent you. Sometimes there are delays sending profile update e-mails, please also check your junk mail if you haven't recieved an e-mail from Trajans before.
+        </p>
+    </div>
+    <div ng-if="!emailSent" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div>
+            <form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" autocomplete="off">
+                <div class="form-group margin-top-20">
+                    <div>
+                        <label for="username">Username (Not editble)</label>
+                    </div>
+                    <div>
+                        <div class="controls">
+                            <b><span ng-bind="user.username"></span></b>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group margin-top-20">
+                    <div>
+                        <label for="firstName">First Name</label>
+                    </div>
+                    <div>
+                        <div class="controls">
+                            <input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="user.firstName" placeholder="First Name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group margin-top-20">
+                    <div>
+                        <label for="lastName">Surname</label>
+                    </div>
+                    <div>
+                        <div class="controls">
+                            <input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="user.lastName" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group margin-top-20">
+                    <div>
+                        <label for="email">Email address</label>
+                    </div>
+                    <div>
+                        <div class="controls">
+                            <input type="email" id="email" name="email" class="form-control" data-ng-model="user.email" placeholder="Email" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12   no-padding no-margin">
+                    <button type="submit" class="btn btn-large btn-primary margin-top-10">Save Account Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

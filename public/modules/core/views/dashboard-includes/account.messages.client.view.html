@@ -1,0 +1,53 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Messages</h2>
+        <hr>
+    </div>
+    <section>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fade-in">
+            <div ng-if="!userMessages.length">
+                <div class="alert alert-warning">
+                    You have no messages...
+                </div>
+            </div>
+            <div ng-if="userMessages.length && !showMessageDetails">
+                <h4>
+                    Messages
+                </h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-user-messages">
+                        <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>From</td>
+                                <td>Subject</td>
+                                <td>Recieved</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="message in userMessages" ng-click="readMessage(message._id, $index)">
+                                <td>&nbsp;</td>
+                                <td>
+                                    <span ng-if="message.replied"><i class="icon icon-reply"></i><span>
+                                </td>
+                                <td ng-class="{bold : message.read === false}">
+                                    {{message.from}}
+                                </td>
+                                <td ng-class="{bold : message.read === false}">
+                                    {{message.subject}}
+                                </td>
+                                <td ng-class="{bold : message.read === false}">
+                                    {{message.created | date: 'MMM d'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-if="showMessageDetails">
+                <readmessage></readmessage>
+            </div>
+        </div>
+    </section>
+</span>

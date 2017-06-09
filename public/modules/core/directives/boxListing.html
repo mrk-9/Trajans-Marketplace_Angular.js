@@ -1,0 +1,80 @@
+<div class="box-listing">
+	<div class="box-listing-image-container">
+		<div class="box-listing-image">
+			<div class="box-listing-image-wrap">
+				<div ng-if="card.primaryImage">
+					<img ng-src="{{card.primaryImage.croppedPath ? card.primaryImage.croppedPath : card.primaryImage.path}}">
+				</div>
+				<div ng-if="!card.primaryImage">
+					<img ng-src="img/placeholder.png">
+				</div>
+			</div>
+			<div class="box-listing-overlay">
+			</div>
+			<div class="box-listing-overlay-description">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+					<a data-ng-href="#!/listings/{{card._id}}" type="button" class="btn btn-transparent">
+						DETAILS
+					</a>
+					<span ng-if="!addedToBasket">
+						<span ng-if="!card.priceFiat">
+							<i class="icon icon-spinner rotate margin-10"></i>
+						</span>
+						<a ng-if="card.priceFiat && mother.authentication" ng-show="mother.authentication.user._id !== card.user._id" ng-click="mother.addToBasket(card)" type="button" class="btn btn-transparent">
+							BUY NOW
+						</a>
+						<a ng-if="card.priceFiat && !mother.authentication.user._id && loggedInUser" ng-show="mother.loggedInUser._id !== card.user._id" ng-click="mother.addToBasket(card)" type="button" class="btn btn-transparent">
+							BUY NOW
+						</a>
+					</span>
+					<span ng-if="addedToBasket">
+						<a ng-href="/#!/basket" type="button" class="btn btn-transparent">
+							CHECKOUT
+						</a>
+					</span>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h4 class="text-center">
+						<div ng-if="!card.priceFiat">
+							<div>
+								Loading Bitcoin Prices
+							</div>
+						</div>
+						<span ng-if="card.priceFiat">
+							 {{card.priceFiat | exchangebitcoin}}
+						</span>
+					</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box-listing-info">
+		<h4 class="list-group-item-heading hidden-md">
+			{{card.name | characters:40}}
+		</h4>
+		<h4 class="list-group-item-heading visible-md">
+			{{card.name | characters:25}}
+		</h4>
+		<div class="merchantName" ng-if="card.user.merchantName">
+			<span>By</span> <a href="/#!/users/{{card.user._id}}">{{card.user.merchantName | characters:50}}</a>
+		</div>
+		<div class="merchantName" ng-if="!card.user.merchantName">
+			<span>By</span> <a href="/#!/users/{{card.user._id}}">{{card.user.username | characters:50}}</a>
+		</div>
+	</div>
+	<div class="box-listing-merchant-info">
+		<small class="list-group-item-text">
+			<div class="row">
+				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+					<div class="price">{{card.priceFiat | exchange}}</div>
+					<div ng-if="card.showSaving" class="saving">Save {{card.saving | exchange}}</div>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
+					<div class="listing-user-image">
+						<a href="/#!/users/{{card.user._id}}"><img ng-src="{{card.user.profileImage}}"/></a>
+					</div>
+				</div>
+			</div>
+		</small>
+	</div>
+</div>

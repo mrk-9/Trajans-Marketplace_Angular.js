@@ -1,0 +1,24 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-init="getOrderEscrow(order)">
+    <h3>
+        View timeline
+    </h3>
+    <hr>
+    <div class="margin-top-20 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Event</th>
+                    <th>Date / Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="audit in escrow.escrowAudits">
+                    <td>{{audit.username}}</td>
+                    <td>{{audit.event}}</td>
+                    <td>{{audit.created | amDateFormat:'dddd, MMMM Do YYYY : HH:mm:ss'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

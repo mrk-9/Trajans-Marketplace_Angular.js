@@ -1,0 +1,132 @@
+<div class="row extra-padding">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="!keySent">
+        <p class="bold text-muted">
+            Select a bitcoin address to receive funds in the event of a dispute
+        </p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="user.walletAddress && !showNewAddress && !keySent">
+        <div class="hidden-xs">
+            <div class="radio padding-left-20">
+                <label>
+                    <input ng-click="transactionModerated()" type="radio" value="moderated" checked>
+                    {{user.walletAddress}}
+                </label>
+            </div>
+            <div>
+                <small class="italic">1% Fee added to total cost</small>
+            </div>
+        </div>
+        <div class="visible-xs">
+            <div class="radio padding-left-20">
+                <label>
+                    <input ng-click="transactionModerated()" type="radio" value="moderated" checked>
+                    <small>{{user.walletAddress}}</small>
+                </label>
+            </div>
+            <div>
+                <small class="italic">1% Fee added to total cost</small>
+            </div>
+        </div>
+        <div class="margin-top-20">
+            <button type="button" class="btn btn-primary" ng-click="enterNewAddress()">Enter a new address</button>
+        </div>
+    </div>
+    <div ng-if="(!user.walletAddress || showNewAddress) && !keySent">
+        <div ng-if="!keySent">
+            <form class="order-form">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="streetAddress">Enter a bitcoin address</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="bitcoinAddress" name="bitcoinAddress" class="form-control" data-ng-model="bitcoin.newBitcoinAddress" placeholder="Enter a bitcoin address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="streetAddress">Confirm your bitcoin address</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="bitcoinAddressConfirm" name="bitcoinAddressConfirm" class="form-control" data-ng-model="bitcoin.newBitcoinAddressConfirm" placeholder="Confirm bitcoin address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="user.walletAddress">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                        <button type="button" ng-click="cancelEnterNewAddress()" class="btn btn-secondary btn-default">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if="!keySent">
+        <p class="bold text-muted">
+            Select an email address to receive your private key
+        </p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="user.email && !showNewEmailAddress && !keySent">
+        <div ng-if="user.email">
+            <div class="radio padding-left-20">
+                <label>
+                    <input ng-click="transactionModerated()" type="radio" value="moderated" checked>
+                    {{user.email}}
+                </label>
+            </div>
+        </div>
+        <div class="margin-top-20" ng-if="!keySent && !shouldHaveKey">
+            <button type="button" class="btn btn-primary" ng-click="generateEscrowAndKey()">Send my private key</button>
+            <button type="button" class="btn btn-secondary" ng-click="enterNewEmailAddress()">Enter new email</button>
+        </div>
+    </div>
+    <div ng-if="(!user.email || showNewEmailAddress) && (!keySent && !shouldHaveKey)">
+        <div>
+            <form class="order-form">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="streetAddress">Enter an email address</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="bitcoinAddress" name="emailAddress" class="form-control" data-ng-model="email.emailAddress" placeholder="Enter an email address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="streetAddress">Confirm your email address</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="bitcoinAddressConfirm" name="emailAddressConfirm" class="form-control" data-ng-model="email.emailAddressConfirm" placeholder="Confirm email address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                        <button type="button" ng-if="!keySent" ng-click="cancelEnterNewEmailAddress()" class="btn btn-secondary btn-default">Cancel</button>
+                        <button type="button" ng-if="!keySent" class="btn btn-primary" ng-click="generateEscrowAndKey()">Send my private key</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div ng-if="keySent || shouldHaveKey" class="col-xs-12 margin-top-20">
+        <h4>
+            <i class="icon icon-checkmark green"></i> Escrow key created!
+        </h4>
+        <p>
+            We have sent your escrow private key to you via e-mail, please confirm that you have recieved this before proceeding.
+        </p>
+    </div>
+    <div ng-if="showNewEmailAddress && keyHasBeenEmailed">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="bold text-muted">
+                <p class="bold text-muted">Have you recieved your private key via e-mail?</p>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="dashboard-wrapper">
+    <div>
+        <h2>Change Subscription Plan</h2>
+        <hr>
+    </div>
+    <div>
+        <div class="dashboard-section" ng-init="getCurrentSubscription(); getSubscriptionByName();">
+            <div class="dashboard-header">
+                <h3>You are about to make a subscription change</h3>
+            </div>
+            <div class="dashboard-content subscription-details">
+                <div ng-if="!subscription" class="text-center">
+                    <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+                </div>
+                <div ng-if="subscription">
+                    <div>
+                        <p>
+                            You are changing from the <b>{{ currentPlanGroup }}</b> plan to the <b>{{newPlan.group}}</b> plan.
+                        </p>
+                        <p>
+                            Your <b>current</b> plan cost:
+                            <strong>{{subscription.percentage}}% per transaction</strong>
+                        </p>
+                        <p>
+                            Your <b>new</b> plan cost:
+                            <strong>{{newPlan.percentage}}% per transaction</strong>
+                        </p>
+                        <p class="margin-top-20">
+                            trajans.market will send you an email confirming the successful change of your subscription.
+                        </p>
+                        <div class="payment-details margin-top-20">
+                            <p>Select confirm to complete this action.</p>
+                            <a id="cancel" class="btn btn-secondary" ng-href="/#!/dashboard/merchantplans">Cancel</a>
+                            <button class="btn btn-large btn-primary" ng-click="changePlan()">Confirm</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

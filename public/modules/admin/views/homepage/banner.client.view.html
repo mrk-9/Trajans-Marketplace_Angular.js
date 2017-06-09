@@ -1,0 +1,68 @@
+<div flow-init="{target: '/uploadhomebanner', testChunks:false, singleFile:true}" flow-files-submitted="$flow.upload()" flow-file-added="submitImage($file, $event, $flow )" flow-attrs="{accept:'image/*'}" class="dashboard-container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+      <h3>Please select the banner background option</h3>
+    </div>
+  </div>
+  <div class="banner-options">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="option">
+          <h4>Color Transition</h4>
+          <button ng-show="!bannerStyle.transition" class="btn btn-primary" ng-click="enableTransition()">Enable Transition</button>
+          <button ng-show="bannerStyle.transition" class="btn btn-secondary" ng-click="bannerStyle.transition = false">Disable Transition</button>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="option">
+          <h4>Upload Background Image</h4>
+          <button ng-show="!bannerStyle.backgroundImage" class="btn btn-primary" flow-btn>Select Image</button>
+          <button ng-show="bannerStyle.backgroundImage" class="btn btn-secondary" ng-click="bannerStyle.backgroundImage = ''">Remove Image</button>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="option">
+          <h4>Fixed Color</h4>
+          <button ng-show="!bannerStyle.backgroundColor" colorpicker type="button" class="btn btn-primary" colorpicker-position="top" ng-model="bannerStyle.backgroundColor">Choose Color</button>
+          <button ng-show="bannerStyle.backgroundColor" type="button" class="btn btn-secondary" ng-model="bannerStyle.backgroundColor" ng-click="bannerStyle.backgroundColor = ''">Remove Color</button>
+          <span ng-show="bannerStyle.backgroundColor"><h6>Chosen Color:</h6><span class="selectedColor" ng-style="{background: bannerStyle.backgroundColor}"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-show="bannerStyle.backgroundColor || bannerStyle.backgroundImage || bannerStyle.transition" class="banner-preview">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h4>Preview</h4>
+      </div>
+    </div>
+    <div class="homepage-hero" home-banner bg-color="{{bannerStyle.backgroundColor}}" bg-image="{{bannerStyle.backgroundImage}}" ng-class="{transition: bannerStyle.transition}">
+      <div ng-if="defaults.typewriterText.length" class="row"> 
+        <div class="col-xs-12">
+          <div class="typewriting-container">
+              <div class="sentences">
+                  <span class="typewriter" typewriter type-speed="150" loop=true loop-delay="5000" cursor=true messages="textArray"></span>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-show="bannerStyle.backgroundColor || bannerStyle.backgroundImage || bannerStyle.transition" class="changeBackground">
+    <div class="row">
+      <div class="col-xs-12">
+        <div>
+          <button ng-show="adminOptions.areYouSure === false" ng-click="adminOptions.areYouSure = true" class="btn btn-primary">
+            Publish Banner
+            <i class="glyphicon glyphicon-ok"></i>
+          </button>
+        </div>
+        <div ng-show="adminOptions.areYouSure === true" class="are-you-sure">
+          <p>Are you sure you wish to publish the homepage banner above?</p>
+          <button ng-click="adminOptions.areYouSure = false" class="btn btn-secondary">NO, DON'T ADD IT</button>
+          <button ng-click="updateBanner()" class="btn btn-primary">ADD IT!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<section data-ng-controller="AdminController" data-ng-init="findOne()">
+    <div class="container admin">
+        <div class="row">
+            <div class="col-xs-6 col-xs-offset-3">
+                <h4 class="sign-up-title text-center">
+                    Edit users profile settings
+                </h4>
+                <form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="userProfile.firstName" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="userProfile.lastName" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" data-ng-model="userProfile.email" placeholder="Email">
+                        </div>
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="subscriptionStatus<">Subscription Status</label>
+                                <select class="form-control" name="userStatus" data-ng-model="userProfile.subscriptionStatus[0]" ng-options="status for status in subscriptionStatus" required></select>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label for="verified">Verified</label>
+                            <input type="checkbox" id="verified" name="verified" data-ng-model="userProfile.verified" />
+                        </div>
+                        <div class="form-group">
+                            <label for="featured">Featured Merchant</label>
+                            <input type="checkbox" id="featured" name="featured" data-ng-model="userProfile.featuredMerchant" />
+                        </div>
+                        <div class="text-left form-group">
+                            <button type="submit" class="btn btn-large btn-primary">Save Settings</button>
+                        </div>
+                        <div data-ng-show="success" class="text-center text-success">
+                            <strong>Profile Saved Successfully</strong>
+                        </div>
+                        <div data-ng-show="error" class="text-center text-danger">
+                            <strong data-ng-bind="error"></strong>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-xs-offset-3">
+        <p class="bg-success">Download this user's document for verification provided they have been uploaded</p>
+        <form action="/admin/users/documents/" method="POST">
+            <input type="submit" value="Download Documents" class="btn btn-success btn-xs">
+            <input type="hidden" name="userDocId" value="{{userAdminId}}">
+        </form>
+        <p class="bg-danger">Delete file from the server. Note they files are not publicly available</p>
+        <div class="btn btn-danger btn-xs" ng-click="deleteDocs()">Delete Documents</div>
+    </div>
+</section>
+

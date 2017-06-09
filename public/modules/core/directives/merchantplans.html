@@ -1,0 +1,60 @@
+<div ng-init="plansReady">
+    <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding" ng-show="!plansReady">
+        <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+        <p class="text-muted margin-top-20">Loading Subscription Plans...</p>
+    </div>
+    <div ng-show="plansReady" class="row">
+        <div ng-repeat="plan in plans | orderBy:'planNo'">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 plan-container">
+                <!-- PLAN 1 -->
+                <div class="plan">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div ng-if="$index === 1" class="plan-popular-banner">MOST POPULAR</div>
+                            <div class="plan-details">
+                                <div class="plan-type"><span>{{plan.group | uppercase}}</span></div>
+                                <div class="plan-cost"><span class="monthly-cost">{{plan.percentage}}</span> <span class="percentage">%</span></div>
+
+                                <div class="plan-payment-options">{{plan.tagline}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="plan-subscribe">
+                                <div ng-if="user">
+                                    <div ng-if="currentPlanGroup">
+                                        <div ng-if="currentPlanGroup === plan.group" class="currentPlanGroup">CURRENT PLAN</div>
+                                        <a ng-if="currentPlanGroup !== plan.group" class="btn btn-primary" ng-href="/#!/dashboard/subscription/change/priceplan/{{plan.group | lowercase | removeSpaces}}"> 
+                                            Subscribe
+                                        </a>
+                                    </div>
+                                    <div ng-if="!currentPlanGroup">
+                                        <a class="btn btn-primary" ng-href="/#!/dashboard/subscription/payment/priceplan/{{plan.group | lowercase | removeSpaces}}"> 
+                                            Subscribe
+                                        </a>
+                                    </div>
+                                </div>
+                                <div ng-if="!user">
+                                    <a class="btn btn-primary" ng-href="/#!/signup"> 
+                                        Subscribe
+                                    </a>
+                                </div>
+                                
+                            </div>
+                            <div class="plan-description">
+                                {{plan.description}}
+                            </div>
+                            <div ng-repeat="feature in plan.features">
+                                <div class="plan-feature">
+                                    <strong>{{feature}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /PLAN 1 -->
+            </div>
+        </div>
+    </div>
+</div>

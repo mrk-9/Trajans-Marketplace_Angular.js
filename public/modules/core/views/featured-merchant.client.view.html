@@ -1,0 +1,129 @@
+<div class="modal-featured-merchants text-center" ng-init="init()">
+    <div class="modal-header">
+        <h4 class="modal-title">Promo: Featured Merchants</h4>
+    </div>
+
+    <div class="modal-body" ng-if="!hasPaid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>STAND OUT FROM THE CROWD</h3>
+                <h4>
+                    You've got great products, you accept bitcoin, now tell the world about it!
+                </h4>
+
+                <h4>
+                    Become a Featured Merchant on trajans.market home page for 7 days.
+                </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="feature-cost">
+                    <span class="dollar-symbol">$</span><span class="weekly-cost">19</span> /7 DAYS
+                </div>
+
+                <small class="text-left">
+                    7 day Featured Merchant listing. Featured Merchant listings rotate upon each page landing.
+                </small>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="row extra-padding">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: left">
+                <p class="bold hidden-xs text-muted">
+                    Send <span class="green">{{19 | exchangebitcoin}}</span> to
+                    <span class="black">{{featureRequest.paymentAddress}}</span>
+                </p>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-center">
+                <img ng-src="{{qrCode}}" />
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 hidden-xs countdown-on" style="margin-top:40px;">
+                <p ng-if="featuredAddress.status === 'Pending'">
+                    <span ng-class="{'label-success' : !exipred, 'label-danger' : expired}" class="label count-down-timer">
+                        <span ng-if="!expired">Remaining payment time : </span>{{countDown}}
+                    </span>
+                </p>
+
+                <p>
+                    <button clipboard supported="supported" text="featureRequest.paymentAddress" on-copied="copySuccess()"
+                            on-error="fail()" type="button" class="btn btn-primary">
+                        Copy BTC address
+                    </button>
+                </p>
+
+                <div style="text-align: left">Address balance : {{featuredAddress.balance}} BTC</div>
+
+                <div style="text-align: left">Payment status : {{featuredAddress.status}}</div>
+            </div>
+
+            <div class="col-xs-12 text-center visible-xs countdown-on">
+                <p>
+                    <span class="label label-success count-down-timer margin-top-20">
+                        Remaining time : {{countDown}}
+                    </span>
+                </p>
+
+                <p class="margin-bottom-0">
+                    <button clipboard supported="supported" text="featureRequest.paymentAddress" on-copied="copySuccess()"
+                            on-error="fail()" type="button" class="btn btn-primary">
+                        Copy BTC address
+                    </button>
+                </p>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="featuredAddress.utxos.length && featuredAddress.status !== 'Pending'">
+                    <div>
+                        <p ng-repeat="utxo in utxos" class="text-muted">
+                            Transaction found : <b class="black">{{utxo.amount}}</b> BTC - Confirmations <b class="black">{{utxo.confirmations}}</b>
+                        </p>
+                        <p ng-if="!utxos.length">
+                            No bitcoin payment found yet...
+                        </p>
+                    </div>
+                    <small class="text-muted">
+                        1 network confirmation is required to confirm the balance.
+                    </small>
+                </div>
+
+                <div ng-if="featuredAddress.utxos.length && featuredAddress.status !== 'Pending'">
+                    <div ng-repeat="utxo in featuredAddress.utxos">
+                        Transaction found : <b class="black">{{utxo.amount}}</b> BTC - Confirmations <b class="black">{{utxo.confirmations}}</b>
+                    </div>
+                    <div ng-if="!featuredAddress.utxos.length">
+                        No bitcoin payment found yet...
+                    </div>
+                </div>
+                <div ng-if="featuredAddress.status === 'Pending'">
+                    The payment amount is valid for 10 minutes.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-body" ng-if="hasPaid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                <h3><i class="green icon icon-checkmark"></i> Transaction Complete!</h3>
+
+                <p>
+                    Congratulations! You are now a featured merchant and will be registered until
+                    <strong>{{user.featuredMerchantExpiry | date: 'dd-MMM-yyyy'}}</strong> at <strong>{{user.featuredMerchantExpiry | date: 'hh:mm:ss'}}</strong>.
+                </p>
+
+                <a class="btn btn-primary btn-dash" ng-click="goToListings()">Configure Listings</a>
+                <a class="btn btn-secondary" ng-click="cancelModal(true)">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer" ng-if="!hasPaid">
+        <div>
+            <a class="btn btn-primary" ng-click="cancelModal()">Cancel</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<section data-ng-controller="AuthenticationController">
+	<div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 sign-up-form ">
+		<h4 class="sign-up-title text-center">
+			Sign up to trajans.market
+		</h4>
+		<form name="userForm" data-ng-submit="signup()" class="signin form-horizontal" novalidate autocomplete="off">
+				<div class="form-group">
+					<label class="control-label left"  for="firstName">First Name</label>
+					<input type="text" required id="firstName" name="firstName" class="form-control" data-ng-model="credentials.firstName" placeholder="First Name" autocomplete="off">
+				</div>
+				<div class="form-group">
+					<label class="control-label left"  for="lastName">Last Name</label>
+					<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="credentials.lastName" placeholder="Last Name" autocomplete="off">
+				</div>
+				<div class="form-group">
+					<label class="control-label left"  for="email">Email</label>
+					<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email" autocomplete="off">
+				</div>
+				<div class="form-group">
+					<label class="control-label left"  for="username">Choose a username</label>
+					<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username" autocomplete="off">
+				</div>
+				<div class="form-group">
+					<label class="control-label left"  for="password">Choose a password</label>
+					<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" autocomplete="off">
+				</div>
+				<div class="text-left form-group">
+					<label class="control-label left"  for="agreement">
+						<input type="checkbox" id="agreement" ng-model="credentials.agreement" required> I agree to trajans.market terms and conditions
+					</label>
+					<small>
+						<a target="_blank" ng-href="/#!/termsandconditions">View terms and conditions</a>
+					</small>
+				</div>
+				<div class="text-left form-group">
+					<button type="submit" class="btn btn-large btn-primary">Sign up</button>&nbsp; or&nbsp;
+					<a href="/#!/signin" class="show-signup">Sign in</a>
+				</div>
+				<div data-ng-show="error" class="text-center text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+		</form>
+	</div>
+</section>

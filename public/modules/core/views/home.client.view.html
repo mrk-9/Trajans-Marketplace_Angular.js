@@ -1,0 +1,260 @@
+<section data-ng-controller="HomeController" ng-init="init()">
+    <div class="home">
+        <!-- Typewriter homepage hero -->
+        <div ng-if="defaults.typewriterEnabled" class="homepage-hero" home-banner bg-color="{{defaults.bannerStyle.backgroundColor}}" bg-image="{{defaults.bannerStyle.backgroundImage}}" ng-class="{transition: defaults.bannerStyle.transition}">
+            <div class="container">
+                <div ng-if="defaults.typewriterText.length" class="row">
+                    <div class="typewriting-container">
+                        <div class="sentences">
+                            <span class="typewriter" typewriter type-speed="150" loop=true loop-delay="5000" cursor=true message-list="defaults.typewriterText"></span>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="defaults.typewriterText.length" class="row">
+                    <div class="col-xs-12 col-sm-6 left-panel">
+                        <a href="#" class="btn btn-primary btn-white"><span>HOW IT WORKS</span></a>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 right-panel">
+                        <a href="#!/search/category/all" class="btn btn-primary btn-white"><span>BROWSE PRODUCTS</span></a>
+                    </div>
+                </div>
+                <div ng-if="!defaults.typewriterText.length" class="row">
+                    <div class="col-xs-12 col-sm-6 left-panel-v">
+                        <div><a href="#" class="btn btn-primary btn-white"><span>HOW IT WORKS</span></a></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 right-panel-v">
+                        <div><a href="#!/search/category/all" class="btn btn-primary btn-white"><span>BROWSE PRODUCTS</span></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Normal Banner -->
+        <div ng-if="!defaults.typewriterEnabled" class="homepage-hero-normal">
+            <div class="banner-text">
+                <div class="banner-type">
+                    <p>We connect small and medium merchants to more customers using bitcoin</p>
+                    <h1>BUY AND SELL ON TRAJANS.MARKET WITH BITCOIN</h1>
+                </div>
+                <div class="banner-buttons">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xxs-12 col-xs-6 col-sm-6 left-panel">
+                                <a href="/#!/signup" class="btn btn-primary btn-white turq"><span>BECOME A MERCHANT</span></a>
+                            </div>
+                            <div class="col-xxs-12 col-xs-6 col-sm-6 right-panel">
+                                <a href="#!/search/category/all" class="btn btn-primary btn-white tan"><span>START BROWSING</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid header-stats">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-md-push-8">
+                    <div class="chat-button  col-xs-12 col-sm-12 col-lg-6">
+                        <div class="chat-text col-sm-6">
+                            <h5 class="tan">Live Support</h5>
+                            <a href="">Open chat</a>
+                        </div>
+                        <img src="/img/newicons/chat.svg">
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-md-pull-4">
+                    <ul class="header-stats-list">
+                        <li>
+                            <div class="img-wrapper">
+                                <img src="/img/newicons/store.svg" height="50">
+                            </div>
+                            <div class="title-wrapper">
+                                <span>{{storeCount}}</span><br> STORES
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-wrapper">
+                                <img src="/img/newicons/shoppingbags.svg" height="50">
+                            </div>
+                            <div class="title-wrapper">
+                                <span>{{productCount}}</span><br> PRODUCTS
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img-wrapper">
+                                <img src="/img/newicons/B.svg" height="50">
+                            </div>
+                            <div class="title-wrapper">
+                                <span>{{transactionCount}}</span><br> TRANSACTIONS
+                            </div>
+                        </li>
+                    </ul>               
+                 </div>
+            </div>
+
+        </div>
+
+        <div class="container-fluid border-bottom"></div>
+
+        <div class="container benefits-section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>trajans.market is your safe, secure and easy to use e commerce platform, enabled by bitcoin.</h3>
+                    <p>We've connected the dots to bring a complete and sound soloution for SME's to list, sell and manage products, manage bitcoin transactions and recieve remuneration in local currency.</p>
+
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                    <div class="benefits-icon">
+                        <img class="money-box smarter" ng-src="/img/newicons/smarter@2x.png" width="110" />
+                    </div>
+                    <div class="benefits-heading">
+                        SHOP SMARTER.
+                    </div>
+                    <div class="benefits-description">
+                        We've reduced the excessive fees for selling online. Merchants pay less, so buyers pay less.
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                    <div class="benefits-icon">
+                        <img class="money-box safer" ng-src="/img/newicons/safer@2x.png" width="110" />
+                    </div>
+                    <div class="benefits-heading">
+                        SHOP SAFER.
+                    </div>
+                    <div class="benefits-description">
+                        Shop with verified merchants using Bitcoin Direct, or use our Buyers Protection with select and unverified merchants.
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 benefits-box">
+                    <div class="benefits-icon">
+                        <img class="money-box ease" ng-src="/img/newicons/ease@2x.png" width="110" />
+                    </div>
+                    <div class="benefits-heading">
+                        SHOP WITH EASE.
+                    </div>
+                    <div class="benefits-description">
+                        We've made shopping easy. Transact usuing your favourite digital currencies. More than 20 payment solutions, powered by Shapeshift.io.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid shopping-easy">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 home-heading">
+                        <h3 class="white">WE'VE MADE SHOPPING EASY</h3>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <a href="/#!/search/category/all" class="btn btn-primary tan"><span>START BROWSING</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid border-bottom"></div>
+
+        <div class="container featured-merchants">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 home-heading">
+                    <h3 class="turq">Featured Merchants</h3>
+                    <p>Grab some of the best deals on the market!</p>
+                </div>
+                <div ng-include="'modules/core/views/homepage-includes/merchants.client.view.html'"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="text-center load-more-button-container">
+                        <button class="btn btn-primary btn-white turq" ng-click="findFeaturedMerchants()">REFRESH</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid recent">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 home-heading">
+                        <h3 class="turq">Recent Listings</h3>
+                        <p>We have thousands of products available. Browse current listings via category type or search for a specific product below.</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 listing-search">
+                        <div class="col-xs-12 col-lg-3">
+                            <span class="controls margin-bottom no-padding-left">
+                                <input type="text" class="form-control search-field" ng-model="search.keyword" placeholder="Search"/>
+                            </span>
+                        </div>
+                        <div class="col-xs-12 col-lg-3">
+                            <select class="form-control" ng-model="search.category" id="category" ng-options="category.alias as category.title for category in allCategories | orderBy:'title'">
+                                <option value="">Choose a category</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-lg-3">
+                            <button ng-click="find()" class="btn btn-primary btn-full-width"><i class="icon icon-spinner12"></i> Update results</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="recent-listings margin-top-15">
+                            <div ng-include="'modules/core/views/homepage-includes/recent-listings.client.view.html'"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container sell-bitcoin">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 home-heading">
+                    <h3 class="purple">Sell for bitcoin.</h3>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                        <ul class="one">
+                            <li>
+                                <h4>LOW FEES</h4><br>We've reduced the excessive fees for selling online, so you get to keep more of your hard-earned <del>cash</del> bitcoin.</li>
+                            <li>
+                                <h4>NO CHARGEBACKS</h4><br>Merchants can accept bitcoin from any country in the world, with no risk of fraud or chargebacks.</li>
+                            <li>
+                                <h4>CONVERT BTC/AUD</h4><br>Rest easy knowing that you can automatically convert your bitcoin to Australian dollar thanks to our friends at BitPOS. We've enabled your dashboard for quick access.</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                        <ul class="two">
+                            <li>
+                                <h4>BRING YOUR OWN WALLET</h4><br>We believe you should have access to your funds whenever you want - that's why we choose not to hold them. </li>
+                            <li>
+                                <h4>SELL TODAY, PAID TODAY</h4><br>When you're a verified merchant, sell today with our Bitcoin Direct and you'll get paid today with trajans.market. Welcome to the world of bitcoin.</li>
+                            <li>
+                                <h4>20+ DIGITAL CURRENCIES</h4><br>Expand your market; we've partnered with Shapeshift.io so buyers can convert more than 20 digital currencies to bitcoin at the point of sale.</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                        <ul class="three">
+                            <li>
+                                <h4>DIGITAL ASSET MARKETCAP</h4>
+                            </li>
+                            <li class="bold purple">{{marketCap.total}}B AUD</li>
+                            <li>
+                                <h4>BITCOIN CAPITALISATION</h4>
+                            </li>
+                            <li class="bold grey">{{marketCap.btc}}B AUD</li>
+                            <li>
+                                <h4>ALTCOINS CAPITALISATION</h4>
+                            </li>
+                            <li class="bold tan">{{marketCap.alt}}B AUD</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid merchant">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 home-heading">
+                        <h3 class="white">BECOME A PART OF THE NEW ECOMMERCE REVOLUTION.</h3>
+                        <p>We connect small and medium size merchants to more customers using bitcoin. </p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <a href="/#!/signup" class="btn btn-primary white"><span>BECOME A MERCHANT</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

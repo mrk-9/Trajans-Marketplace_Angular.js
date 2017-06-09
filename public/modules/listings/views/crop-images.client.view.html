@@ -1,0 +1,94 @@
+<div>
+    <section data-ng-controller="ListingsController" data-ng-init="findOne('crop')" class="listing-crop-images">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h1>Crop Images - {{listing.name}} - {{listing.priceFiat | currency}}</h1>
+                </div>
+            </div>
+            <div ng-if="listing.images.length" class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div id="original-images">
+                                <div>
+                                    <h3>Select the image</h3>
+                                    <div class="instructions">Select the image you would like to crop by clicking on an image below.</div>
+                                    <div class="crop-listing-images">
+                                        <div class="row">
+                                            <div ng-show="downloading" class="text-center">
+                                                <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+                                                <p class="text-muted margin-top-20">Loading Images...</p>
+                                            </div>
+                                            <div ng-show="!downloading" deckgrid source='listing.images' cardTemplate='/modules/core/directives/cropImages.html' class='deckgrid'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div id="cropped-images">
+                                <h3>Your Cropped Images</h3>
+                                <div ng-show="uploadingCropped" class="text-center">
+                                    <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+                                    <p class="text-muted margin-top-20">Loading Images...</p>
+                                </div>
+                                <div ng-show="!uploadingCropped" class="row">
+                                    <div class="col-xs-12 listing-images">
+                                        <div class="row">
+                                          <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4" data-ng-repeat="img in listing.images">
+                                            <div ng-if="img.croppedPath" class="listing-image-cropped">
+                                                <img ng-src="{{img.croppedPath}}">
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 border-l">
+                    <h3>Crop it</h3>
+                    <div class="instructions">Use the controls underneath the original image to zoom and position your image before cropping.</div>
+                    <div class="image-cropper text-center">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
+                                <h5>Original Image</h5>
+                                <div class="original-image">
+                                    <image-cropper image="{{cropOptions.selectedImage.localPath}}"
+                                        dest-width="1000"
+                                        dest-height="1000"
+                                        show-controls="cropOptions.showControls"
+                                        cropped-image="cropOptions.imageResult"
+                                    ></image-cropper>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                                <div class="result">
+                                    <h5>Cropped Image</h5>
+                                    <img class="frame center-block" ng-src="{{cropOptions.imageResult}}">
+                                </div>
+                                <div ng-if="!cropOptions.selectedImage.croppedPath" class="text-center margin-top-20">
+                                    <button ng-click="uploadCroppedImage()" class="btn btn-primary">Crop Image</button>
+                                </div>
+                                <div ng-if="cropOptions.selectedImage.croppedPath" class="text-center margin-top-20">
+                                    <p class="bold">You have already cropped this image.</p>
+                                    <button ng-click="uploadCroppedImage()" class="btn btn-primary">Crop Image Again</button>
+                                </div>
+                                <div class="save-button-container">
+                                    <a ng-href="/#!/dashboard/managelistings/{{listing._id}}" ng-click="deleteImagesFromLocal()" class="btn btn-secondary">Save All Images</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!listing.images.length" class="text-center">
+                <p>Sorry, this listing doesn't have any images to crop. Please upload some images by editing your listing.</p>
+            </div>
+        </div>
+    </section>
+</div>

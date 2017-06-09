@@ -1,0 +1,194 @@
+<div class="seller-page-details hidden-sm hidden-xs"> <!--TODO affix data-spy="affix" data-offset-top="120" data-offset-bottom="700"-->
+    <div class="seller-info">
+        <div class="side-nav">
+            <div>
+                <img ng-src="{{user.profileImage}}" />
+            </div>
+
+            <h4 ng-if="user.merchantName" data-ng-bind="user.merchantName"></h4>
+
+            <h4 ng-if="!user.merchantName" data-ng-bind="user.username"></h4>
+
+            <a class="btn btn-primary btn-full-width margin-top-20" ng-click="profileModal(user)">
+                VIEW PROFILE
+            </a>
+
+            <hr/>
+
+            <div class="listing-search">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <p>Key Word Search</p>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control search-field" ng-model="keyword" placeholder="Enter search keyword..." />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="updateKeyword(keyword)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr/>
+                    <p>Core Category</p>
+
+                    <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                        <div class="checkbox" ng-repeat="(key, cat) in allCategories | orderBy: 'title'">
+                            <label ng-if="category && cat.alias === category">
+                                <input type="checkbox" data-ng-model="cat._id" ng-change="mainCategoryChanged()"
+                                       ng-checked="cat.alias === category">
+                                {{cat.title}}
+                            </label>
+
+                            <label ng-if="!category">
+                                <input type="checkbox" data-ng-model="cat._id" ng-change="mainCategoryChanged(cat.alias)"
+                                       ng-checked="cat.alias === category">
+                                {{cat.title}}
+                            </label>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="primaryCategories">
+                    <hr/>
+                    <p>Primary Category</p>
+
+                    <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                        <div class="checkbox" ng-repeat="(key, value) in primaryCategories">
+                            <label ng-if="primaryCategory && key === primaryCategory">
+                                <input type="checkbox" data-ng-model="value" ng-change="primaryCategorySelected()"
+                                       ng-checked="key === primaryCategory">
+                                {{value}}
+                            </label>
+
+                            <label ng-if="!primaryCategory">
+                                <input type="checkbox" data-ng-model="value" ng-change="primaryCategorySelected(key)"
+                                       ng-checked="key === primaryCategory">
+                                {{value}}
+                            </label>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="secondaryCategories">
+                    <hr/>
+                    <p>Secondary Category</p>
+
+                    <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                        <div class="checkbox" ng-repeat="(key, value) in secondaryCategories">
+                            <label ng-if="secondaryCategory && key === secondaryCategory">
+                                <input type="checkbox" data-ng-model="value" ng-change="secondaryCategorySelected()"
+                                       ng-checked="key === secondaryCategory">
+                                {{value}}
+                            </label>
+
+                            <label ng-if="!secondaryCategory">
+                                <input type="checkbox" data-ng-model="value" ng-change="secondaryCategorySelected(key)"
+                                       ng-checked="key === secondaryCategory">
+                                {{value}}
+                            </label>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="tertiaryCategories">
+                    <hr/>
+                    <p>Item Type</p>
+
+                    <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                        <div class="checkbox" ng-repeat="(key, value) in tertiaryCategories">
+                            <label ng-if="itemType && key === itemType">
+                                <input type="checkbox" data-ng-model="value" ng-change="tertiaryCategorySelected()"
+                                       ng-checked="key === itemType">
+                                {{value}}
+                            </label>
+
+                            <label ng-if="!itemType">
+                                <input type="checkbox" data-ng-model="value" ng-change="tertiaryCategorySelected(key)"
+                                       ng-checked="key === itemType">
+                                {{value}}
+                            </label>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr/>
+                    <p>Shipping</p>
+
+                    <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-model="freeShipping">Free Shipping
+                            </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-model="standardShipping">Standard Shipping
+                            </label>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr/>
+                    <p>Merchant Status</p>
+
+                    <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-model="verifiedMerchant">Verified Merchant
+                            </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-model="unverifiedMerchant">Unverified Merchant
+                            </label>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr/>
+                    <p>Payment</p>
+
+                    <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-model="bitcoinDirect">Bitcoin Direct
+                            </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-model="moderatedPayment">Moderated Payment
+                            </label>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr/>
+                    <p>Price</p>
+
+                    <rzslider class="price-slider"
+                              rz-slider-model="priceSlider.minValue"
+                              rz-slider-high="priceSlider.maxValue"
+                              rz-slider-options="priceSlider.options">
+                    </rzslider>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr/>
+
+                    <button ng-click="searchUserListings(false)" class="btn btn-primary btn-full-width">
+                        <i class="icon icon-spinner12"></i> Update results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Payment Preferences</h2>
+        <hr>
+    </div>
+    <section class="row text-center content" ng-if="confirm">
+        <h3 class="col-md-12">
+                    <i class="icon icon-checkmark green"></i> Confirm profile update
+                </h3>
+        <p class="text-muted">
+            Great! We have e-mailed you a confirmation link.
+        </p>
+        <p class="text-muted">
+            Please check your email and confirm your profile update by clicking on the link we sent you. Sometimes there are delays sending profile update e-mails, please also check your junk mail if you haven't recieved an e-mail from Trajans before.
+        </p>
+    </section>
+    <div class="col-md-12 col-xs-12" ng-if="!confirm">
+        <form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="paymentdetails">
+                    <label for="username">Bitcoin Payment Address</label>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="controls">
+                        <input type="text" id="walletAddress" name="walletAddress" class="form-control" data-ng-model="user.walletAddress" placeholder="Bitcoin wallet address" autofocus  required>
+                        <small class="text-info">Payment for orders made not using a payment processor will be sent to this address.</small>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h4>
+                Bitpos Payment Processor Preferences
+            </h4>
+            <p class="text-muted">
+                Trajans has seamlessly integrated with <a target="_blank" href="https://signup.bitpos.me?aId=718283">Bitpos.me</a>.  If you have an account at Bitpos you can accept payment directly through Trajans using your API username and password.  <br>Please be aware, you must at least be on a business plan in order to use Trajans integrated payment processors.</a>
+            </p>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <label for="username">Bitpos Username</label>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="controls">
+                        <input type="password" id="bitposUsername" name="bitposUsername" class="form-control" data-ng-model="user.bitposUsername" placeholder="Bitpos Username">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <label for="username">Bitpos Password</label>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="controls">
+                        <input type="password" id="bitposPassword" name="bitposPassword" class="form-control" data-ng-model="user.bitposPassword" placeholder="Bitpos Password">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-large btn-primary">Save Payment Settings</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,396 @@
+@import "variables.styl"
+
+// Overrides
+
+hr {
+	border:none;
+	border-bottom: solid 1px green-grey;
+}
+
+a {
+	color: dark-grey;
+	transition (0.3s)
+
+	&:hover {
+		transition (0.3s)
+		color: dark-grey;
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+
+.form-control {
+	border-radius: 0 !important;
+}
+
+.form-group {
+	label {
+		margin-bottom: 13px;
+	}
+}
+
+.control-label {
+	display: inline-block;
+	margin-bottom: 10px !important; 
+	text-align:right;
+	width:100%;
+}
+
+.page-header {
+	border-color: lightest-grey;
+	font-weight: 300;
+}
+
+// Buttons
+
+.radio label, .checkbox label {
+  padding-left: 0;
+}
+
+.checkbox {
+  input {
+    margin-right: 10px;
+  }
+}
+
+.btn {
+	border-radius:0;
+	border: solid 2px darken(#DDDDDD, 5%);
+	transition (0.3s)
+	box-shadow: none !important;
+	margin-bottom: 10px;
+	text-transform: uppercase;
+	font-weight: bold;
+	&:active {
+		outline: none !important;
+	}
+}
+
+.btn:focus, .btn-active {
+  outline: none !important;
+}
+
+.btn-primary { 
+  color: #50CA8B; 
+  background-color: #FFFFFF; 
+  border-color: #50CA8B;
+} 
+ 
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-primary:active, 
+.btn-primary.active, 
+.open .dropdown-toggle.btn-primary { 
+  color: #50CA8B; 
+  background-color: #FFFFFF; 
+  border-color: #50CA8B; 
+  color: white;
+  background-color : primary-green;
+  
+  &.active {
+     color: #50CA8B; 
+    background-color: #FFFFFF; 
+    border-color: #50CA8B; 
+    color: white;
+    background-color : primary-green; 
+  }
+} 
+ 
+.btn-primary:active, 
+.btn-primary.active, 
+.open .dropdown-toggle.btn-primary { 
+  background-image: none; 
+  outline: none;
+} 
+ 
+.btn-primary.disabled, 
+.btn-primary[disabled], 
+fieldset[disabled] .btn-primary, 
+.btn-primary.disabled:hover, 
+.btn-primary[disabled]:hover, 
+fieldset[disabled] .btn-primary:hover, 
+.btn-primary.disabled:focus, 
+.btn-primary[disabled]:focus, 
+fieldset[disabled] .btn-primary:focus, 
+.btn-primary.disabled:active, 
+.btn-primary[disabled]:active, 
+fieldset[disabled] .btn-primary:active, 
+.btn-primary.disabled.active, 
+.btn-primary[disabled].active, 
+fieldset[disabled] .btn-primary.active { 
+  background-color: primary-green; 
+  border-color: #50CA8B; 
+  color: white;
+  outline: none;
+} 
+ 
+.btn-primary .badge { 
+  color: #FFFFFF; 
+  background-color: #50CA8B; 
+}
+
+
+.btn-secondary { 
+  color: #333333; 
+  background-color: #DDDDDD; 
+  border: solid 2px darken(#DDDDDD, 5%);
+} 
+ 
+.btn-secondary:hover, 
+.btn-secondary:focus, 
+.btn-secondary:active, 
+.btn-secondary.active, 
+.open .dropdown-toggle.btn-secondary { 
+  color: #333333; 
+  background-color: #DDDDDD; 
+  outline: none;
+} 
+ 
+.btn-secondary:active, 
+.btn-secondary.active, 
+.open .dropdown-toggle.btn-secondary { 
+  background-image: none; 
+} 
+ 
+.btn-secondary.disabled, 
+.btn-secondary[disabled], 
+fieldset[disabled] .btn-secondary, 
+.btn-secondary.disabled:hover, 
+.btn-secondary[disabled]:hover, 
+fieldset[disabled] .btn-secondary:hover, 
+.btn-secondary.disabled:focus, 
+.btn-secondary[disabled]:focus, 
+fieldset[disabled] .btn-secondary:focus, 
+.btn-secondary.disabled:active, 
+.btn-secondary[disabled]:active, 
+fieldset[disabled] .btn-secondary:active, 
+.btn-secondary.disabled.active, 
+.btn-secondary[disabled].active, 
+fieldset[disabled] .btn-secondary.active { 
+  background-color: #DDDDDD; 
+  border-color: #DDDDDD; 
+} 
+ 
+.btn-transparent { 
+  color: white; 
+  background-color: transparent; 
+  border-color: white;
+
+  &:hover {
+  	background-color:white;
+  	color: dark-grey !important; 
+  }
+
+  &:active {
+    background-color:white;
+    color: dark-grey !important; 
+  }
+
+  &:visited {
+    background-color:white;
+    color: white; 
+  }
+
+} 
+
+.search-page-search-button {
+    color: #50ca8b;
+    background-color: #fff;
+    border-color: #50ca8b;
+    padding: 8px 15px;
+    margin-top: 6px;
+}
+
+
+//Drop down menu
+
+.dropdown-menu {
+	border-radius: 5px !important;
+  border: none; 
+	a {
+		color:#333 !important;
+	}
+ 
+  li {
+    &:hover {
+      background-color: #efefef;
+    } 
+  } 
+ 
+  &:before {
+    content: "";
+    background-color: #fff;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    transform: rotate(135deg);
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    z-index: -1;
+    top: -5px;
+    margin: 0 auto;
+    right: 50px;
+  }
+}
+
+.navbar-toggle {
+ position: absolute;
+ right: 0;
+ top: 7.8%;
+ 
+ .icon-bar {
+   height: 3px;
+  }
+}
+
+
+ 
+
+//Tabs
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	border: solid 1px green-grey;
+	border-bottom-color: transparent;
+	border-radius: 0;
+}
+
+.nav-tabs {
+	border-bottom: solid 1px green-grey;
+}
+
+// Form Elements
+
+.control-label {
+	font-weight: normal;
+}
+
+input[type="text"], input[type="password"] {
+    border:none;
+    border: solid 1px green-grey;
+    height:40px;
+}
+
+input[type="number"] {
+    border:none;
+    border: solid 1px green-grey;
+    height:40px;
+    padding-left:10px;
+    color: dark-grey;
+}
+
+textarea {
+    border:none;
+    border: solid 1px green-grey;
+    padding:10px;
+    width: 100%;
+}
+
+
+::-webkit-input-placeholder {
+   color: lightest-grey !important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: lightest-grey !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: lightest-grey !important;
+}
+
+:-ms-input-placeholder {  
+   color: lightest-grey !important;  
+}
+
+
+// Pagination 
+
+ul.pagination {
+  li {
+    a {
+      margin-right: 3px !important;
+      margin-left: 3px !important;
+      border: solid 3px green-grey;
+      font-weight: bold;
+      color: navy-blue;
+      border-radius:0;
+    }
+    &.active {
+      a {
+        background-color: navy-blue;
+        border:solid 3px navy-blue;
+        &:hover {
+          background-color: navy-blue;
+          border:solid 3px navy-blue;
+          color:white;
+        }
+      }
+    }
+    
+    &:hover {
+      a {
+        background-color: navy-blue;
+        border:solid 3px navy-blue;
+        color:white;
+      }
+    }
+  }
+}
+
+.pagination > li:first-child > a {
+  border-radius:none;
+}
+
+.nav-tabs {
+  text-transform:uppercase;
+}
+
+.navbar-main-search {
+  margin-right:5px;
+  margin-top: 10px !important;
+  width: 500px;
+  .main-search-input {
+    width: 500px;
+    display: inline-block;
+    padding: 7px;
+    height:49px;
+    &.mobile {
+      width: 90% !important;
+    }
+    &:focus, &:active {
+      outline-color: dark-grey;
+    }
+    &.error {
+      border-color: primary-red;
+      outline: none;
+      box-shadow: 0 0 10px primary-red;
+    }
+  }
+}
+.cardTypes {
+  .img-responsive {
+    display: inline-block;
+  }
+}
+
+.user-dashboard-image {
+  .img-responsive {
+    height: 98px;
+  }
+}
+
+// well
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 0px;
+     -webkit-box-shadow: none
+    box-shadow: none; 
+    margin: 0px;
+}

@@ -1,0 +1,12 @@
+<div class="clear"></div>
+<section data-ng-init="find()">
+    <div class="container recently-added-listings">
+        <div ng-if="listings.length" deckgrid source='listings' cardTemplate='/modules/core/directives/boxListing.html' class='deckgrid'></div>
+        <div ng-if="!listings.length && (search.keyword || search.category)" class="text-center padding-bottom-40">
+            <p>Could not find any listings with the specified criteria. Please try again.</p>
+        </div>
+    </div>
+    <div ng-if="listings.length" class="text-center load-more-button-container">
+        <button ng-if="showLoadBtn()" class="btn btn-primary btn-white purple" ng-click="loadMore()">LOAD MORE</button>
+    </div>
+</section>

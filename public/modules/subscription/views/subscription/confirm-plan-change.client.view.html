@@ -1,0 +1,30 @@
+<div class="dashboard-wrapper">
+    <div>
+        <h2>Confirm Subscription Plan Change</h2>
+        <hr>
+    </div>
+    <div class="dashboard-section" data-ng-init="getCurrentSubscription()">
+        <div class="dashboard-header">
+            <h3>Confirm your subscription change</h3>
+        </div>
+        <div class="dashboard-content">
+            <div>
+                <div>
+                    <div class="margin-top-20">
+                        <div class="text-info">
+                            <ul>
+                                <li>Your subscription will allow you to continue to add and manage your listings.</li>
+                                <li>We will send an email confirmation of your subscription change.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="payment-details margin-top-50">
+                        <p class="text-muted">Click Confirm to complete the subscription process</p>
+                        <button class="btn btn-large btn-primary" ng-click="confirmPlanChange(newPlan.billingCycle)">Confirm</button>
+                        <a id="cancel" class="btn btn-secondary" ng-href="/#!/dashboard/home">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

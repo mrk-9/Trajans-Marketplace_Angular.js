@@ -1,0 +1,103 @@
+<div class="clear"></div>
+<div class="featured-box">
+  <div class="featured-wrapper">
+    <div class="big-image">
+      <div class="main">
+        <div class="table-div">
+          <div class="table-div-inner">
+            <a ng-if="merchant.visibleListings[0].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+              <span class="thumb">
+                <img class="img-responsive" ng-src="{{merchant.visibleListings[0].primaryImage.croppedPath ? merchant.visibleListings[0].primaryImage.croppedPath : merchant.visibleListings[0].primaryImage.path}}" />
+              </span>
+            </a>
+            <a ng-if="!merchant.visibleListings[0].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+              <span class="thumb">
+                <img class="img-responsive" ng-src="img/placeholder.png" />
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="smaller-images">
+      <div class="first">
+        <div class="main">
+          <div class="table-div">
+            <div class="table-div-inner">
+              <a ng-if="merchant.visibleListings[1].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                <span class="thumb">
+                  <img class="img-responsive" ng-src="{{merchant.visibleListings[1].primaryImage.croppedPath ? merchant.visibleListings[1].primaryImage.croppedPath : merchant.visibleListings[1].primaryImage.path}}" />
+                </span>
+              </a>
+              <a ng-if="!merchant.visibleListings[1].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                <span class="thumb">
+                  <img class="img-responsive" ng-src="img/placeholder.png" />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="second">
+        <div class="main">
+          <div class="table-div">
+            <div class="table-div-inner">
+              <a ng-if="merchant.visibleListings[2].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                <span class="thumb">
+                  <img class="img-responsive" ng-src="{{merchant.visibleListings[2].primaryImage.croppedPath ? merchant.visibleListings[2].primaryImage.croppedPath : merchant.visibleListings[2].primaryImage.path}}" />
+                </span>
+              </a>
+              <a ng-if="!merchant.visibleListings[2].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                <span class="thumb">
+                  <img class="img-responsive" ng-src="img/placeholder.png" />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="third">
+        <div class="main">
+          <div class="table-div">
+            <div class="table-div-inner">
+              <a ng-if="merchant.visibleListings[3].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                <span class="thumb">
+                  <img class="img-responsive" ng-src="{{merchant.visibleListings[3].primaryImage.croppedPath ? merchant.visibleListings[3].primaryImage.croppedPath : merchant.visibleListings[3].primaryImage.path}}" />
+                </span>
+              </a>
+              <a ng-if="!merchant.visibleListings[3].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                <span class="thumb">
+                  <img class="img-responsive" ng-src="img/placeholder.png" />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="featured-merchant-info">
+    <div class="row">
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+        <div class="feautured-merchant-info-container">
+          <a ng-href="/#!/users/{{merchant._id}}"><span class="featured-merchant-name">{{merchant.merchantName ? merchant.merchantName : merchant.username}}</span></a>
+          <div class="featured-merchant-description">
+            <div class="blurb">
+              {{merchant.profileBlurb}}
+            </div>
+            <div class="listing-count">{{merchant.activeListings}} ITEMS</div><div class="view-all"><a ng-href="/#!/users/{{merchant._id}}">VIEW ALL</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 merchant-image-container">
+        <div ng-if="merchant.profileImage"  class="featured-merchant-user-image">
+            <a ng-href="/#!/users/{{merchant._id}}"><img ng-src="{{merchant.profileImage}}" /></a>
+        </div>
+        <div ng-if="!merchant.profileImage" class="featured-merchant-user-image">
+            <a ng-href="/#!/users/{{merchant._id}}"><img data-ng-src="http://placehold.it/100x100&amp;text={{listing.user.merchantName ? listing.user.merchantName : listing.user.username | limitTo: 1 | uppercase}}" /></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h4 class="modal-title text-muted bold" ng-if="!order._id">
+        Viewing available shipping options for <span ng-bind="listing.name"></span>
+    </h4>
+    <h4 class="modal-title text-muted bold" ng-if="order._id">
+        Order id : <span ng-bind="order._id"></span>
+    </h4>
+</div>
+<div class="modal-body" stop-event="touchend">
+    <div ng-if="step.showProgress">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <h5 class="bold text-center">SHIPPING</h5>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <h5 class="bold text-center">METHOD</h5>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <h5 class="bold text-center">SUMMARY</h5>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <h5 class="bold text-center">PAYMENT</h5>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="step-circle" ng-if="step.currentProgress < 1">
+                1
+            </div>
+            <div class="step-circle ticked" ng-if="step.currentProgress >= 1">
+                <i class="icon icon-checkmark"></i>
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="step-circle" ng-if="step.currentProgress < 2">
+                2
+            </div>
+            <div class="step-circle ticked" ng-if="step.currentProgress >= 2">
+                <i class="icon icon-checkmark"></i>
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="step-circle" ng-if="step.currentProgress < 3">
+                3
+            </div>
+            <div class="step-circle ticked" ng-if="step.currentProgress >= 3">
+                <i class="icon icon-checkmark"></i>
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="step-circle" ng-if="!hasPaid">
+                4
+            </div>
+            <div class="step-circle ticked" ng-if="hasPaid">
+                <i class="icon icon-checkmark"></i>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr>
+        </div>
+    </div>
+    <div ng-include="step.view"></div>
+</div>
+<div class="modal-footer">
+    <a ng-if="step.execute"  ng-class="{'disabled': step.execute === 'addToBasket', 'disabled': !chosenShippingMethod || (!keySent && !shouldHaveKey || !hasAddress) }" ng-bind="step.buttonRight" class="btn btn-dash btn-large btn-primary listing-buy-now" ng-click="execute()"></a>
+    <span ng-if="!utxos.length && step.executeCancel ">
+        <span ng-if="!(orderChanged && step.currentProgress === 2)">
+            <a ng-if="!shouldHaveKey && step.executeCancel" ng-class="{'disabled': !chosenShippingMethod && !emailValid, 'disabled': !keySent && !shouldHaveKey}" ng-bind="step.buttonLeft" class="btn btn-red pull-left" ng-click="executeCancel()"></a>
+        </span>
+    </span>
+</div>

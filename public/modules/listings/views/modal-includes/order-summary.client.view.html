@@ -1,0 +1,99 @@
+<div class="row extra-padding">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p class=" text-muted">
+            Review your order summary
+        </p>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hidden-xs">
+        <table class="table table-responsive ">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="bold">Description</th>
+                    <th class="bold">Qty</th>
+                    <th class="bold">($)</th>
+                    <th class="bold">(BTC)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in order.order_items">
+                    <td class="text-center">
+                        <div ng-if="item.primaryImage">
+                            <img ng-src="{{item.primaryImage.path}}" class="width-100pix padding-10" />
+                        </div>
+                    </td>
+                    <td class="green baseline">{{item.name}}</td>
+                    <td class="baseline">{{item.quantity}}</td>
+                    <td class="baseline">{{item.priceFiat | exchange}}</td>
+                    <td class="baseline">{{item.individualBTCCost}}</td>
+                </tr>
+                <tr ng-repeat="item in order.order_items">
+                    <td class="text-center">
+                    </td>
+                    <td class="green baseline">Shipping</td>
+                    <td class="baseline">1</td>
+                    <td class="baseline">
+                        <span ng-if="order.totalShippingCost">
+                            {{order.totalShippingCost | exchange}}
+                        </span>
+                        <span ng-if="!order.totalShippingCost">
+                            Free
+                        </span>
+                    </td>
+                    <td class="baseline">
+                        <span ng-if="order.totalShippingCost">
+                            {{order.totalShippingCost | exchangebitcoin}}
+                        </span>
+                        <span ng-if="!order.totalShippingCost">
+                            Free
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="bold">TOTAL</td>
+                    <td></td>
+                    <td></td>
+                    <td class="bold">{{order.totalOverallCostBTC}} BTC</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 visible-xs">
+        <table class="table table-responsive ">
+            <thead>
+                <tr>
+                    <th class="bold">Description</th>
+                    <th class="bold">Qty</th>
+                    <th class="bold">($)</th>
+                    <th class="bold">(BTC)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in order.order_items">
+                    <td class="green baseline">{{item.name}}</td>
+                    <td class="baseline">{{item.quantity}}</td>
+                    <td class="baseline">{{item.priceFiat}}</td>
+                    <td class="baseline">{{item.individualBTCCost}}</td>
+                </tr>
+                <tr ng-repeat="item in order.order_items">
+                    <td class="green baseline">Shipping</td>
+                    <td class="baseline">1</td>
+                    <td class="baseline">{{order.totalShippingCost}}</td>
+                    <td class="baseline">{{order.totalShippingCost | exchangebitcoin}}</td>
+                </tr>
+                <tr>
+                    <td class="bold">TOTAL</td>
+                    <td></td>
+                    <td></td>
+                    <td class="bold">{{order.totalOverallCostBTC}} BTC</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+
+
+</div>

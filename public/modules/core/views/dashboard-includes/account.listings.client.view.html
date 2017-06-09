@@ -1,0 +1,83 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>
+            Manage Listings
+        </h2>
+        <hr>
+    </div>
+    <section data-ng-controller="ListingsController">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div ng-if="!listings.length">
+                <div class="alert alert-warning">
+                    You have not added any listings yet...
+                </div>
+                <div class="margin-top-20">
+                    <a href="/#!/dashboard/addlisting" class="btn btn-primary">Add a listing</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="listings.length">
+            <div class="not-subscribed" ng-if="user.subscriptionStatus[0] !== 'Active'">
+                You must have an active subscription to be able to edit and activate your listings. Please subscribe. 
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td  class="bold"></td>
+                            <td  class="bold">Listing Name</td>
+                            <td  class="bold">SKU</td>
+                            <td  class="bold">Listing Price Fiat</td>
+                            <td  class="bold">Listing Price BTC</td>
+                            <td  class="bold">Purchases</td>
+                            <td  class="bold">Quantity Available</td>
+                            <td  class="bold"></td>
+                            <td  class="bold"></td>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="listing in listings">
+                        <tr>
+                            <td class="basket-image">
+                                <img ng-if="listing.primaryImage" ng-src="{{listing.primaryImage.path}}">
+                                <img ng-if="!listing.images.length" ng-src="img/placeholder.png">
+                            </td>
+                            <td>
+                                {{listing.name}}
+                            </td>
+                            <td>
+                                {{listing.sku}}
+                            </td>
+                            <td>
+                                {{listing.priceFiat | exchange}}
+                            </td>
+                            <td>
+                                {{listing.priceFiat | exchangebitcoin}}
+                            </td>
+                            <td>
+                                {{listing.purchases}}
+                            </td>
+                            <td>
+                                {{listing.quantityAvailable}}
+                            </td>
+                            <td>
+                                <a title="Edit item" href="/#!/dashboard/managelistings/{{listing._id}}" ng-disabled="user.subscriptionStatus[0] !== 'Active'" class="btn btn-primary btn-dash"><i class="glyphicon glyphicon-edit"></i> EDIT</a>
+                            </td>
+                           <td ng-if="!listing.listingActive">
+                                <button title="Deactivate item" ng-click="toggleActivation(listing)" ng-disabled="user.subscriptionStatus[0] !== 'Active'" class="btn btn-secondary"><i class="glyphicon glyphicon-edit"></i> Activate</button>
+                            </td>
+                            <td ng-if="listing.listingActive">
+                                <button title="Deactivate item" ng-click="toggleActivation(listing)" class="btn btn-secondary"><i class="glyphicon glyphicon-edit"></i> Deactivate</button>
+                            </td>
+                            <td ng-if="listing.listingActive && user.featuredMerchant && !listing.isFeatured && featuredCount < 4">
+                                <button title="Deactivate item" ng-click="toggleFeatured(listing)" ng-disabled="user.subscriptionStatus[0] !== 'Active'" class="btn btn-primary">Mark as Featured</button>
+                            </td>
+                            <td ng-if="listing.listingActive && user.featuredMerchant && listing.isFeatured">
+                                <button title="Deactivate item" ng-click="toggleFeatured(listing)" ng-disabled="user.subscriptionStatus[0] !== 'Active'" class="btn btn-secondary">Un-mark as Featured</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>

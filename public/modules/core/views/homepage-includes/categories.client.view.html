@@ -1,0 +1,25 @@
+<div ng-cloak ng-init="getListingsByCategory()" class="category-container">
+    <div ng-repeat="category in allCategories | orderCategories">
+        <div ng-if="$index % 4 == 0" class="clearfix hidden-sm hidden-xs"></div>
+        <div ng-if="$index % 2 == 0" class="clearfix visible-sm visible-xs"></div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 text-center">
+            <a ng-href="#!/search/category/{{category.alias}}">
+                <div class="category-box-2">
+                    <div class="category-box-2-image">
+                            <img class="container-logo" ng-src="img/categories/{{category.alias}}.jpg"/>
+                            <div class="category-box-2-overlay">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                    <span class="inline" ng-if="category.listingCount">{{category.listingCount}} Listing<span ng-if="category.listingCount != 1">s</span></span>
+                                    <span class="inline" ng-if="!category.listingCount">0 Listings</span>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="category-box-2-name">
+                        {{category.title}}
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+

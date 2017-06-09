@@ -1,0 +1,28 @@
+<div class="dashboard-wrapper">
+    <div>
+        <h2>Cancel Subscription</h2>
+        <hr>
+    </div>
+    <div class="dashboard-section" ng-init="getCurrentSubscription();">
+        <div class="dashboard-header">
+            <h3>You are about to cancel your subscription</h3>
+        </div>
+        <div class="dashboard-content">
+            <div>
+                <div class="text-info">
+                    <ul>
+                        <li>Cancellation will be affective at the end of your current billing period</li>
+                        <li>Restart your membership anytime</li>
+                        <li>We will send an email confirmation of your cancellation</li>
+                    </ul>
+                </div>
+                <p class="red margin-top-20">Cancelling your subscription will deactivate all your current active listings</p>
+            </div>
+            <div class="margin-top-50">
+                <p class="text-muted">Select confirm to complete this action.</p>
+                <a type="submit" id="submit" class="btn btn-secondary" ng-href="/#!/dashboard/home">Back to Dashboard</a>
+                <button type="submit" id="submit" class="btn btn-primary" value="Cancel" ng-click="cancel()">Confirm Cancellation</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,263 @@
+<div class="container-fluid border-bottom"></div>
+<section data-ng-controller="UserstoreController" data-ng-init="initUserStoreCtrl()">
+    <div class="container">
+        <div class="row user-profile-container">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <h3 class="turq-light">Shopping the store of <span ng-if="user.merchantName" data-ng-bind="user.merchantName"></span></h3>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom">
+                    <h4>
+                        Showing {{listings.length}} of {{foundListings}} products.
+                    </h4>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 user-profile-user-info no-padding-right">
+                <profile-sidebar></profile-sidebar>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="user-profile-banner-image-container" ng-if="user.userBannerName">
+                            <img class="user-profile-banner-image" ng-src="{{user.userBannerName}}" />
+                        </div>
+                        <!-- **MOBILE SELLER INFO** -->
+                        <div class="visible-sm visible-xs">
+                            <div class="mobile-seller-info">
+                                <div>
+                                    <img ng-src="{{user.profileImage}}" />
+                                </div>
+                                <h4 ng-if="user.merchantName" data-ng-bind="user.merchantName"></h4>
+                                <h4 ng-if="!user.merchantName" data-ng-bind="user.username"></h4>
+                                <a class="btn btn-primary btn-full-width view-prof margin-top-20" ng-click="profileModal(user)">
+                                    VIEW PROFILE
+                                </a>
+                            </div>
+
+                            <div id="refine-options">
+                                <div class="refine">
+                                    <span class="btn btn-primary" ng-click="showOptions=!showOptions">
+                                        <span ng-if="!showOptions">Refine Results</span><span ng-if="showOptions">Hide Filters</span>
+                                    </span>
+                                </div>
+
+                                <div ng-if="showOptions" class="listing-search">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p class="text-muted">Key Word Search</p>
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control search-field" ng-model="keyword" placeholder="Enter search keyword..." />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" ng-click="updateKeyword(keyword)">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <hr/>
+                                        <p class="text-muted">Core Category</p>
+
+                                        <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                                            <div class="checkbox" ng-repeat="(key, cat) in allCategories | orderBy: 'title'">
+                                                <label ng-if="category && cat.alias === category">
+                                                    <input type="checkbox" data-ng-model="cat._id" ng-change="mainCategoryChanged()"
+                                                           ng-checked="cat.alias === category">
+                                                    {{cat.title}}
+                                                </label>
+
+                                                <label ng-if="!category">
+                                                    <input type="checkbox" data-ng-model="cat._id" ng-change="mainCategoryChanged(cat.alias)"
+                                                           ng-checked="cat.alias === category">
+                                                    {{cat.title}}
+                                                </label>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="primaryCategories">
+                                        <hr/>
+                                        <p class="text-muted">Primary Category</p>
+
+                                        <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                                            <div class="checkbox" ng-repeat="(key, value) in primaryCategories">
+                                                <label ng-if="primaryCategory && key === primaryCategory">
+                                                    <input type="checkbox" data-ng-model="value" ng-change="primaryCategorySelected()"
+                                                           ng-checked="key === primaryCategory">
+                                                    {{value}}
+                                                </label>
+
+                                                <label ng-if="!primaryCategory">
+                                                    <input type="checkbox" data-ng-model="value" ng-change="primaryCategorySelected(key)"
+                                                           ng-checked="key === primaryCategory">
+                                                    {{value}}
+                                                </label>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="secondaryCategories">
+                                        <hr/>
+                                        <p class="text-muted">Secondary Category</p>
+
+                                        <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                                            <div class="checkbox" ng-repeat="(key, value) in secondaryCategories">
+                                                <label ng-if="secondaryCategory && key === secondaryCategory">
+                                                    <input type="checkbox" data-ng-model="value" ng-change="secondaryCategorySelected()"
+                                                           ng-checked="key === secondaryCategory">
+                                                    {{value}}
+                                                </label>
+
+                                                <label ng-if="!secondaryCategory">
+                                                    <input type="checkbox" data-ng-model="value" ng-change="secondaryCategorySelected(key)"
+                                                           ng-checked="key === secondaryCategory">
+                                                    {{value}}
+                                                </label>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="tertiaryCategories">
+                                        <hr/>
+                                        <p class="text-muted">Item Type</p>
+
+                                        <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                                            <div class="checkbox" ng-repeat="(key, value) in tertiaryCategories">
+                                                <label ng-if="itemType && key === itemType">
+                                                    <input type="checkbox" data-ng-model="value" ng-change="tertiaryCategorySelected()"
+                                                           ng-checked="key === itemType">
+                                                    {{value}}
+                                                </label>
+
+                                                <label ng-if="!itemType">
+                                                    <input type="checkbox" data-ng-model="value" ng-change="tertiaryCategorySelected(key)"
+                                                           ng-checked="key === itemType">
+                                                    {{value}}
+                                                </label>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <hr/>
+                                        <p class="text-muted">Shipping</p>
+
+                                        <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" data-ng-model="freeShipping">Free Shipping
+                                                </label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" data-ng-model="standardShipping">Standard Shipping
+                                                </label>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <hr/>
+                                        <p class="text-muted">Merchant Status</p>
+
+                                        <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" data-ng-model="verifiedMerchant">Verified Merchant
+                                                </label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" data-ng-model="unverifiedMerchant">Unverified Merchant
+                                                </label>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <hr/>
+                                        <p class="text-muted">Payment</p>
+
+                                        <ul class="hide-bullets" style="text-align: left; padding-left: 40px">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" data-ng-model="bitcoinDirect">Bitcoin Direct
+                                                </label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" data-ng-model="moderatedPayment">Moderated Payment
+                                                </label>
+                                            </div>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <hr/>
+                                        <p class="text-muted">Price</p>
+
+                                        <rzslider class="price-slider"
+                                                  rz-slider-model="priceSlider.minValue"
+                                                  rz-slider-high="priceSlider.maxValue"
+                                                  rz-slider-options="priceSlider.options">
+                                        </rzslider>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <hr/>
+
+                                        <button ng-click="searchUserListings(false)" class="btn btn-primary btn-full-width">
+                                            <i class="icon icon-spinner12"></i> Update results
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- *END* MOBILE SELLER INFO -->
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 margin-top-10 ordering-option">
+                                <p class="order-items">Order items by:</p>
+
+                                <select class="form-control" ng-change="sortListings(orderBy)" ng-model="orderBy"
+                                        ng-options="sort.title for sort in sortOptions">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                                <hr/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hidden-xs hidden-sm" ng-if="!listings.length">
+                    <div class="alert alert-warning" ng-if="dataLoaded">
+                        No listings found, please try re-defining your search criteria...
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="user-listings margin-top-15">
+                        <div deckgrid source='listings' cardTemplate='/modules/core/directives/boxListing.html' class='deckgrid'></div>
+                    </div>
+                </div>
+
+                <div class="text-center load-more-button-container" ng-if="showLoadBtn()">
+                    <button class="btn btn-primary btn-white turq" ng-click="loadMode()">LOAD MORE</button>
+                </div>
+
+                <div class="text-center" ng-if="!listingsReady">
+                    <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+                    <p class="text-muted margin-top-20">Loading Listings</p>
+                </div>
+            </div>
+        </div>   
+    </div>
+</section>
+<div class="container-fluid border-bottom"></div>

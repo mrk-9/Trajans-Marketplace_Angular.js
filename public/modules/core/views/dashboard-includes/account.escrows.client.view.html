@@ -1,0 +1,358 @@
+<div class="dashboard-wrapper">
+    <div ng-if="!dataLoaded" class="text-center">
+        <i class="fa fa-spinner fa-spin no-margin loader-icon"></i>
+    </div>
+    <div ng-if="dataLoaded">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2 ng-if="!escrowSelected">
+            Manage Escrows
+        </h2>
+            <h2 ng-if="escrowSelected">
+            <a class="btn btn-secondary pull-right" ng-click="backToEscrows()">Back to escrows</a>
+            Escrow Management
+        </h2>
+            <hr>
+        </div>
+        <div ng-if="!escrows.length">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="alert alert-warning">
+                    No escrows found...
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 escrow-information" ng-if="!escrowSelected && escrows.length">
+            <div ng-repeat="escrow in escrows">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Created:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                        {{escrow.created | amDateFormat:'dddd, MMMM Do YYYY : HH:mm:ss'}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Merchant:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                        <a target="_blank" href="#!/users/{{escrow.buyer._id}}">{{escrow.seller.displayName}}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Buyer:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                        <a target="_blank" href="#!/users/{{escrow.buyer._id}}">{{escrow.buyer.displayName}}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Escrow Address:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                        <b><a target="_blank" href="https://blockchain.info/address/{{escrow.escrowAddress}}">{{escrow.escrowAddress}}</a></b>
+                    </div>
+                </div>
+                <div class="row" ng-if="escrow.change">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Change Address:
+                    </div>
+                    <!--TODO Replace with blockchain for non testnet -->
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                        <a target="_blank" href="https://blockchain.info/address/{{escrow.change}}">{{escrow.change}}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Recipient Address:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                        <a target="_blank" href="https://blockchain.info/address/{{escrow.recipientAddress}}">{{escrow.recipientAddress}}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Total Purchase:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 bold green">
+                        {{escrow.amount}} BTC
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Current Balance:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 bold green">
+                        {{escrow.balance}} BTC <span ng-if="escrow.status === 'UNCONFIRMED PAID'">(Unconfirmed)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Escrow Status:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-warning" ng-class="{ 'green': escrow.status === 'ESCROW PAID' || 'blue': escrow.status === 'COMPLETE',  'red': escrow.status === 'CANCELLED'}">
+                        {{escrow.status}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Order Status:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-warning" ng-class="{ 'green': escrow.status === 'ESCROW PAID' || 'blue': escrow.status === 'COMPLETE',  'red': escrow.status === 'CANCELLED'}">
+                        {{escrow.order.status}}
+                    </div>
+                </div>
+                <div class="row" ng-if="escrow.txid">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        Transaction:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-warning">
+                        <a target="_blank" href="https://blockchain.info/tx/{{escrow.txid}}">View transaction</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <a class="btn btn-sm btn-primary" ng-click="selectEscrow(escrow)">View Escrow</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="escrowSelected && (escrow.status !== 'COMPLETE' && escrow.status !== 'CANCELLED')">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <p class="text-muted">
+                    This escrow is related to order id : <b>{{escrow.order._id}}</b>
+                </p>
+                <p ng-if="escrow.status === 'ESCROW PAID'" class="bold">
+                    <i class="icon icon-checkmark green"></i> <span>This escrow is fully paid.</span>
+                </p>
+                <div class="margin-top-20" ng-if="escrow.status !== 'CANCELLED'">
+                    <a ng-if="user._id === escrow.buyer._id" class="btn btn-primary btn-sm" href="/#!/dashboard/buying/{{escrow.order._id}}">
+                        <i class="icon icon-files"></i> View order details
+                    </a>
+                    <a ng-if="user._id === escrow.seller._id" class="btn btn-primary btn-sm" href="/#!/dashboard/selling/{{escrow.order._id}}">
+                        <i class="icon icon-files"></i> View order details
+                    </a>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div ng-if="escrowSelected">
+            <div class="col-xs-12 col-sm-12 col-lg-5 ">
+                <div class="col-md-12 text-center">
+                    <p class="margin-top-20 bold">
+                        <a target="_blank" href="https://blockchain.info/address/{{escrow.escrowAddress}}">{{escrow.escrowAddress}}</a>
+                    </p>
+                    <div>
+                        <h4 class="green bold">Amount payable : {{escrow.amount}} BTC</h4>
+                    </div>
+                    <div class="margin-top-20">
+                        <img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{escrow.escrowAddress}}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h4 class="col-xs-12 col-sm-12 col-md-12 col-md-12 text-warning" ng-class="{ 'green': escrow.status === 'ESCROW PAID' || escrow.status === 'COMPLETE',  'red': escrow.status === 'CANCELLED'}">
+                            {{escrow.status}} : {{escrow.balance}} BTC
+                        </h4>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <p class="text-muted text-center">
+                            1 confirmation is needed to confirm the balance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-7  escrow-information">
+                <div class="col-md-12 margin-top-20">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Created:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                            {{escrow.created | amDateFormat:'dddd, MMMM Do YYYY : HH:mm:ss'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Merchant:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                            <a target="_blank" href="#!/users/{{escrow.buyer._id}}">{{escrow.seller.displayName}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Buyer:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                            <a target="_blank" href="#!/users/{{escrow.buyer._id}}">{{escrow.buyer.displayName}}</a>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="escrow.change">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Change Address:
+                        </div>
+                        <!--TODO Replace with blockchain for non testnet -->
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                            <a target="_blank" href="https://blockchain.info/address/{{escrow.change}}">{{escrow.change}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Recipient Address:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-muted">
+                            <a target="_blank" href="https://blockchain.info/address/{{escrow.recipientAddress}}">{{escrow.recipientAddress}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Total Purchase:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 green bold text-muted">
+                            {{escrow.amount}} BTC
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Current Balance:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 bold green">
+                            {{escrow.balance}} BTC <span ng-if="escrow.status === 'Unconfirmed Paid'">(Unconfirmed)</span>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="escrow.txid">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Transaction:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 text-warning">
+                            <a target="_blank" href="https://blockchain.info/tx/{{escrow.txid}}">View transaction</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p class="text-muted">
+                                This escrow is related to order id : <b>{{escrow.order._id}}</b>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="escrow.status !== 'Escrow Paid'">
+                            <h4>Escrow Actions</h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if="!escrow.order.escrowSimple">
+                            <button class="btn btn-sm btn-primary" ng-if="escrow.status === 'ESCROW PAID' || escrow.status === 'SIGNED WITH ONE KEY'" ng-click="signKey(escrow)"><i class="icon icon-key"></i> Sign Escrow</button>
+                            <button class="btn btn-sm btn-primary" ng-if="escrow.status !== 'REFUND REQUESTED' && escrow.status !== 'REFUND APPROVED' && escrow.status !== 'ESCROW PAID' && escrow.status !== 'COMPLETE' && escrow.status !== 'SIGNED WITH ONE KEY' && escrow.status !== 'CANCELLED'" ng-click="refreshBalance(escrow)"><i class="icon icon-loop3"></i> Refresh Balance</button>
+                            <a href="/#!/account/messages/user/{{escrow.seller._id}}" class="btn btn-sm btn-primary" ng-if="escrow.buyer._id === user._id && !escrow.order">Message {{escrow.seller.username}}</a>
+                            <a href="/#!/account/messages/user/{{escrow.buyer._id}}" class="btn btn-sm btn-primary" ng-if="escrow.seller._id === user._id && !escrow.order">Message {{escrow.buyer.username}}</a>
+                            <button class="btn btn-sm btn-red" ng-if="escrow.status === 'UNPAID'" ng-click="cancelEscrow(escrow._id)">Cancel Escrow</button>
+                            <a ng-if="user._id === escrow.seller._id && escrow.status !== 'CANCELLED'" class="btn btn-primary btn-sm" href="/#!/dashboard/selling/{{escrow.order._id}}">
+                                <i class="icon icon-files"></i> View order details
+                            </a>
+                            <p class="text-muted" ng-if="escrow.status === 'CANCELLED'">
+                                This order and escrow have been cancelled.
+                            </p>
+                            <p class="text-muted" ng-if="escrow.status === 'COMPLETE'">
+                                This order and escrow have been completed.
+                            </p>
+                        </div>
+                        <!-- SIMPLE ESCROW ACTIONS -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if="escrow.order.escrowSimple">
+                            <button class="btn btn-sm btn-primary" ng-if="escrow.status !== 'REFUND REQUESTED' && escrow.status !== 'REFUND APPROVED' && escrow.status !== 'ESCROW PAID' && escrow.status !== 'COMPLETE' && escrow.status !== 'SIGNED WITH ONE KEY' && escrow.status !== 'CANCELLED'" ng-click="refreshBalance(escrow)"><i class="icon icon-loop3"></i> Refresh Balance</button>
+                            <button class="btn btn-sm btn-red" ng-if="escrow.status === 'UNPAID'" ng-click="cancelEscrow(escrow._id)">Cancel Escrow</button>
+                        </div>
+                        <!-- -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <hr>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="margin-bottom-20" ng-if="(escrowSelected && escrow.buyer._id === user._id) && (escrow.status === 'ESCROW PAID' || escrow.status === 'SIGNED WITH ONE KEY' || escrow.status === 'REFUND REQUESTED')">
+                    <div ng-if="!escrow.refundRequested">
+                        <h3>Request a refund from the seller</h3>
+                        <button class="btn btn-sm btn-primary" ng-click="requestRefund(escrow)"><i class="icon icon-arrow"></i> Request Refund</button>
+                    </div>
+                    <div ng-if="escrow.refundRequested">
+                        <h4>Refund has been requested from the buyer</h4>
+                        <hr>
+                        <h5 class="bold">
+                            Reason
+                        </h5>
+                        <p>
+                            {{escrow.refundReason}}
+                        </p>
+                        <h5 class="bold">
+                             Refund address
+                        </h5>
+                        <p>
+                            {{escrow.refundAddress}}
+                        </p>
+                        <div class="margin-top-20">
+                            <div class="alert alert-info">
+                                The seller has been notified of the refund request, and will be able to confirm or cancel the refund. If they confirm the refund, this will update the escrow's recipient address to your refund address. Once this has been done, you still both need sign
+                                the escrow and release the funds.
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-muted">
+                                Having problems, is the freelancer unresponsive? Please get in touch with our <a href="http://Trajansmarket.zendesk.com/">support team</a> and we can look into the dispute for you. Please give a detailed explanation why
+                                you are contacting us.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="margin-top-20 col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="(escrowSelected && escrow.seller._id === user._id) && (escrow.status === 'REFUND REQUESTED')">
+                <h4>A Refund has been requested from the buyer</h4>
+                <h5 class="bold margin-top-20">
+                    Reason
+                </h5>
+                <p>
+                    {{escrow.refundReason}}
+                </p>
+                <h5 class="bold">
+                    Refund address
+                </h5>
+                <p>
+                    {{escrow.refundAddress}}
+                </p>
+                <div>
+                    <button class="btn btn-sm btn-primary" ng-click="confirmRefund(escrow)">Confirm Refund</button>
+                    <button class="btn btn-sm btn-secndary" ng-click="cancelRefund(escrow)">Decline Refund</button>
+                </div>
+                <div>
+                    <div class="alert alert-info">
+                        If you confirm the refund, both you and the buyer will still need to sign the escrow off, however funds will then be released to the agreed refund adresss, not the original recipient address.
+                    </div>
+                </div>
+            </div>
+            <div class="margin-top-20 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>Escrow Audit Trail</h3>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Event</th>
+                            <th>Date / Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="audit in escrow.escrowAudits">
+                            <td>{{audit.username}}</td>
+                            <td>{{audit.event}}</td>
+                            <td>{{audit.created | amDateFormat:'dddd, MMMM Do YYYY : HH:mm:ss'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

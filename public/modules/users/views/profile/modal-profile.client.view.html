@@ -1,0 +1,170 @@
+<div class="modal-user-profile" ng-init="init()">
+    <div class="modal-header text-center">
+        <div class="pull-right"><button class="fa fa-times pointer modal-close-btn" ng-click="cancelModal()"></button></div>
+        <h4 class="modal-title">ABOUT: {{user.merchantName ? user.merchantName : user.username}}</h4>
+    </div>
+    <div ng-if="user.hasUploadedBanner">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="user-profile-banner-image-container">
+                    <img class="user-profile-banner-image" ng-src="/userbanneruploads/{{user.userBannerName}}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="user-profile-merchant-info">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                    <div class="user-profile-image text-center">
+                        <div>
+                            <img ng-src="{{user.profileImage}}" />
+                        </div>
+                    </div>
+                    <div class="user-profile-merchant-since text-center padding-top-20">
+                        Merchant Since:
+                        <br/> {{user.created | date: 'dd MMM yyyy'}}
+                        <br/>
+                        <a class="bold margin-top-10" ng-click="cancelModal(); openMessageModal()">
+                            Send Message
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="user-profile-merchant-description">
+                        {{user.profileBlurb}}
+                    </div>
+                    <div class="row">
+                        <div class="listing-labels-small padding-top-50">
+                           <!-- <div ng-if="usersPlan.group !== 'Pro' && user.verified" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 margin-bottom-10">
+                                <div class="listing-table-box">
+                                    <div class="blue-label">Verified Merchant</div>
+                                </div>
+                            </div>
+                            <div ng-if="usersPlan.group !== 'Pro' && user.verified && user.hasWalletAddress" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 margin-bottom-10">
+                                <div class="listing-table-box">
+                                    <div class="green-label">Bitcoin Direct</div>
+                                </div>
+                            </div>
+                            <div ng-if="user.hasWalletAddress" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                <div class="listing-table-box">
+                                    <div class="orange-label">Buyer Protection</div>
+                                </div>
+                            </div>-->
+
+                                        <div ng-if="usersPlan.group !== 'Pro' && user.verified" class="col-xs-7 col-sm-4 col-md-4 col-lg-4">
+                                            <div class="tool-pos" tooltip-placement="top" tooltip="A verified merchant label indicates that this merchant has been successfully I.D verified.">
+                                                <div class="blue-label"><span></span>Verified <br> Merchant</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="usersPlan.group !== 'Pro' && user.verified && user.hasWalletAddress" class="col-xs-7 col-sm-4 col-md-4 col-lg-4">
+                                                <div class="tool-pos" tooltip-placement="top" tooltip="A bitcoin direct label indicates that this merchant accepts bitcoin payment direct to their digital wallet.">
+                                                    <div class="green-label"><span></span>Bitcoin <br> Direct</div>
+                                                </div>
+                                        </div>
+                                        <div ng-if="user.hasWalletAddress" class="col-xs-7 col-sm-4 col-md-4 col-lg-4">
+                                                <div class="tool-pos" tooltip-placement="top" tooltip="A buyer protection label indicates that this merchant accepts a multisignature escrow payment on this listing.">
+                                                    <div class="orange-label"><span></span>Buyer <br> Protection</div>
+                                                </div>
+                                        </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="transactions col-xs-12 margin-top-50">
+                            <div class="transaction-container">
+                                <div class="transaction-count">{{user.totalTransactions}}</div> Transactions
+                            </div>
+                            <div class="marker-container">
+                                <div class="marker"><i class="glyphicon glyphicon-map-marker" /></div> <div class="location-text">{{user.country}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="single-line"></div>
+    <div class="modal-body reviews-container">
+        <div class="row">
+            <div class="col-xs-9 col-xs-offset-3">
+                <div ng-if="allReviews.length" class="total-reviews">{{allReviews.length}} Reviews</div>
+                <div class="seller-rating">
+                    <div class="rating-stars">
+                        <span ng-if="starScore === 0">
+                            <i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                        </span>
+                        <span ng-if="starScore === 1">
+                            <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                        </span>
+                        <span ng-if="starScore === 2">
+                            <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                        </span>
+                        <span ng-if="starScore === 3">
+                            <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                        </span>
+                        <span ng-if="starScore === 4">
+                            <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/>
+                        </span>
+                        <span ng-if="starScore === 5">
+                            <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/>
+                        </span>
+                    </div>
+                    <div class="rating-score" ng-if="decimalScore">
+                        | Score: {{decimalScore}}
+                    </div>
+                    <div ng-if="!allReviews.length" class="rating-score text-muted">
+                        User not yet rated.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="review in allReviews | orderBy:'created':true | limitTo:limit ">
+            <div class="review">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                        <div class="reviewer-profile-image text-center">
+                            <div ng-if="!review.createdBy.hasUploadedImage">
+                                <img class="avatar avatar-130 photo" class="img-responsive" data-ng-src="http://placehold.it/100x100&amp;text={{user.merchantName ? user.merchantName : user.username | limitTo: 1 | uppercase}}">
+                            </div>
+                            <div ng-if="review.createdBy.hasUploadedImage">
+                                <img ng-src="/userimageuploads/{{review.createdBy.userImageName}}" />
+                            </div>
+                            <div class="merchant-name" ng-if="review.createdBy.merchantName" data-ng-bind="review.createdBy.merchantName"></div>
+                            <div class="merchant-name" ng-if="!review.createdBy.merchantName" data-ng-bind="review.createdBy.username"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div text-collapse text-collapse-max-length="245" text-collapse-text="{{review.description}}" class="review-description"></div>
+                        <div class="review-location">
+                            <span ng-if="review.createdBy.country">From {{review.createdBy.country}} - </span><span data-ng-bind="review.created | date: 'MMMM yyyy'"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="allReviews.length > 2 && results.length !== allReviews.length" class="review-count">
+            {{user.merchantName ? user.merchantName : user.username}} has {{allReviews.length - results.length}} review<span ng-if="allReviews.length > 3">s</span> for other purchases.
+        </div>
+        <div ng-if="allReviews.length > 2 && results.length !== allReviews.length" class="load-more-reviews">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <a class="btn" ng-click="loadMoreReviews()">
+                        View More Reviews
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="modal-featured-merchants-cancel">
+                    <a class="btn btn-primary" ng-click="cancelModal()">
+                    Close
+                </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

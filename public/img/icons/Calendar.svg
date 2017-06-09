@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" id="Layer_1" x="0px" y="0px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+<style>
+	.style0{
+		stroke-linejoin:	round;
+		stroke:	#82888a;
+		stroke-width:	2;
+		stroke-miterlimit:	10;
+		fill:	none;
+	}
+</style><path d="M10 5H2C1.4 5 1 5.4 1 6v42 c0 0.6 0.4 1 1 1h46c0.6 0 1-0.4 1-1V6c0-0.6-0.4-1-1-1h-8" class="style0"/>
+<line x1="36" y1="5" x2="14" y2="5" class="style0"/>
+<path d="M37 1c-0.6 0-1 0.4-1 1v6 c0 0.6 0.4 1 1 1h2c0.6 0 1-0.4 1-1V2c0-0.6-0.4-1-1-1H37z" class="style0"/>
+<path d="M11 1c-0.6 0-1 0.4-1 1v6 c0 0.6 0.4 1 1 1h2c0.6 0 1-0.4 1-1V2c0-0.6-0.4-1-1-1H11z" class="style0"/>
+<line x1="1" y1="15" x2="49" y2="15" class="style0"/>
+<polygon points="7,22 43,22 43,43 30,43 7,43" class="style0"/>
+<line x1="7" y1="29" x2="43" y2="29" class="style0"/>
+<line x1="7" y1="36" x2="43" y2="36" class="style0"/>
+<line x1="25" y1="22" x2="25" y2="43" class="style0"/>
+<line x1="16" y1="22" x2="16" y2="43" class="style0"/>
+<line x1="34" y1="22" x2="34" y2="43" class="style0"/>
+</svg>

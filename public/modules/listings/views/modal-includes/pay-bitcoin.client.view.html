@@ -1,0 +1,177 @@
+<div class="row extra-padding" ng-if="!hasPaid">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p class="bold hidden-xs text-muted" ng-if="order.multisigEscrow">
+            Send <span class="black">{{order.multisigEscrow.amount}}</span> BTC to
+            <span class="black">{{order.multisigEscrow.escrowAddress}}</span>
+        </p>
+        <p class="bold hidden-xs text-muted" ng-if="order.bitposUsed">
+            Send <span class="black">{{order.totalOverallCostBTC}}</span> BTC to
+            <span class="black">{{order.bitcoin_address}}</span>
+        </p>
+        <small class="bold visible-xs  text-muted text-center" ng-if="order.multisigEscrow">
+            Send <span class="black">{{order.multisigEscrow.amount}}</span> BTC to 
+            <span class="black">{{order.multisigEscrow.escrowAddress}}</span>
+        </small>
+        <small class="bold visible-xs  text-muted text-center" ng-if="order.bitposUsed">
+            Send <span class="black">{{order.totalOverallCostBTC}}</span> BTC to 
+            <span class="black">{{order.bitcoin_address}}</span>
+        </small>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-center">
+        <img ng-src="{{qrCode}}" />
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 hidden-xs countdown-on" style="margin-top:40px;">
+        <p>
+            <span class="label label-success count-down-timer">
+                Remaining time : {{countDown}}
+            </span>
+        </p>
+        <p class="margin-bottom-0">
+            <button clipboard supported="supported" text="order.multisigEscrow.escrowAddress" on-copied="copySuccess()" on-error="fail()" type="button" class="btn btn-primary">
+               Copy BTC address 
+            </button>
+        </p>
+        <p ng-if="!order.escrowSimple && !order.bitposUsed">
+            <a ng-click="goToOrderPage()" type="button" class="btn btn-primary">
+                View Order Page
+            </a>
+        </p>
+        <h4>
+            Pay with Altcoins
+        </h4>
+        <p>
+            <select ng-change="coinChosen(chosenCoin)" class="form-control" ng-model="chosenCoin" ng-options="coin as v.name for (coin, v) in availableCoins">
+                <option value=''>- Choose a coin -</option>
+            </select>
+        </p>
+    </div>
+
+    <div ng-if="chosenCoin" class="margin-top-20 col-xs-12 col-sm-12 col-md-12 col-lg-12 hidden-sm hidden-xs choose-coin">
+        <div ng-if="!paymentAddressLoading">
+            <div class=" margin-top-20">
+                Pay the balance with <b>{{$parent.$parent.$parent.chosenCoin.name}}</b>
+            </div>
+            <div class="col-xs-3 margin-top-20">
+                <p>
+                    <img width="100" ng-src="{{$parent.$parent.$parent.chosenCoin.image}}" />
+                </p>
+            </div>
+            <div class="col-xs-9 margin-top-20">
+                <div>
+                    <small>
+                            Deposit address: <b>{{$parent.$parent.$parent.shift.deposit}}</b>
+                        </small>
+                </div>
+                <div>
+                    <small>
+                            Depost amount: <b>{{shift.depositAmount}}</b> {{$parent.$parent.$parent.chosenCoin.symbol}}
+                        </small>
+                </div>
+                <p>
+                    <button clipboard supported="supported" text="shift.deposit" on-copied="copySuccess()" on-error="fail(err)" class="btn btn-sm btn-primary">Copy address to clipboard</button>
+                </p>
+            </div>
+        </div>
+        <div ng-if="paymentAddressLoading">
+            <div class="col-xs-12 margin-top-20">
+                Generating payment address for <b>{{$parent.$parent.$parent.chosenCoin.name}}</b>, please wait...
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 text-center visible-xs countdown-on">
+        <p>
+            <span class="label label-success count-down-timer margin-top-20">
+                Remaining time : {{countDown}}
+            </span>
+        </p>
+        <p class="margin-bottom-0">
+            <button clipboard supported="supported" text="order.multisigEscrow.escrowAddress" on-copied="copySuccess()" on-error="fail()" type="button" class="btn btn-primary">
+               Copy BTC address 
+            </button>
+        </p>
+        <p>
+            <a ng-click="goToOrderPage()" type="button" class="btn btn-primary">
+               Go to order page
+            </a>
+        </p>
+        <h4>
+            Pay with Altcoins
+        </h4>
+        <p>
+            <select ng-change="coinChosen(chosenCoin)" class="form-control" ng-model="chosenCoin" ng-options="coin as v.name for (coin, v) in availableCoins">
+                <option value=''>- Choose a coin -</option>
+            </select>
+        </p>
+        <div ng-if="chosenCoin" class="margin-top-20 col-xs-12 col-sm-12 col-md-12 col-lg-12 ng-scope text-left choose-coin">
+            <div ng-if="!paymentAddressLoading">
+                <div class=" margin-top-20">
+                    Pay the balance with <b>{{$parent.$parent.$parent.chosenCoin.name}}</b>
+                </div>
+                <div class="col-xs-3 margin-top-20">
+                    <p>
+                        <img width="100" ng-src="{{$parent.$parent.$parent.chosenCoin.image}}" />
+                    </p>
+                </div>
+                <div class="col-xs-9 margin-top-20">
+                    <div>
+                        <small>
+                            Deposit address: <b>{{$parent.$parent.$parent.shift.deposit}}</b>
+                        </small>
+                    </div>
+                    <div>
+                        <small>
+                            Depost amount: <b>{{shift.depositAmount}}</b> {{$parent.$parent.$parent.chosenCoin.symbol}}
+                        </small>
+                    </div>
+                    <p class="margin-top-20">
+                        <button clipboard supported="supported" text="shift.deposit" on-copied="copySuccess()" on-error="fail(err)" class="btn btn-sm btn-primary">Copy address to clipboard</button>
+                    </p>
+                </div>
+            </div>
+            <div ng-if="paymentAddressLoading">
+                <div class="col-xs-12 margin-top-20">
+                    Generating payment address for <b>{{$parent.$parent.$parent.chosenCoin.name}}</b>, please wait...
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="!order.bitposUsed">
+            <div class="margin-top-20">
+                <h4>CONFIRMED PAID : {{order.multisigEscrow.balance}} BTC</h4>
+            </div>
+            <div>
+                <p ng-repeat="utxo in utxos" class="text-muted">
+                    Transaction found : <b class="black">{{utxo.amount}}</b> BTC - Confirmations <b class="black">{{utxo.confirmations}}</b>
+                </p>
+                <p ng-if="!utxos.length">
+                    No bitcoin payment found yet...
+                </p>
+            </div>
+            <small class="text-muted">
+            1 network confirmation is required to confirm the balance.
+        </small>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="order.bitposUsed">
+            <div class="margin-top-20">
+                <h4>PAID : {{order.bitposBalance}} BTC</h4>
+                <p>
+                    Payment status : {{order.status}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row extra-padding  text-center" ng-if="hasPaid">
+    <div class="col-xs-12">
+        <h3 class="margin-top-20">
+            <i class="icon icon-checkmark green"></i> The order has been paid.
+        </h3>
+    </div>
+    <div class="col-xs-12">
+        <h4>Redirecting, please wait...</h4>
+        <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+    </div>
+</div>

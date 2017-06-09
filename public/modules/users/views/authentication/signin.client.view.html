@@ -1,0 +1,46 @@
+<section data-ng-controller="AuthenticationController">
+    <form data-ng-submit="signin()" class="signin form-horizontal" autocomplete="off">
+        <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 sign-up-form ">
+            <h4 class="sign-up-title text-center">
+				Sign in to trajans.market
+			</h4>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label left" for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label class="control-label left" for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+                </div>
+                <div class="text-left form-group sign-in-up" ng-hide="twoFactor">
+                    <button type="submit" class="btn btn-primary">Sign in</button>&nbsp; or&nbsp;
+                    <a href="/#!/signup">Sign up</a>
+                </div>
+                <div data-ng-show="error" class="text-center text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 sign-up-form no-padding-left">
+            <div class="text-left">
+                <a href="/#!/password/forgot">Forgot your password?</a>
+            </div>
+        </div>
+        <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 sign-up-form " ng-if="twoFactor">
+            <h4 class="sign-up-title text-center">
+				Enter Two Factor Authentication Password
+			</h4>
+            <div>
+                <fieldset>
+                    <div class="form-group">
+                        <input type="text" name="login2Fa" data-ng-model="credentials.faRandomNumber" id="inputLogin2Fa" class="form-control" placeholder="Enter code...">
+                    </div>
+                </fieldset>
+                <div class="text-left form-group sign-in-up">
+                	<button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

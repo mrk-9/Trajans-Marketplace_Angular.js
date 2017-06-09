@@ -1,0 +1,85 @@
+<div class="dashboard-wrapper">
+    <section class="row text-center content" ng-if="confirm">
+        <h3 class="col-md-12">
+                    <i class="icon icon-checkmark green"></i> Confirm buyer preferences update
+                </h3>
+        <p class="text-muted">
+            Great! We have e-mailed you a confirmation link.
+        </p>
+        <p class="text-muted">
+            Please check your email and confirm your profile update by clicking on the link we sent you. Sometimes there are delays sending profile update e-mails, please also check your junk mail if you haven't recieved an e-mail from Trajans before.
+        </p>
+    </section>
+    <div ng-if="!confirm">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>Buyer Preferences</h2>
+            <hr>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="text-muted">These details will be used for checkout and delivery when you are buying items from the store.</p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding-left no-margin-left buyer-preferences">
+            <form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" autocomplete="off">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="checkoutStreetAddress">Street Address</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="checkoutStreetAddress" name="checkoutStreetAddress" class="form-control" data-ng-model="user.checkoutStreetAddress" placeholder="Street Address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="checkoutTown">Town</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="checkoutTown" name="checkoutTown" class="form-control" data-ng-model="user.checkoutTown" placeholder="Town" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="checkoutCountry">City, Country</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input id="checkoutCountry" type="text" ng-model="user.checkoutCountry" placeholder="Search location" typeahead-loading="loadingLocations" typeahead="address for address in getLocation($viewValue)" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="checkoutPostcode">Postcode</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="checkoutPostcode" name="checkoutPostcode" class="form-control" data-ng-model="user.checkoutPostcode" placeholder="Postcode" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="checkoutTelephoneNumber">Telephone</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="checkoutTelephoneNumber" name="checkoutTelephoneNumber" class="form-control" data-ng-model="user.checkoutTelephoneNumber" placeholder="Telephone" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-large btn-primary">Save Buyer Preferences</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

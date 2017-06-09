@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="typewriter-options">
+      <div class="typewriter-status text-center">
+        <input type="checkbox" ng-change="changeTypewriterStatus(defaults.typewriterEnabled)" ng-model="defaults.typewriterEnabled" /> <strong>Typewriter Enabled</strong>
+      </div>
+
+      <div ng-if="!defaults.typewriterEnabled" class="text-center padding-top-20">
+        The typewriter is currently disabled.
+      </div>
+
+      <div ng-if="defaults.typewriterEnabled">
+        <div class="new-phrase">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-lg-offset-3 col-md-offset-3 step">
+              <div class="simple-text">
+                <h3>Add Text</h3>
+                <div class="form-container">
+                  <form>
+                    <span>Please enter some text to add to the banner.</span><br/>
+                    <span>(Max of around 30 chars)</span>
+                    <input class="text-input" type="text" tabindex="1" ng-model="text.pendingText" name="text-input" autofocus="autofocus" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="text.pendingText" class="row">
+            <div class="text-submit">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 border-r">
+                <div class="pending-banner-text" ng-select ng-model="selection" select-multiple>
+                  <h3>Pending Text</h3>
+                  <p>To replace a word with an icon, enter a valid glyphicon name into the textbox to the top right, before clicking on the word you'd like it to replace.</p>
+                  <div class="pending-word-container">
+                    <div class="pending" ng-repeat="word in text.pendingText.split(' ') track by $index">
+                      <span class="word" ng-select-option="$index" select-class="{'selected': $optSelected}">{{ word }}</span>
+                    </div>
+                  </div>
+                  <div ng-if="text.pendingReplaced" class="pending-replaced-container">
+                    <span class="pending-label">Final Icon Text</span><br/>
+                    <span ng-bind-html="text.pendingReplaced" class="pending-replaced"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="text-icons">
+                  <h3>Replace word with icon</h3>
+                  <span>Please enter the name of the glyphicon you would like to use as a word replacement e.g. 'star'.</span>
+                  <a class="link" target="_blank" href="http://getbootstrap.com/components/">List of available glyphicons</a>
+                  <div class="glyph-name">
+                    <div class="form-container">
+                      <form>
+                        <input type="text" tabindex="2" name="glyph-name" ng-model="glpyhName" placeholder="glyphicon-"/>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="chosen-icon">
+                    <h6>Chosen Icon</h6>
+                    <i class="glyphicon glyphicon-{{glpyhName}}"></i><br/>
+                    <button ng-show="adminOptions.areYouSure === false" ng-click="startOver()" class="btn btn-secondary">
+                      Start Over <i class="glyphicon glyphicon-refresh"></i>
+                    </button>
+                    <button ng-click="replaceWordWithIcon(text.pendingText, selection, glpyhName)" class="btn btn-primary">Replace Selected Word</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 padding-top-50 text-center">
+                  <div ng-show="text.pendingReplaced">
+                    <button ng-show="adminOptions.areYouSure === false" ng-click="addTextToArray(phraseObject)" class="btn btn-primary">
+                      Add to Homepage
+                      <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                  </div>
+                  <div ng-show="!text.pendingReplaced">
+                    <button ng-show="adminOptions.areYouSure === false" ng-click="addTextToArray(phraseObject)" class="btn btn-primary">
+                      Add to Homepage
+                      <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                  </div>
+                  <div ng-show="adminOptions.areYouSure === true" class="are-you-sure">
+                    <p>Are you sure you wish to add this to the homepage typewriter?</p>
+                    <button ng-click="adminOptions.areYouSure = false" class="btn btn-secondary">NO, DON'T ADD IT</button>
+                    <button ng-click="updateTypewriter(phraseHolder)" class="btn btn-primary">ADD IT!</button>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="current-text">
+          <div ng-if="defaults.typewriterText.length" class="row">
+            <div class="col-xs-12">
+              <div class="live-phrases">
+                <h3>Live Phrases</h3>
+                <div class="phrases" ng-repeat="type in defaults.typewriterText track by $index">
+                  <div class="single-phrase">
+                    <span class="index">{{$index+1}}.</span>
+                    <span class="btns">
+                      <button ng-click="removeFromTypewriter($index)" class="btn btn-remove red"><i class="glyphicon glyphicon-remove"></i></button>
+                      <button ng-if="$index !== 0" ng-click="moveUp($index)" class="btn btn-up"><i class="glyphicon glyphicon-arrow-up"></i></button>
+                      <button ng-if="!$index" ng-click="moveDown($index)" class="btn btn-up"><i class="glyphicon glyphicon-arrow-down"></i></button>
+                    </span>
+                    <span class="the-text" ng-bind-html="type.text | typewriter:phraseHolder:$index"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,348 @@
+<section data-ng-controller="BasketController" ng-class="content" ng-init="getOrders()">
+    <div ng-if="!dataLoaded" class="container checkouts">
+        <div class="col-xs-12 text-center margin-top-50">
+            <i class="fa fa-spinner fa-spin no-margin no-margin loader-icon"></i>
+        </div>
+    </div>
+    <div ng-if="dataLoaded" class="container checkouts">
+        <div class="row" ng-show="!continued">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h3><i class="icon icon-cart text-muted"></i> Viewing your basket</h3>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 basket-view">
+                <div ng-if="!userOrders.length">
+                    <div class="margin-top-20">
+                    <hr>
+                        <p class="text-muted">
+                            Hey! You don't have anything in your basket! Why not view our products and find something you like.
+                        </p>
+                        <p>
+                            <a class="btn btn-primary" href="/#!/search/category/all">
+                                View all products on trajans.market
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div ng-if="userOrders.length">
+                    <h4>
+                        {{userOrders.length}} pending orders.
+                    </h4>
+                </div>
+                <div ng-repeat="order in userOrders">
+                    <div class="well row basket-orders-container">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <h5 ng-if="order.order_items[0].user.merchantName">
+                                Items on order with {{order.order_items[0].user.merchantName}} ({{order.order_items.length}})
+                            </h5>
+                            <h5 ng-if="!order.order_items[0].user.merchantName">
+                                Items on order with {{order.order_items[0].user.username}} ({{order.order_items.length}})
+                            </h5>
+                        </div>
+                        <div ng-repeat="sellerOrder in order.order_items">
+                            <div class="row basket-container">
+                                <div class="col-md-2 col-lg-2 hidden-xs hidden-sm text-center">
+                                    <a ng-href="#!/listings/{{sellerOrder._id}}">
+                                        <img class="basket-image" ng-if="sellerOrder.primaryImage.path" ng-src="{{sellerOrder.primaryImage.path}}">
+                                        <img class="basket-image" ng-if="!sellerOrder.primaryImage.path" ng-src="img/placeholder.png">
+                                    </a>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                    <p class="bold green">
+                                        {{sellerOrder.name}}
+                                    </p>
+                                    <div class="margin-top-20">
+                                        Quantity: <b>{{sellerOrder.quantity}}</b>
+                                    </div>
+                                    <div ng-if="sellerOrder.orderBTCCost" class="margin-top-20">
+                                        Item Price
+                                        <div>
+                                            <span class="span-margin-right-40">($):<b>{{sellerOrder.priceFiat}}</b></span>
+                                            <span>:<b>{{sellerOrder.priceFiat | exchangebitcoin}}</b></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <small class="green bold" ng-if="!sellerOrder.chosenShippingMethod.shippingCost">
+                                            <i class="icon icon-checkmark"></i> Free shipping.
+                                        </small>
+                                    </div>
+                                    <div ng-if="sellerOrder.chosenShippingMethod.shippingCost">
+                                        <p ng-if="order.order_items.length > 1">
+                                            <small class="green bold" ng-if="!sellerOrder.chosenShippingMethod.shippingAdditionalCost">
+                                                <i class="icon icon-checkmark"></i> Shipping with this order free if purchased with another item.
+                                            </small>
+                                        </p>
+                                        <p ng-if="order.order_items.length === 1">
+                                            <small class="green bold" ng-if="!sellerOrder.chosenShippingMethod.shippingAdditionalCost">
+                                                <i class="icon icon-checkmark"></i> Only paying shipping cost for one item.
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-md-offset-2 no-padding sub-totals">
+                            <div>
+                                Sub total:
+                                <div>
+                                    <span class="span-margin-right-40">($):<b>{{order.totalOverallCostAUD - order.totalShippingCost}}</b></span>
+                                    <span>:<b>{{order.totalOverallCostAUD - order.totalShippingCost | exchangebitcoin}}</b></span>
+                                </div>
+                            </div>
+                            <div class="margin-top-50">
+                                Total Shipping:
+                                <div>
+                                    <span class="span-margin-right-40">($):<b>{{order.totalShippingCost}}</b></span>
+                                    <span>:<b>{{order.totalShippingCost| exchangebitcoin}}</b></span>
+                                </div>
+                            </div>
+                            <div class="margin-top-50">
+                                Total Due:
+                                <div>
+                                    <span class="span-margin-right-40">($):<b>{{order.totalOverallCostAUD}}</b></span>
+                                    <span>:<b>{{order.totalOverallCostAUD | exchangebitcoin }}</b></span>
+                                </div>
+                            </div>
+                            <div class="margin-top-20">
+                                <small>
+                                    Click 'Continue with order' to proceed with this transaction.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-md-offset-2 margin-top-20 no-padding">
+                            <!--<a ng-if="order.orderProceeded" class="btn btn-primary" ng-href="/#!/dashboard/buying/{{order._id}}"><i class="icon icon-arrow-right15"></i> Pay now</a>
+                            <a ng-if="!order.orderProceeded" class="btn btn-primary" ng-click="continue(order)"><i class="icon icon-arrow-right15"></i> Proceed With Order</a>-->
+                            <button class="btn btn-primary" ng-if="order.escrowSimple" ng-click="openBasket(order)">
+                                Continue with order
+                            </button>
+                            <a ng-if="!order.escrowSimple && order.multisigEscrow || order.bitposUsed" class="btn btn-primary" ng-href="/#!/dashboard/buying/{{order._id}}"><i class="icon icon-arrow-right15"></i>
+                                <span ng-if="!order.bitposUsed">
+                                    Manage order escrow
+                                </span>
+                                <span ng-if="order.bitposUsed">
+                                    View order
+                                </span>
+                            </a>
+                            <button class="btn btn-primary" ng-if="!order.escrowSimple && !order.multisigEscrow && !order.bitposUsed" ng-click="openBasketNoKey(order)">
+                                Continue with order
+                            </button>
+                            <a class="btn btn-red" ng-if-"order.status === 'UNPAID'" ng-click="remove(order, $index)">Cancel order</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="continued">
+        <div class="container">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div>
+                    <h3>Order id : {{order._id}}</h3>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="payment-step active">
+                    Step 1 of 2 - Enter shipping address
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 hidden-sm hidden-xs">
+                <div class="payment-step">
+                    Step 2 of 2 - Select payment method
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6  col-sm-12 col-xs-12">
+                <h3>Shipping address:</h3>
+                <hr>
+                <form name="checkoutForm" class="deliver-address-form form-horizontal">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="streetAddress">Street Address</label>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="controls">
+                                <input type="text" data-ng-model="user.streetAddress" id="streetAddress" class="form-control" placeholder="Street address..." required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="town">Town</label>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="controls">
+                                <input type="text" data-ng-model="user.town" id="town" class="form-control" placeholder="Town..." required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="city">City, Country</label>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="controls">
+                                <input type="text" ng-model="user.country" placeholder="Search location" typeahead-loading="loadingLocations" typeahead="address for address in getLocation($viewValue)" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="postcode">Postcode</label>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="controls">
+                                <input type="text" data-ng-model="user.postcode" id="postcode" class="form-control" placeholder="Postcode..." required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="telephoneNumber">Telephone</label>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <div class="controls">
+                                <input type="text" data-ng-model="user.telephoneNumber" id="telephoneNumber" class="form-control" placeholder="Telephone number..." required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-danger" ng-if="addressError">
+                    Please fill in all address fields and a telephone number...
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                <h3>
+                    Payment Method
+                </h3>
+                <hr>
+                <div class="margin-bottom-20">
+                    <h4 class="margin-bottom">
+                        Available payment methods for this order:
+                    </h4>
+                    <div class="text-muted">
+                        Please choose a checkout method from below. 
+                    </div>
+                     <!-- PRO SELLER ONLY SHOW MULTISIG -->
+                    <div ng-if="order.seller.subscriptionPlan.planId === 's7cr' || order.seller.subscriptionPlan.planId === 'c8zg'">
+                        <div class="text-muted margin-top-20">
+                            This merchant has not been verified, therefore is forced to use Trajans Secure Multi-Signature Escrow.
+                        </div>
+                        <div>
+                            <div class="checkbox" ng-if="order.seller.paymentMethodCreated">
+                                <label for="escrow">
+                                    <input id="escrow" type="radio" ng-click="escrow()" data-ng-model="checkoutMethod" value="escrow"> Trajans secure Multi-signature Bitcoin Escrow
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BUSINESS SELLER -->
+
+                    <div ng-if="order.seller.subscriptionPlan.planId === 'qqkg' || order.seller.subscriptionPlan.planId === '9s76' || order.seller.subscriptionPlan.planId === '3t22' || order.seller.subscriptionPlan.planId === 'hrdb'">
+                        <!-- BUSSINESS SELLER AND VERIFIED -->
+                        <div ng-if="order.seller.bitposEnabled && order.seller.verified">
+                            <div class="checkbox">
+                                <label for="bitpos">
+                                    <input id="bitpos" type="radio" ng-click="bitpos()" data-ng-model="checkoutMethod" value="bitpos"> BitPos Checkout
+                                </label>
+                            </div>
+                            <div class="checkbox" >
+                                <label for="escrow">
+                                    <input id="escrow" type="radio" ng-click="escrow()" data-ng-model="checkoutMethod" value="escrow"> Trajans secure Multi-signature Bitcoin Escrow
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="!order.seller.bitposEnabled && order.seller.verified">
+                            <div class="checkbox" >
+                                <label for="escrow">
+                                    <input id="escrow" type="radio" ng-click="escrow()" data-ng-model="checkoutMethod" value="escrow"> Trajans secure Multi-signature Bitcoin Escrow
+                                </label>
+                            </div>
+                        </div>
+                        <!-- BUSSINESS SELLER NOT VERIFIED -->
+                        <div ng-if="order.seller.paymentMethodCreated && !order.seller.verified">
+                            <div class="text-muted margin-top-20">
+                                This merchant has not been verified, therefore is forced to use Trajans Secure Multi-Signature Escrow.
+                            </p>
+                            <div class="checkbox" >
+                                <label for="escrow">
+                                    <input id="escrow" type="radio" ng-click="escrow()" data-ng-model="checkoutMethod" value="escrow"> Trajans secure Multi-signature Bitcoin Escrow
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="margin-top-50">
+                        Order Summary
+                    </h3>
+                    <hr>
+                    <div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 margin-top-20 no-padding">
+                            Sub Total:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-left margin-top-20 text-center">
+                            <div class="col-md-6 col-lg-6">
+                                <span>($):<b>{{order.totalOverallCostAUD - order.totalShippingCost}}</b></span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 text-right">
+                                <span>:<b>{{order.totalOverallCostAUD - order.totalShippingCost | exchangebitcoin}}</b></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  margin-top-20 no-padding">
+                            Total shipping:
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-left margin-top-20 text-center">
+                            <div class="col-md-6 col-lg-6">
+                                <span>($):<b>{{order.totalShippingCost}}</b></span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 text-right">
+                                <span>:<b>{{order.totalShippingCostBTC}} BTC</b> </span>
+                            </div>
+                        </div>
+                        <div ng-if="checkoutMethod == 'escrow'">
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  margin-top-20 no-padding">
+                                Escrow Cost:
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-left margin-top-20 text-center">
+                                <div class="col-md-6 col-lg-6">
+                                    <span>($):<b>{{totalEscrowCostAUD}}</b></span>
+                                </div>
+                                <div class="col-md-6 col-lg-6 text-right">
+                                    <span>:<b>{{totalEscrowCostBTC | number: 8}} BTC</b></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 margin-top-20 no-padding">
+                            Total Due:
+                        </div>
+                        <div ng-if="checkoutMethod == 'escrow'" class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-left margin-top-20 text-center">
+                            <div class="col-md-6 col-lg-6">
+                                <span>($):<b>{{order.totalOverallCostAUD + totalEscrowCostAUD}}</b></span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 text-right">
+                                <span>:<b>{{totalOverallCostBTC | number: 8 }}</b> BTC</span>
+                            </div>
+                        </div>
+                        <div ng-if="checkoutMethod != 'escrow'" class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-left margin-top-20 text-center">
+                            <div class="col-md-6 col-lg-6">
+                                <span>($):<b>{{order.totalOverallCostAUD}}</b></span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 text-right">
+                                <span>:<b>{{order.totalOverallCostBTC}}</b> BTC</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-danger" ng-if="checkoutError">
+                        Please choose a checkout method...
+                    </div>
+                </div>
+                <div class="margin-top-20">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 checkout-buttons no-padding-left">
+                        <a class="btn btn-primary" ng-click="checkoutOrder(order)">
+                            Checkout
+                        </a>
+                        <a class="btn btn-secondary" ng-click="cancelContinue()">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

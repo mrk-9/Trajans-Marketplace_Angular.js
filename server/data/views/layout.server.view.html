@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>{{title}}</title>
+
+    <!-- General META -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Semantic META -->
+    <meta name="keywords" content="{{keywords}}">
+    <meta name="description" content="{{description}}">
+
+    <!-- Facebook META -->
+    <meta property="fb:app_id" content="{{facebookAppId}}">
+    <meta property="og:site_name" content="{{title}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:url" content="{{url}}">
+    <meta property="og:image" content="/img/brand/logo.png">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter META -->
+    <meta name="twitter:title" content="{{title}}">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:url" content="{{url}}">
+    <meta name="twitter:image" content="/img/brand/logo.png">
+
+    <!-- Fav Icon -->
+    <link href="/modules/core/img/brand/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+    <!--Application CSS Files-->
+    {% if process.env.NODE_ENV !== 'production' %} {% for cssFile in cssFiles %}
+    <link rel="stylesheet" href="{{cssFile}}"> {% endfor %} {% endif %} {% if process.env.NODE_ENV === 'production' %}
+    <link rel="stylesheet" href="dist/application.min.css"> {% endif %}
+
+    <!-- HTML5 Shim -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="https://use.typekit.net/mkc2nnc.js"></script>
+    <script>
+        try {
+            Typekit.load({
+                async: true
+            });
+        } catch (e) {}
+    </script>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Josefin+Sans:400,300,100,600,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+</head>
+
+<body class="ng-cloak">
+    <header data-ng-include="'/modules/core/views/header.client.view.html'" id="main-nav" class="navbar">
+    </header>
+    <section class="content row">
+        {% block content %}{% endblock %}
+    </section>
+
+    <footer class="footer">
+        <div class="container-fluid upper-footer footer-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 home-heading">
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                            <h4 style="margin-bottom:15px;">News & Events</h4>
+                            {% for post in posts %}
+                            {% if loop.index <= 2 %}
+                            <div class="news-item">
+                               
+                          
+                                    <strong><a href="{{post.link}}">{{post.title}}</a></strong>
+                                    {{post.description|safe}}
+                                    <p class="date">{{post.pubDate}}</p>
+                           
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <a href="https://medium.com/@trajans.market">Latest blog posts</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 about-top">
+                            <h4 class="purple">About</h4>
+                            <strong class="strong">trajans.market is your safe, secure and easy to use e commerce platform, enabled by bitcoin.</strong><br>
+                            <br>
+                            <div class="about">
+                                Our mission is simple, to help small and medium enterprises (SME's) expand their business by marketing their brand and products to consumers within the digital currency economy.
+                                <br>
+                                <br> We've connected the dots to bring a complete and sound soloution for SME's to list, sell and manage products, manage bitcoin transactions and recieve remuneration in local currency.
+                            </div>
+                            <div class="col-md-6 col-lg-6 merch-btn">
+                                <a class="btn btn-primary btn-xsml merch" href="/#!/signup">BECOME A MERCHANT</a>
+                            </div>
+                            <div class="col-md-6 col-lg-6 browse-btn">
+                                <a class="btn btn-primary btn-xsml browse" href="/#!/search/category/all">START BROWSING</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 contact contact-top">
+                            <h4 class="purple">Contact Us</h4>
+                            </li>
+                            <div class="address">
+                                38 Iris Road,<br> Kirkwood 4680,<br> Queensland,
+                                <br> Australia
+                                <br>
+                            </div>
+                            <br>
+                            <a class="email" href="mailto:hello@trajans.market">hello@trajans.market</a>
+                            <br>
+                            <h4 class="tan">Resources & links</h4>
+                            <a href="/#!/search/">Search</a><br>
+                            <a href="/#!/privacypolicy">Privacy policy</a><br>
+                            <a href="/#!/termsandconditions">Terms and conditions</a><br>
+                            <a target="_blank" href="http://Trajansmarket.zendesk.com">Support</a><br>
+                            <p class="abn">Trajans.Market Pty Ltd - ABN 48 614 357 452</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+
+                <div class="bottom-footer">
+                    <ul class="brands">
+                        <li>
+                            <a href="https://www.facebook.com/trajansmarket/" target="_blank"><img src="/img/brands/facebook.png" width="90"></a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/Trajans_Market" target="_blank"><img src="/img/brands/twitter.png" width="90"></a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/@Trajans.Market" target="_blank"><img src="/img/brands/medium.png" width="65"></a>
+                        </li>
+                        <li>
+                            <a href="https://bitcointalk.org/index.php?action=profile;u=914934" target="_blank"><img src="/img/brands/bitcointalk.png" width="100"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <!--Embedding The User Object-->
+    <script type="text/javascript">
+        var user = {{user | json | safe }};
+    </script>
+
+    <div class="hidden">
+        {{env}}
+    </div>
+    
+    <!--Application JavaScript Files-->
+    {% if process.env.NODE_ENV !== 'production' %} 
+        {% for jsFile in jsFiles %}
+            <script type="text/javascript" src="{{jsFile}}"></script>
+        {% endfor %} 
+    {% endif %} 
+
+    {% if process.env.NODE_ENV == 'production' %}
+        <script type="text/javascript" src="{{applicationJs}}"></script>
+    {% endif %} 
+
+    {% if process.env.NODE_ENV === 'development' %}
+        <!--Livereload script rendered -->
+        <script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
+    {% endif %}
+
+    <!-- Google analytics -->
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-88170743-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+
+</body>
+
+</html>

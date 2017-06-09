@@ -1,0 +1,124 @@
+<div flow-init="{target: '/uploadDocuments', testChunks:false, chunkSize: 1*9024*9024}" 
+    flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1,pdf:1,tiff:1}[$file.getExtension()]">
+    <section data-ng-controller="VerificationController" ng-class="identity-documents">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h1>Identity Verification</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3>
+                        Documents
+                    </h3>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-lg-1">
+                        <img class="pull-left" src="/img/Upload.svg" height="70">
+                    </div>
+                    <div class="col-lg-10">
+                        <h5>Please upload documents</h5>
+                        <p class="text-muted">Upload a required set of identity documents bases on Criteria Matrix. You'll then be able to submit them to us.</p>
+                    </div>                  
+                </div> 
+                <hr>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 section">
+                        <h6><strong>* Please upload documents</strong></h6>
+                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-padding-left">
+                            <select name="documentType" id="docType" class="form-control" ng-model="documentType">
+                                <option value="">Please Select</option>
+                                <option value="Passport">Passport</option>
+                                <option value="DrivingLicense">Driving License</option>
+                                <option value="BankStatement">Bank Statement</option>
+                                <option value="CreditCardStatement">Credit Card Statement</option>
+                                <option value="UtilityBill">Utility Bill</option>
+                                <option value="TelephoneBill">Telephone Bill</option>
+                                <option value="TaxAssessmentNotice">Tax Assessment Notice</option>
+                            </select> 
+                        </div>
+                        <br><br>
+                        <p>Uploaded documents must be current.</p>
+                        <h6>
+                        <strong>* Attachment</strong></h6>
+                        <div ng-class="{'disabled': !documentType }" class="btn btn-secondary" flow-btn 
+                        flow-attrs="{accept: 'image/jpeg,image/gif,image/png,tiff/png,application/pdf' }">
+                            UPLOAD
+                        </div>
+                        <p>Upload a GIF, JPG, PNG, TIFF or PDF file.</p>
+                        <!--  <buttons ng-href=""class="btn btn-primary">UPLOAD DOCUMENTS</buttons>  -->
+                        <buttons ng-click="verify()" class="btn btn-primary margin-top-20">SUBMIT FOR REVIEW</buttons>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-6 section">
+                        <div class="header"></div>
+                        <div class="section-inner section-right">
+                            <h4>Quality Requirments</h4>
+                            <p class="text-muted">Any document uploadd must meet these requirments.</p>
+                            <ul>
+                                <li>Scanned in colour if it contains your photo</li>
+                                <li>At least 100 dpi</li>
+                                <li>Not cropped, blurry or masked</li>
+                            </ul>
+                            <p class="text-muted">We will reject a document if it doesn't meet any of the requirements, or if we suspect that they are not yours.</p>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Uploaded Documents</div>
+                    <div class="panel-body">
+                        <p ng-if="!$flow.files[0]">You haven't uploaded any documents.</p>
+                        <table ng-if="$flow.files[0]" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><strong>Document Type</strong></th>
+                                    <th><strong>Status</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="file in $flow.files">
+                                    <td>{{file.name}}</td>
+                                    <td>Uploaded</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Criteria Matrix</div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><strong>Criterion</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Upload at least <strong>1</strong> document that contains your <strong>Full Name</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Upload at least <strong>1</strong> document that contains your <strong>Residential Address</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Upload at least <strong>1</strong> document that contains your <strong>Date of Birth</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Upload at least <strong>1</strong> document that is issued by a <strong>Government</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Upload at least <strong>2</strong> documents in total</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-muted">A single document can fulfill mutiple criteria at a time, as long as it contains the required combination of information.</p>
+                        <p class="text-muted">TRAJANS.MARKET will consider your identity verified when <strong>all</strong> of these requirements are met.</p>
+                    </div>
+                </div>
+            </div>
+    </section>
+    </div>

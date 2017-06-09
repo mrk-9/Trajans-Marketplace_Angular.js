@@ -1,0 +1,313 @@
+<div ng-controller="HeaderController" data-ng-init="init()" class="header-container">
+    <div class="search-overlay" ng-if="searchOverlayShow">
+    </div>
+    <div class="search-overlay-searchbar hidden-sm hidden-xs" ng-if="searchOverlayShow">
+        <h1 class="search-kryptonaut">
+            Search Trajans
+        </h1>
+        <span ng-click="closeOverlay()" class="btn btn-sm btn-transparent search-button" >
+            <i class="icon icon-close"></i>
+        </span>
+        <span class="navbar-main-search">
+            <input ng-class="{error : searchUndefined}" class="main-search-input" ng-keyup="$event.keyCode == 13 ? search(searchKeyword) : null" placeholder="Search Trajan" ng-model="searchKeyword"  type="text">
+        </span>
+        <span ng-click="search(searchKeyword)" class="btn btn-sm btn-transparent search-button" >
+            <i class="icon icon-search2"></i>
+        </span>
+    </div>
+    <div class="search-overlay-searchbar-mobile hidden-md hidden-lg visible-sm visible-xs" ng-if="searchOverlayShow">
+        <h1 class="search-kryptonaut">
+            Search Trajans
+        </h1>
+        <div>
+            <span class="navbar-main-search">
+                <input ng-class="{error : searchUndefined}" class="main-search-input mobile" ng-keyup="$event.keyCode == 13 ? search(searchKeyword) : null" placeholder="Search Kryptonaut" ng-model="searchKeyword"  type="text">
+            </span>
+        </div>
+        <div>
+            <span ng-click="search(searchKeyword)" class="btn btn-sm btn-transparent search-button" >
+                <i class="icon icon-search2"></i>
+            </span>
+            <span ng-click="closeOverlay()" class="btn btn-sm btn-transparent search-button" >
+                <i class="icon icon-close"></i>
+            </span>
+        </div>
+    </div>
+    <div class="container-fluid header-controller-view">
+        <div class="row home-page-header" ng-class="{active: isActive()}">
+            <div class="navbar-header">
+                <div class="row visible-xs visible-sm">
+                    <div class="col-xs-9 col-sm-12">
+                        <div class="logo-container">
+                            <a class="logo" href="/#!/">
+                                <span class="logo-blue">Trajans</span>.market 
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-12">
+                        <button class="navbar-toggle" type="button" ng-class="{active: isActive()}" data-ng-click="toggleCollapsibleMenu()">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="hidden-xs hidden-sm">
+                    <button class="navbar-toggle" type="button" ng-class="{active: isActive()}" data-ng-click="toggleCollapsibleMenu()">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="logo-container">
+                        <a class="logo" href="/#!/">
+                            <span class="logo-blue">Trajans</span>.market
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+                <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user" ng-class="{collapsed : isCollapsed}">
+                    <li class="pad">CURRENCY</li>
+                    <li ng-if="!isLoading" class="dropdown" ng-if="!isCollapsed" ng-class="{open: hover1}" ng-mouseenter="hover1 = true">
+                        <a href="#" class="dropdown-toggle btn-background">
+                            <span>1 BTC = {{actualExchangeRate}} {{currentCurrency}}</span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu fade-in">
+                            <li data-ng-click="getNewExchangeRate('AUD'); hover1 = false">
+                                <a>
+                                    AUD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('NZD'); hover1 = false">
+                                <a>
+                                    NZD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('EUR'); hover1 = false">
+                                <a>
+                                    EUR
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('GBP'); hover1 = false">
+                                <a>
+                                    GBP
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('USD'); hover1 = false">
+                                <a>
+                                    USD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('CAD'); hover1 = false">
+                                <a>
+                                    CAD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('CHF'); hover1 = false">
+                                <a>
+                                    CHF
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('HKD'); hover1 = false">
+                                <a>
+                                    HKD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('SGD'); hover1 = false">
+                                <a>
+                                    SGD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('JPY'); hover1 = false">
+                                <a>
+                                    JPY
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a ng-click="searchOverlay()">
+                            <span>Search</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="http://Trajansmarket.zendesk.com">Support</a>
+                    </li>
+                    <li ng-if="isLoading">
+                        <a>
+                            Loading rate...
+                        </a>
+                    </li>
+                    <li class="dropdown" ng-class="{open: hover2}" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false">
+                        <a href="#" class="dropdown-toggle">
+                            <span>CATEGORIES</span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu fade-in">
+                            <li data-ng-repeat="category in categories | orderBy:'title'" class="mobile-categories">
+                                <a ng-click="categoryChanged(category)">{{category.title}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li ui-route="/signup" ng-class="{active: $uiRoute}">
+                        <a href="/#!/signup">Sign up</a>
+                    </li>
+                    <li>
+                        <a href="/#!/signin">Sign in</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" ng-class="{collapsed : isCollapsed}" data-ng-show="authentication.user">
+                    <li ng-if="isCollapsed">
+                        <a href="/">
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li ng-if="isCollapsed">
+                        <a href="/#!/dashboard/home">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li ng-if="isCollapsed">
+                        <a href="/#!/settings/profile">
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="pad">CURRENCY</li>
+                    <li class="dropdown" ng-if="!isCollapsed">
+                        <li ng-if="!isLoading" class="dropdown" ng-if="!isCollapsed" ng-class="{open: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false">
+                        <a href="#" class="dropdown-toggle btn-background">
+                            <span>1 BTC = {{actualExchangeRate}} {{currentCurrency}}</span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu fade-in">
+                            <li data-ng-click="getNewExchangeRate('AUD'); hover1 = false">
+                                <a>
+                                    AUD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('NZD'); hover1 = false">
+                                <a>
+                                    NZD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('EUR'); hover1 = false">
+                                <a>
+                                    EUR
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('GBP'); hover1 = false">
+                                <a>
+                                    GBP
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('USD'); hover1 = false">
+                                <a>
+                                    USD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('CAD'); hover1 = false">
+                                <a>
+                                    CAD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('CHF'); hover1 = false">
+                                <a>
+                                    CHF
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('HKD'); hover1 = false">
+                                <a>
+                                    HKD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('SGD'); hover1 = false">
+                                <a>
+                                    SGD
+                                </a>
+                            </li>
+                            <li data-ng-click="getNewExchangeRate('JPY'); hover1 = false">
+                                <a>
+                                    JPY
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li ng-if="isLoading">
+                        <a>
+                            Loading rate...
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-click="searchOverlay()">
+                            <span>Search</span>
+                        </a>
+                    </li>
+                    <li class="dropdown" ng-class="{open: hover2}" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false">
+                        <a href="#" class="dropdown-toggle">
+                            <span>CATEGORIES</span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu fade-in">
+                            <li data-ng-repeat="category in categories | orderBy:'title'" class="mobile-categories">
+                                <a ng-click="categoryChanged(category)">{{category.title}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a target="_blank" href="http://Trajansmarket.zendesk.com">Support</a>
+                    </li>
+                    <li ng-if="isCollapsed" data-ng-show="authentication.user.provider === 'local'">
+                        <a href="/#!/settings/password">Change Password</a>
+                    </li>
+                    <li ng-if="isCollapsed">
+                        <a href="/auth/signout">
+                            <span>Sign out</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#!/basket">
+                            <span ng-bind="basketCount"></span> <i class="icon icon-cart"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown hello" ng-if="!isCollapsed" ng-class="{open: hover3}" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false">
+                        <a href="#" class="dropdown-toggle">
+                            Hello <span data-ng-bind="userFirstName"></span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu fade-in">
+                            <li>
+                                <a href="/#!/dashboard/home">Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="/#!/dashboard/settings">Manage Settings</a>
+                            </li>
+                            <li>
+                                <a href="/#!/users/{{user._id}}">My Profile</a>
+                            </li>
+                            <li data-ng-show="authentication.user.provider === 'local'">
+                                <a ng-click="changePasswordModal()">Change Password</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/auth/signout">Signout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-bar row">
+            <div class="col-xs-4 sub-header-item padding-left-80">
+                <a href="#">SHOP THERE <span style="font-size:8px;">(LAUNCHING SOON!)</span><i class="glyphicon glyphicon-triangle-right"/></a>
+            </div>
+            <div class="col-xs-4 sub-header-item text-center">
+                <a href="#">SHOP HERE <span style="font-size:8px;">(LAUNCHING SOON!)</span> <i class="glyphicon glyphicon-triangle-right"/></a>
+            </div>
+            <div class="col-xs-4 sub-header-item text-right padding-right-80">
+                <a href="/#!/search/currency/{{currentCurrency}}/price/100">UNDER {{currencySymbol ? currencySymbol : '$'}}100 <i class="glyphicon glyphicon-triangle-right"/></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="hidden-sm hidden-xs" ng-include="'modules/core/views/core-includes/purcase-notification.client.view.html'"></div>
+
+</div>
+

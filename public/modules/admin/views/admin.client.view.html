@@ -1,0 +1,79 @@
+<section data-ng-controller="AdminController" data-ng-init="init()">
+    <div class="container admin admin-main">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <tabset class="account-tabs">
+                    <tab heading="Manage Users">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="section-title">
+                                <span>
+                                   Manage Users
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 margin-bottom-20">
+                            <div>
+                                <input placeholder="Search User" class="form-control" type="text" ng-model="search.$">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>Username</td>
+                                        <td>First Name</td>
+                                        <td>Last Name</td>
+                                        <td>Email</td>
+                                        <td>Subscription Id</td>
+                                        <td>Subscription Status</td>
+                                        <td>Verified</td>
+                                        <td>Featured Merchant</td>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="user in userProfiles | filter:search" class="ng-scope">
+                                    <tr>
+                                        <td>{{user.username}}</td>
+                                        <td ng-bind-html="user.firstName"></td>
+                                        <td ng-bind-html="user.lastName"></td>
+                                        <td ng-bind-html="user.email"></td>
+                                        <td ng-bind-html="user.subscriptionPlan"></td>
+                                        <td ng-bind-html="user.subscriptionStatus"></td>
+                                        <td ng-bind-html="user.verified"></td>
+                                        <td ng-bind-html="user.featuredMerchant"></td>
+                                        <td>
+                                            <a class="btn btn-secondary" ng-href="/#!/admin/user/{{user._id}}/edit">Edit</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </tab>
+                    <tab heading="Homepage Banner Styling">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="section-title">
+                                <span>
+                                   Homepage Banner Styling
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div ng-include="'modules/admin/views/homepage/banner.client.view.html'"></div>
+                        </div>
+                    </tab>
+                    <tab heading="Homepage Type Writer">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="section-title">
+                                <span>
+                                   Homepage Type Writer
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div ng-include="'modules/admin/views/homepage/typewriter.client.view.html'"></div>
+                        </div>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+</section>

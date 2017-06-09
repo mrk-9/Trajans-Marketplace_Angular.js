@@ -1,0 +1,166 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-init="getOrderEscrow(order)">
+    <h3>
+        Order transaction
+    </h3>
+    <hr>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="col-md-12 text-center">
+            <p class="margin-top-20 bold" ng-if="escrow">
+                <a class="blue" target="_blank" href="https://blockchain.info/address/{{escrow.escrowAddress}}">{{escrow.escrowAddress}}</a>
+            </p>
+            <p class="margin-top-20 bold" ng-if="!escrow">
+                <a class="blue" target="_blank" href="https://blockchain.info/address/{{order.bitcoin_address}}">{{order.bitcoin_address}}</a>
+            </p>
+            <div>
+                <h4 class="green bold">Amount payable : {{escrow.amount || order.totalOverallCostBTC.toFixed(8)}} BTC</h4>
+            </div>
+            <div class="margin-top-20" ng-if="escrow">
+                <img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{escrow.escrowAddress}}" />
+            </div>
+            <div class="margin-top-20" ng-if="!escrow">
+                <img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{order.bitcoin_address}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h4 ng-if="escrow.status !== 'COMPLETE'" class="col-xs-12 col-sm-12 col-md-12 col-md-12 text-warning" ng-class="{ 'green': escrow.status === 'ESCROW PAID' || escrow.status === 'COMPLETE',  'red': escrow.status === 'CANCELLED'}">
+                    {{escrow.status || order.status}} : {{escrow.balance || order.bitposBalance}} BTC
+                </h4>
+                <h4 ng-if="escrow.status === 'COMPLETE'" class="col-xs-12 col-sm-12 col-md-12 col-md-12 text-warning" ng-class="{ 'green': escrow.status === 'ESCROW PAID' || escrow.status === 'COMPLETE',  'red': escrow.status === 'CANCELLED'}">
+                    {{escrow.status || order.status || order.bitposBalance}}
+                </h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <p class="text-muted text-center bold">
+                    1 confirmation is needed to confirm the balance.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="col-md-12 margin-top-20">
+            <div class="row margin-bottom-10">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Created:
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-muted">
+                    <span ng-if="escrow.created">
+                        {{escrow.created | amDateFormat:'dddd, MMMM Do YYYY : HH:mm:ss'}}
+                    </span>
+                    <span ng-if="!escrow.created">
+                        {{order.created | dateTimeFormat}}
+                    </span>
+                </div>
+            </div>
+            <div class="row margin-bottom-10">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Merchant:
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-muted">
+                    <a target="_blank" href="#!/users/{{escrow.buyer._id}}">{{escrow.seller.displayName || order.seller.displayName}}</a>
+                </div>
+            </div>
+            <div class="row margin-bottom-10">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Buyer:
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-muted">
+                    <a target="_blank" href="#!/users/{{escrow.buyer._id}}">{{escrow.buyer.displayName || order.user.displayName}}</a>
+                </div>
+            </div>
+            <div class="row margin-bottom-10" ng-if="escrow.change">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Change Address:
+                </div>
+                <!--TODO Replace with blockchain for non testnet -->
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-muted">
+                    <a target="_blank" href="https://blockchain.info/address/{{escrow.change}}">{{escrow.change}}</a>
+                </div>
+            </div>
+            <div class="row margin-bottom-10" ng-if="escrow && !order.escrowSimple">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Recipient Address:
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-muted">
+                    <a target="_blank" href="https://blockchain.info/address/{{escrow.recipientAddress}}">{{escrow.recipientAddress}}</a>
+                </div>
+            </div>
+            <div class="row margin-bottom-10" ng-if="escrow">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Total Purchase:
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-muted">
+                    {{escrow.amount}} BTC
+                </div>
+            </div>
+            <div class="row margin-bottom-10" ng-if="escrow && type === 'Selling'">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Success Fee (1%):
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-muted">
+                    {{(escrow.amount * 0.01).toFixed(8)}} BTC
+                </div>
+            </div>
+            <div class="row margin-bottom-10 border-t padding-top-10 large-text" ng-if="escrow && type === 'Selling'">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 bold">
+                    Final Sum
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 green bold text-muted">
+                    {{((escrow.amount) - (escrow.amount * 0.01)).toFixed(8)}} BTC
+                </div>
+            </div>
+            <div class="row margin-bottom-10" ng-if="escrow.status !== 'COMPLETE'">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Current Balance:
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 green">
+                    {{escrow.balance || order.bitposBalance || 0}} BTC <span ng-if="escrow.status === 'Unconfirmed Paid'">(Unconfirmed)</span>
+                </div>
+            </div>
+            <div class="row margin-bottom-10" ng-if="escrow.txid">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    Transaction:
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-warning">
+                    <a target="_blank" href="https://blockchain.info/tx/{{escrow.txid}}">View transaction</a>
+                </div>
+            </div>
+            <div class="row margin-top-20" ng-if="escrow">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="escrow.status !== 'Escrow Paid'">
+                    <h4>Order Actions</h4>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if="!order.escrowSimple">
+                    <button class="btn btn-sm btn-primary" ng-if="escrow.status === 'ESCROW PAID' || escrow.status === 'SIGNED WITH ONE KEY' || escrow.status === 'REFUND APPROVED'" ng-click="signKey(escrow)"><i class="icon icon-key"></i> Sign Escrow</button>
+                    <button class="btn btn-sm btn-primary" ng-if="escrow.status !== 'REFUND REQUESTED' && escrow.status !== 'REFUND APPROVED' && escrow.status !== 'ESCROW PAID' && escrow.status !== 'COMPLETE' && escrow.status !== 'SIGNED WITH ONE KEY' && escrow.status !== 'CANCELLED'" ng-click="refreshBalance(escrow)"><i class="icon icon-loop3"></i> Refresh Balance</button>
+                    <a href="/#!/account/messages/user/{{escrow.seller._id}}" class="btn btn-sm btn-primary" ng-if="escrow.buyer._id === user._id && !escrow.order">Message {{escrow.seller.username}}</a>
+                    <a href="/#!/account/messages/user/{{escrow.buyer._id}}" class="btn btn-sm btn-primary" ng-if="escrow.seller._id === user._id && !escrow.order">Message {{escrow.buyer.username}}</a>
+                    <button class="btn btn-sm btn-red" ng-if="escrow.status === 'UNPAID'" ng-click="cancelEscrow(escrow._id)">Cancel Escrow</button>
+                    <p class="text-muted" ng-if="escrow.status === 'CANCELLED'">
+                        This order and escrow have been cancelled.
+                    </p>
+                    <p class="text-muted" ng-if="escrow.status === 'COMPLETE'">
+                        This order and escrow have been completed.
+                    </p>
+                </div>
+                <!-- SIMPLE ESCROW ACTIONS -->
+                <div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if="order.escrowSimple && order.status !== 'PAYMENT RECEIVED'">
+                        <button class="btn btn-sm btn-primary" ng-if="escrow.status !== 'Refund Requested' && escrow.status !== 'REFUND APPROVED' && escrow.status !== 'ESCROW PAID' && escrow.status !== 'PAYMENT RECIEVED' && escrow.status !== 'PARTIALLY PAID' && escrow.status !== 'COMPLETE' && escrow.status !== 'SIGNED WITH ONE KEY' && escrow.status !== 'CANCELLED'"
+                            ng-click="continueOrder(order)">Continue order</button>
+                        <button class="btn btn-sm btn-red" ng-if="escrow.status === 'UNPAID'" ng-click="cancelEscrow(escrow._id)">Cancel Order</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if="order.escrowSimple && type === 'Selling' || order.status === 'PAYMENT RECEIVED' || order.status === 'COMPLETE' || order.status === 'REFUND REQUESTED' ">
+                    <p class="text-muted">
+                        No actions available
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if=" escrow.status === 'PARTIALLY PAID' && order.escrowSimple">
+                    <button class="btn btn-sm btn-primary" ng-click="continueOrder(order)">Continue order</button>
+                </div>
+                <!-- -->
+            </div>
+        </div>
+    </div>
+
+</div>

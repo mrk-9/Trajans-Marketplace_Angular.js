@@ -1,0 +1,123 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Account Settings</h2>
+        <hr>
+    </div>
+    <div flow-init="{target: '/uploadprofilebanner', testChunks:false, singleFile:true}" flow-files-submitted="$flow.upload()" flow-attrs="{accept:'image/*'}">
+        <section data-ng-controller="SettingsController" class="create-edit-listing">
+            <section class="row text-center content" ng-if="confirm">
+                <h3 class="col-md-12">
+                    <i class="icon icon-checkmark green"></i> Confirm profile update
+                </h3>
+                <p class="text-muted">
+                    Great! We have e-mailed you a confirmation link.
+                </p>
+                <p class="text-muted">
+                    Please check your email and confirm your profile update by clicking on the link we sent you.  Sometimes there are delays sending profile update e-mails, please also check your junk mail if you haven't recieved an e-mail from Trajans before.
+                </p>
+            </section>
+            <div class="col-md-12 col-xs-12" ng-if="!confirm">
+                <form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
+                    <h4 class="form-heading">Payment Settings</h4>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="username">Bitpos Username</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="password" id="bitposUsername" name="bitposUsername" class="form-control" data-ng-model="user.bitposUsername" placeholder="Bitpos Username">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="username">Bitpos Password</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="password" id="bitposPassword" name="bitposPassword" class="form-control" data-ng-model="user.bitposPassword" placeholder="Bitpos Password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="paymentdetails">
+                            <label for="username">Bitcoin Payment Address</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="text" id="walletAddress" name="walletAddress" class="form-control" data-ng-model="user.walletAddress" placeholder="Bitcoin wallet address" autofocus>
+                                <small>Payment for orders made not using a payment processor will be sent to this address.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <fieldset>
+                        <div class="form-heading">
+                            <h4>Buyer Preferences</h4>
+                            <p>These details will be used for checkout and delivery when you are buying items from the store.</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="streetAddress">Street Address</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="controls">
+                                    <input type="text" id="checkoutStreetAddress" name="checkoutStreetAddress" class="form-control" data-ng-model="user.checkoutStreetAddress" placeholder="Street Address">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="town">Town</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="controls">
+                                    <input type="text" id="checkoutTown" name="checkoutTown" class="form-control" data-ng-model="user.checkoutTown" placeholder="Town">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="city">City, Country</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="controls">
+                                    <input type="text" ng-model="user.checkoutCountry" placeholder="Search location" typeahead-loading="loadingLocations" typeahead="address for address in getLocation($viewValue)" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="postcode">Postcode</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="controls">
+                                    <input type="text" id="checkoutPostcode" name="checkoutPostcode" class="form-control" data-ng-model="user.checkoutPostcode" placeholder="Postcode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <label for="telephoneNumber">Telephone</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="controls">
+                                    <input type="text" id="checkoutTelephoneNumber" name="checkoutTelephoneNumber" class="form-control" data-ng-model="user.checkoutTelephoneNumber" placeholder="Telephone">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="controls">
+                                    <button type="submit" class="btn btn-large btn-primary">Save Settings</button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>

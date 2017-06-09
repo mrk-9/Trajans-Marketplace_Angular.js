@@ -1,0 +1,135 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+    <h3>
+        Order details
+    </h3>
+    <hr>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 no-padding-left">
+        <div class="col-md-12 no-margin-padding">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-margin-padding">
+                <h4>Order Items</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-margin-padding" ng-repeat="item in order.order_items">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        {{item.name}} <span ng-if="item.sku">(SKU: {{item.sku}})</span> x <b>{{item.quantity}}</b>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6text-left  text-muted">
+                        ($):<b>{{item.priceFiat}}</b> | <b>{{item.priceBTC | number:8}}</b> BTC
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 no-margin-padding" ng-if="order.status !== 'COMPLETE'">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20 no-margin-padding">
+                <h4>Payment address</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bold no-margin-padding" ng-if="!order.bitposUsed">
+                <a class="blue" target="_blank" href="https://blockchain.info/address/{{order.multisigEscrow.escrowAddress}}">{{order.multisigEscrow.escrowAddress}}</a>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20 no-margin-left" ng-if="!order.bitposUsed">
+                <button clipboard supported="supported" text="order.multisigEscrow.escrowAddress" on-copied="copySuccess()" on-error="fail()" type="button" class="btn btn-primary">
+                    Copy BTC address 
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bold no-margin-padding" ng-if="order.bitposUsed">
+                <a class="blue" target="_blank" href="https://blockchain.info/address/{{order.bitcoin_address}}">{{order.bitcoin_address}}</a>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20" ng-if="order.bitposUsed">
+                <button clipboard supported="supported" text="order.bitcoin_address" on-copied="copySuccess()" on-error="fail()" type="button" class="btn btn-primary">
+                    Copy BTC address 
+                </button>
+            </div>
+        </div>
+
+        <div class="row" ng-if="order.status === 'COMPLETE'">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                <p><i class="icon icon-checkmark green"></i> Order complete</p>
+            </div>
+        </div>
+
+        <div class="row" ng-if="order.reviewCompleted">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                <p><i class="icon icon-checkmark green"></i> A review has been left for this merchant.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 order-details-padding">
+        <div class="row margin-top-20">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                Order created:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted">
+                <span>{{order.created | dateTimeFormat}}</span>
+            </div>
+        </div>
+        <div class="row margin-top-20">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                Total Shipping Cost:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6text-muted">
+                ($):<b>{{order.totalShippingCost}}</b> | <b>{{order.totalShippingCostBTC | number:8}}</b> BTC
+            </div>
+        </div>
+        <div class="row margin-top-20">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                Total Order Price AUD:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted" ng-if="order.multisigEscrow">
+                ($):<b>{{order.totalOverallCostAUD | number:2}} </b> | <b class="bold green">{{order.multisigEscrow.amount.toFixed(8)}} BTC</b>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted" ng-if="!order.multisigEscrow">
+                ($):<b>{{order.totalOverallCostAUD | number:2}} </b> | <b class="bold green">{{order.totalOverallCostBTC}} BTC</b>
+            </div>
+        </div>
+        <!-- ONLY IF MULTISIG / OUR FEE IS ALWAYS 1% -->
+        <div class="row margin-top-20" ng-if="order.escrow && type === 'Selling'">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                Success Fee (1% deducted from final sum):
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted">
+                ($):<b>{{order.totalOverallCostAUD * 0.01 | number:2}}</b> | <b>{{order.totalOverallCostBTC * 0.01 | number:8}}</b> BTC
+            </div>
+        </div>
+        <!-- END ONLY IF MULTISIG -->
+        <!-- ONLY IF BITCOIN DIRECT && NOT BITPOS / OUR FEE DEPENDS ON SUBSCRIPTION PLAN -->
+        <div class="row margin-top-20" ng-if="order.escrowSimple && !order.bitposUsed && type === 'Selling'">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                {{subscriptionDetails.group === "Business Plus" ? "Transaction Fee (1% deducted from final sum)" : "Transaction Fee (2% deducted from final sum)"}}
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted">
+                ($):<b>{{order.multisigEscrow.ourFeeFiat}}</b> | <b>{{order.multisigEscrow.ourFeeBTC}}</b> BTC
+            </div>
+        </div>
+        <div class="row margin-top-10 border-t padding-top-10 large-text" ng-if="type === 'Selling' && order.multisigEscrow">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold">
+                You Receive:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted">
+                ($):<b>{{(order.totalOverallCostAUD) - (order.totalOverallCostAUD * 0.01) | number:2}}</b> | <b class="green">{{(order.totalOverallCostBTC | number:8) - (order.totalOverallCostBTC * 0.01 | number:8)}}</b> BTC
+            </div>
+        </div>
+        <div class="row margin-top-20">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                Bitpos Used
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted">
+                {{order.bitposUsed ? 'Yes' : 'No'}}
+            </div>
+        </div>
+        <div class="row margin-top-20" ng-if="order.bitposUsed">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                Bitpos Balance:
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-muted">
+                <b>{{order.bitposBalance | number:8}}</b> BTC
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="type === 'Buying' && !order.reviewCompleted">
+        <div class="margin-top-20" ng-if="order.status === 'COMPLETE'">
+            <div ng-include="'modules/core/views/dashboard-includes/account.leave-merchant-review.client.view.html'"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+
+<path fill="none" stroke="#002145" stroke-width="2.0021" stroke-linejoin="round" stroke-miterlimit="10" d="M6,9H2.846
+	C1.827,9,1,9.828,1,10.85v33.3C1,45.172,1.827,46,2.846,46c0,0,15.22,0,17.154,0c0,0,1.667,3,5,3s5-3,5-3c1.958,0,17.154,0,17.154,0
+	C48.173,46,49,45.172,49,44.15v-33.3C49,9.828,48.173,9,47.154,9H44"/>
+<g>
+	<path fill="none" stroke="#002145" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M25,9v34c0,0,4.083-4,19-4V3C29,3,25,9,25,9z"/>
+</g>
+<g>
+	<path fill="none" stroke="#002145" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M25,9v34c0,0-4.083-4-19-4V3C21,3,25,9,25,9z"/>
+</g>
+</svg>

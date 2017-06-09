@@ -1,0 +1,13 @@
+{
+  "server": {
+    "port": 5000,
+    "sessionSecret": "trajan_app_secret"
+  },
+  "db": {
+    "host": "localhost",
+    "port": 27017,
+    "name": "Trajans-marketplace-dev",
+    "username": "",
+    "password": ""
+  }
+}

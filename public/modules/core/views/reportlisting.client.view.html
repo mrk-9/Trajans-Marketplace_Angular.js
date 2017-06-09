@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <div class="pull-right"><i class="fa fa-times pointer" ng-click="closeReportModal()"></i></div>
+    <h4 class="modal-title">Report Lising</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <p>
+                    Use this page to inform trajans.market if a listing is breaking our terms of use, or could be considered offensive.
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                <form name="reportForm">
+                    <textarea ng-model="message" name="reportListingMessage" rows="5" class="report-listing-textarea" placeholder="Please tell us why you are reporting this listing..." required></textarea>
+                    <button class="btn btn-primary margin-top-20" ng-click="reportListing()">
+                        Report Listing
+                    </button>
+                </form>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20">
+                <div class="alert alert-danger">
+                    Please only report listing which users may consider offensive, or which may be illegal.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

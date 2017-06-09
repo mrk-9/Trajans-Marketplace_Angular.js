@@ -1,0 +1,30 @@
+<div class="row extra-padding">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p class="bold text-muted">
+            Select a transaction method
+        </p>
+    </div>
+    <div ng-if="order.offerBuyerProtection" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div>
+            <div class="radio padding-left-20">
+                <label>
+                    <input ng-click="transactionModerated()" type="radio" ng-model="transactionMethod" value="moderated"  name="transactionMethod" checked>
+                    Buyer protection (moderated payment)
+                </label>
+            </div>
+            <!--<div>
+                <small class="italic">1% Fee added to total cost</small>
+            </div>-->
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-top-20"  ng-if="order.seller.verified && order.offerBitcoinDirect">
+        <div>
+            <div class="radio padding-left-20">
+                <label>
+                    <input ng-click="transactionDirect()" type="radio" ng-model="transactionMethod" value="direct" name="transactionMethod">
+                    Direct payment
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

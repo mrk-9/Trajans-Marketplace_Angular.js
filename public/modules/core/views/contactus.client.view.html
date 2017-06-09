@@ -1,0 +1,24 @@
+<div class="container" data-ng-controller="SupportRequestController">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1>Contact us</h1>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-lg-offset-3">  
+        <form name="contactForm" data-ng-submit="supportrequest(contactForm)" class="signin form-horizontal" autocomplete="off">
+           <fieldset> 
+                <div class="form-group">
+                    <label for="">Subject</label>
+                    <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject" ng-model="contact.subject" required>
+                </div>        
+                
+                <div class="form-group">
+                    <label for="">Desciption</label>
+                    <textarea type="text" id="contact" name="contact" class="form-control" placeholder="Desciption" rows="6" ng-model="contact.description" required></textarea>
+                </div>                   
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <div data-ng-show="error" class="text-center text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

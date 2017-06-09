@@ -1,0 +1,231 @@
+<div>
+    <section data-ng-controller="ListingsController" ng-init="getListingsForUser()">
+        <div class="container">
+
+            <div class="row">
+                
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="user.userListings.length < 4">
+                    <h1><i class="glyphicon glyphicon-thumbs-down" /> Featured Merchant Setup</h1>
+                    <p><i class="glyphicon glyphicon-thumbs-down" /> Unfortunately, you do not have enough active listings to show as a featured merchant. To display as a featured merchant, please go back and activate a listing or create a new one.</p>
+                </div>
+
+                <div ng-if="user.userListings.length > 3">
+
+                    <div id="featured-merchant-setup" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h1>Featured Merchant Setup</h1>
+                    </div>
+                
+                    <div class="choose-listings">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <h3>1. Choose listings</h3>
+                            <p>Please select the <strong>4</strong> listings you would like to use as your featured listings by clicking the <strong>'Mark as featured'</strong> button.</p>
+                            <dir-pagination-controls template-url="/lib/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>Listing Name</td>
+                                            <td>Listing Price Fiat</td>
+                                            <td>Listing Price BTC</td>
+                                            <td>Purchases</td>
+                                            <td>Quantity Available</td>
+                                            <td></td>
+                                            <td>Featured</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody dir-paginate="listing in userListings | itemsPerPage: 10">
+                                        <tr>
+                                            <td class="basket-image">
+                                                <img ng-if="listing.primaryImage" class="img-responsive" ng-src="{{listing.primaryImage.croppedPath ? listing.primaryImage.croppedPath : listing.primaryImage.path}}"/>
+                                                <img ng-if="!listing.primaryImage" class="img-responsive" ng-src="img/placeholder.png"/>
+                                            </td>
+                                            <td>
+                                                <b>{{listing.name}}</b>
+                                            </td>
+                                            <td>
+                                                {{listing.priceFiat | exchange}}
+                                            </td>
+                                            <td>
+                                                {{listing.priceBTC | exchangebitcoin}}
+                                            </td>
+                                            <td>
+                                                {{listing.purchases}}
+                                            </td>
+                                            <td>
+                                                {{listing.quantityAvailable}}
+                                            </td>
+                                           <td ng-if="!listing.listingActive">
+                                                <button title="Deactivate item" ng-click="toggleActivation(listing)" ng-disabled="user.subscriptionStatus[0] !== 'Active'" class="btn btn-secondary"><i class="glyphicon glyphicon-edit"></i> Activate</button>
+                                            </td>
+                                            <td ng-if="listing.listingActive">
+                                                <button title="Deactivate item" ng-click="toggleActivation(listing)" class="btn btn-secondary"><i class="glyphicon glyphicon-edit"></i> Deactivate</button>
+                                            </td>
+                                            <td ng-if="listing.listingActive && user.featuredMerchant && !listing.isFeatured && featuredCount < 4">
+                                                <button title="Deactivate item" ng-click="toggleFeatured(listing)" ng-disabled="user.subscriptionStatus[0] !== 'Active'" class="btn btn-primary btn-dash">Mark as Featured</button>
+                                            </td>
+                                            <td ng-if="listing.listingActive && user.featuredMerchant && listing.isFeatured">
+                                                <button title="Deactivate item" ng-click="toggleFeatured(listing)" ng-disabled="user.subscriptionStatus[0] !== 'Active'" class="btn btn-secondary btn-dash">Un-mark as Featured</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-ng-controller="ListingsController" ng-init="getFeaturedListings()">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <h3>2. Listing Options</h3>
+                            <p>To ensure that your featured merchant display box looks as appealing as possible, we recommend that all of your featured listings are cropped to a square.</p>
+
+                            <p>Also, if you would like to select which listing you would like to use as your main listing within the featured box, you can do so below.</p>
+
+                            <div class="featured-setup-cropping">
+                                <div class="row">
+                                    <div ng-repeat="listing in merchant.visibleListings">
+                                        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                            <div ng-class="(listing.mainFeaturedListing ? 'mainFeatured' : '')" class="featured-item">
+                                                <div class="main-image">
+                                                    <div class="main">
+                                                        <div class="table-div">
+                                                            <div class="table-div-inner">
+                                                                <img ng-if="listing.primaryImage" class="img-responsive" ng-src="{{listing.primaryImage.croppedPath ? listing.primaryImage.croppedPath : listing.primaryImage.path}}">
+                                                                <img ng-if="!listing.primaryImage" class="img-responsive" ng-src="img/placeholder.png">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="description"><h4 ng-bind="listing.name"></h4></div>
+                                                <div class="crop-set-images">
+                                                    <a class="btn btn-primary btn-dash" ng-href="/#!/listings/{{listing._id}}/crop">Crop Images</a>
+                                                    <div ng-if="!listing.mainFeaturedListing">
+                                                        <a class="btn" ng-click="setAsMainFeatured(listing)">Set as main feature</a>
+                                                    </div>
+                                                    <div ng-if="listing.mainFeaturedListing" class="main-image-selected">
+                                                        <p>MAIN FEATURE <i class="glyphicon glyphicon-ok" /></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview-container">
+                            <div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+                                <div class="preview">
+                                    <h3>3. Preview</h3>
+                                    <div class="clear"></div>
+                                    <div class="featured-box">
+                                    <div class="featured-wrapper">
+                                        <div class="big-image">
+                                        <div class="main">
+                                            <div class="table-div">
+                                            <div class="table-div-inner">
+                                                <a ng-if="merchant.visibleListings[0].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                <span class="thumb">
+                                                    <img class="img-responsive" ng-src="{{merchant.visibleListings[0].primaryImage.croppedPath ? merchant.visibleListings[0].primaryImage.croppedPath : merchant.visibleListings[0].primaryImage.path}}" />
+                                                </span>
+                                                </a>
+                                                <a ng-if="!merchant.visibleListings[0].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                <span class="thumb">
+                                                    <img class="img-responsive" ng-src="img/placeholder.png" />
+                                                </span>
+                                                </a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="smaller-images">
+                                        <div class="first">
+                                            <div class="main">
+                                            <div class="table-div">
+                                                <div class="table-div-inner">
+                                                <a ng-if="merchant.visibleListings[1].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                    <span class="thumb">
+                                                    <img class="img-responsive" ng-src="{{merchant.visibleListings[1].primaryImage.croppedPath ? merchant.visibleListings[1].primaryImage.croppedPath : merchant.visibleListings[1].primaryImage.path}}" />
+                                                    </span>
+                                                </a>
+                                                <a ng-if="!merchant.visibleListings[1].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                    <span class="thumb">
+                                                    <img class="img-responsive" ng-src="img/placeholder.png" />
+                                                    </span>
+                                                </a>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="second">
+                                            <div class="main">
+                                            <div class="table-div">
+                                                <div class="table-div-inner">
+                                                <a ng-if="merchant.visibleListings[2].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                    <span class="thumb">
+                                                    <img class="img-responsive" ng-src="{{merchant.visibleListings[2].primaryImage.croppedPath ? merchant.visibleListings[2].primaryImage.croppedPath : merchant.visibleListings[2].primaryImage.path}}" />
+                                                    </span>
+                                                </a>
+                                                <a ng-if="!merchant.visibleListings[2].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                    <span class="thumb">
+                                                    <img class="img-responsive" ng-src="img/placeholder.png" />
+                                                    </span>
+                                                </a>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="third">
+                                            <div class="main">
+                                            <div class="table-div">
+                                                <div class="table-div-inner">
+                                                <a ng-if="merchant.visibleListings[3].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                    <span class="thumb">
+                                                    <img class="img-responsive" ng-src="{{merchant.visibleListings[3].primaryImage.croppedPath ? merchant.visibleListings[3].primaryImage.croppedPath : merchant.visibleListings[3].primaryImage.path}}" />
+                                                    </span>
+                                                </a>
+                                                <a ng-if="!merchant.visibleListings[3].primaryImage" ng-href="/#!/users/{{merchant._id}}">
+                                                    <span class="thumb">
+                                                    <img class="img-responsive" ng-src="img/placeholder.png" />
+                                                    </span>
+                                                </a>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="featured-merchant-info">
+                                        <div class="row">
+                                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                            <div class="feautured-merchant-info-container">
+                                            <a ng-href="/#!/users/{{merchant._id}}"><span class="featured-merchant-name">{{merchant.merchantName ? merchant.merchantName : merchant.username}}</span></a>
+                                            <div class="featured-merchant-description">
+                                                <div class="blurb">
+                                                {{merchant.profileBlurb}}
+                                                </div>
+                                                <div class="listing-count">{{merchant.activeListings}} ITEMS</div><div class="view-all"><a ng-href="/#!/users/{{merchant._id}}">VIEW ALL</a></div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 merchant-image-container">
+                                            <div ng-if="merchant.profileImage"  class="featured-merchant-user-image">
+                                                <a ng-href="/#!/users/{{merchant._id}}"><img ng-src="{{merchant.profileImage}}" /></a>
+                                            </div>
+                                            <div ng-if="!merchant.profileImage" class="featured-merchant-user-image">
+                                                <a ng-href="/#!/users/{{merchant._id}}"><img data-ng-src="http://placehold.it/100x100&amp;text={{listing.user.merchantName ? listing.user.merchantName : listing.user.username | limitTo: 1 | uppercase}}" /></a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </section>
+</div>

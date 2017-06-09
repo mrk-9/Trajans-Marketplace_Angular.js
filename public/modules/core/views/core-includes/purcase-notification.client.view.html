@@ -1,0 +1,30 @@
+<div class="purcahse-notification" ng-if="purchaseListing">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+			<i class="icon icon-close close-notification" ng-click="closePurchaseNotification()"></i>
+		</div>
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+			<div ng-if="purchaseListing.listing.primaryImage">
+                <div class="purchase-notification-image-container">
+                    <img ng-src="{{purchaseListing.listing.primaryImage.croppedPath ? purchaseListing.listing.primaryImage.croppedPath : purchaseListing.listing.primaryImage.path}}">
+                </div>
+            </div>
+		</div>
+		<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 text-left">
+			 <span ng-if="purchaseListing.purchaseLocation">
+				<small>Someone in {{purchaseListing.purchaseLocation}} just purchased: </small>
+			 </span>
+			 <span ng-if="!purchaseListing.purchaseLocation">
+				<small>Someone just purchased:</small>
+			 </span>
+			<p class="margin-top-10">
+				<a ng-href="#!/listings/{{purchaseListing.listing._id}}">{{purchaseListing.listing.name}}</a>!
+			</p>
+			<small>
+				{{randNumber}} seconds ago!
+			</small>
+		</div>
+	</div>
+	
+
+</div>

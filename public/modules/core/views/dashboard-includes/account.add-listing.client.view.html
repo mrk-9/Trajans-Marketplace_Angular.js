@@ -1,0 +1,35 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Add a listing</h2>
+        <hr>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div ng-if="user.subscriptionStatus[0] !== 'Cancelled' && (user.paymentMethodCreated || PaymentMethodCreated)">
+            <div ng-include="'/modules/listings/views/create-listing.client.view.html'"></div>
+        </div>
+        <div ng-if="!user.paymentMethodCreated">
+            <div>
+                <div class="alert alert-warning">
+                    Before you start selling, you must either provide us with your payment processor details, or apply a Bitcoin merchant withdrawl address.
+                </div>
+                <div class="margin-top-20">
+                    <p class="text-muted">
+                        Click here to manage your merchant settings and apply a withdrawl address for Trajans.
+                    </p>
+                    <p>
+                        <a class="btn btn-primary" href="/#!/dashboard/paymentpreferences">
+                            Manage Payment Preferences
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div ng-if="user.subscriptionStatus[0] === 'Cancelled'">
+            <div class="col-xs-12">
+                <div class="alert alert-danger">
+                    An active subscription is required to add listings. <a href="#!/subscription/priceplans">Subscribe now</a> and start selling today.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 50 50" xml:space="preserve" class="style0">
+<style>
+	.style0{
+		enable-background:	new 0 0 50 50;
+	}
+</style><style type="text/css">
+	.st0{fill:none;stroke:#82888a;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#82888a;stroke-width:2;stroke-miterlimit:10;}
+</style>
+<polyline class="st0" points="38,15 25,15 25,2"/>
+<polyline class="st0" points="28,47 5,47 5,1 25,1 39,15 39,23"/>
+<circle class="st0" cx="36" cy="36" r="9"/>
+<line class="st1" x1="42" y1="42" x2="49" y2="49"/>
+</svg>

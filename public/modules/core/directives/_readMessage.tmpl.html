@@ -1,0 +1,28 @@
+<section>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <button type="button" class="btn btn-default pull-right" ng-click="delete(message.index)">Delete</button>
+  </div>
+  <h2> {{ message.subject }} </h2>
+  <div class="form-group">
+    <div>
+      <label for="subject">From</label> <span>{{ message.from }}</span>
+    </div>
+    <div>
+      <label for="subject">Sent</label> <span>{{ message.created | date: 'dd/MM/yyyy h:mm' }}</span>
+    </div>  
+  </div>
+  <div class="form-group">
+  <div ng-bind-html="message.content"></div>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary" ng-click="reply = !reply;">Reply</button>
+    <button class="btn btn-large" ng-click="backToMessages()">Back</button>
+  </div>
+  <div ng-show="reply">
+        <div class="form-group">
+        <textarea id="response-text" class="form-control" required="required" placeholder="Enter your reply..." cols="70" rows="5" ng-model="response.reply"></textarea>
+    </div>
+    <button class="btn btn-primary" ng-click="replyToMessage(response);">Send</button>
+  </div>
+</section>
+

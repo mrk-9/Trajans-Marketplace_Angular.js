@@ -1,0 +1,569 @@
+<section data-ng-controller="ListingsController" ng-init="createEditListingInit()" class="listing-create-edit">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form class="form-horizontal" name="listingForm" novalidate>
+                <fieldset>
+                    <h4 class="form-heading">
+                        Listing Information
+                    </h4>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="name">Product name</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="text" data-ng-model="name" name="name" id="name" class="form-control"
+                                       placeholder="Listing Name..."
+                                       ng-class="{'error-border': (listingForm.name.$error.required && submitted)}"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.name.$dirty || submitted) && listingForm.name.$error.required"
+                               class="has-error">
+                                Please enter a product name.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="category">Category select</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <select class="form-control" ng-change="mainCategoryChanged(category)"
+                                        ng-model="category" name="category"
+                                        id="category"
+                                        ng-options="category.alias as category.title for category in categories | orderBy:'title'"
+                                        ng-class="{'error-border': (listingForm.category.$error.required && submitted)}"
+                                        required>
+                                    <option value="">Choose a category</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.category.$dirty || submitted) && listingForm.category.$error.required"
+                               class="has-error">
+                                Please select a product category.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="primaryCategories">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="category">Primary Category</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <select class="form-control"
+                                        ng-change="primaryCategorySelected(listing.primaryCategory)"
+                                        ng-model="listing.primaryCategory"
+                                        name="primaryCategory" id="primaryCategory"
+                                        ng-options="key as value for (key, value) in primaryCategories"
+                                        ng-class="{'error-border': (listingForm.primaryCategory.$error.required && submitted)}"
+                                        required>
+                                    <option value="">Choose a category</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.primaryCategory.$dirty || submitted) && listingForm.primaryCategory.$error.required"
+                               class="has-error">
+                                Please select a primary category.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="secondaryCategories">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="category">Secondary category</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <select class="form-control" ng-change="secondaryCategorySelected(secondaryCategory)"
+                                        ng-model="secondaryCategory"
+                                        id="secondaryCategory" name="secondaryCategory"
+                                        ng-options="key as value for (key, value) in secondaryCategories | orderBy:'title'"
+                                        ng-class="{'error-border': (listingForm.secondaryCategory.$error.required && submitted)}"
+                                        required>
+                                    <option value="">Choose a category</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.secondaryCategory.$dirty || submitted) && listingForm.secondaryCategory.$error.required"
+                               class="has-error">
+                                Please select a secondary category.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="tertiaryCategories">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="category">Item Type</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <select class="form-control" ng-change="tertiaryCategorySelected(tertiaryCategory)"
+                                        ng-model="tertiaryCategory"
+                                        id="tertiaryCategory" name="tertiaryCategory"
+                                        ng-options="key as value for (key, value) in tertiaryCategories | orderBy:'title'"
+                                        ng-class="{'error-border': (listingForm.tertiaryCategory.$error.required && submitted)}"
+                                        required>
+                                    <option value="">Choose a type</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.tertiaryCategory.$dirty || submitted) && listingForm.tertiaryCategory.$error.required"
+                               class="has-error">
+                                Please select the item type.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="sku">Product sku</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input type="text" data-ng-model="sku" id="sku" class="form-control"
+                                       placeholder="Listing Sku...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="price">Price</label>
+                        </div>
+                        <div class="col-xs-5 col-sm-5 col-md-6 col-lg-5">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input type="number" min="1" ng-change="exchange(price)" data-ng-model="price"
+                                       name="price" id="price" placeholder="0"
+                                       ng-class="{'error-border': (listingForm.price.$error.required && submitted)}"
+                                       required>
+
+                                <span ng-show="(listingForm.price.$dirty || submitted) && listingForm.price.$error.required"
+                                      class="has-error" style="margin-left: 5px">
+                                    Please enter a price.
+                                </span>
+                                <span ng-show="(listingForm.price.$dirty || submitted) && listingForm.price.$error.min"
+                                      class="has-error" style="margin-left: 5px">
+                                    Please enter a valid price. Price cannot be less then 1.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 green bold margin-top-20">
+                            <span ng-bind="price | exchangebitcoin"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="price">Payment Options</label>
+                            <div class="input-group">
+                                <span class="checkbox-option">Offer Buyer Protection (moderated payment) <input
+                                        type="checkbox" data-ng-model="listing.offerBuyerProtection"/></span> <span
+                                    ng-if="user.verified">|</span>
+                                <span ng-if="user.verified" class="checkbox-option">Offer Bitcoin Direct <input
+                                        type="checkbox" data-ng-model="listing.offerBitcoinDirect"/></span>
+                            </div>
+                            <div class="red margin-top-10 bold"
+                                 ng-if="!listing.offerBuyerProtection && !listing.offerBitcoinDirect">
+                                <i class="glyphicon glyphicon-hand-up"/> WARNING! You must select buyer
+                                protection/bitcoin direct or both.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="condition">Condition</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <select class="form-control" ng-model="condition" id="condition">
+                                    <option value="New">Brand New</option>
+                                    <option value="New - Never Used">New - Never Used</option>
+                                    <option value="Manufacturer Refirbished">Manufacturer Refirbished</option>
+                                    <option value="Merchant Refirbished">Merchant Refirbished</option>
+                                    <option value="Used">Used</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group keyFeatures">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="description">Key Features (Max 3)</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="key-feature">
+                                        <div text-angular ng-model="keyFeatures[0]" data-ng-required="true"
+                                             name="key1" ta-toolbar="[['undo', 'redo']]"></div>
+                                    </div>
+                                    <div>
+                                        <p ng-show="(listingForm.key1.$dirty || submitted) && listingForm.key1.$error.required"
+                                           class="text-danger">
+                                            Please enter a first key.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="key-feature">
+                                        <div text-angular ng-model="keyFeatures[1]" data-ng-required="true"
+                                             name="key2" ta-toolbar="[['undo', 'redo']]"></div>
+                                    </div>
+                                    <div>
+                                        <p ng-show="(listingForm.key2.$dirty || submitted) && listingForm.key2.$error.required"
+                                           class="text-danger">
+                                            Please enter a second key.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="key-feature">
+                                        <div text-angular ng-model="keyFeatures[2]" data-ng-required="true"
+                                             name="key3" ta-toolbar="[['undo', 'redo']]"></div>
+                                    </div>
+                                    <div>
+                                        <p ng-show="(listingForm.key3.$dirty || submitted) && listingForm.key3.$error.required"
+                                           class="text-danger">
+                                            Please enter a third key.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="description">Main description</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div text-angular ng-model="description" name="description" data-ng-required="true"
+                                 ta-toolbar="[['h2','h3','p','quote'],['ul','ol'],['bold','italics','underline'],['justifyLeft', 'justifyCenter', 'justifyRight'],['undo', 'redo']]">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.description.$dirty || submitted) && listingForm.description.$error.required"
+                               class="text-danger">
+                                Please enter a description.
+                            </p>
+                        </div>
+                    </div>
+                    <h4 class="form-heading">
+                        Quantity available
+                    </h4>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label>Quantity available</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="checkbox">
+                                <label class="no-margin ">
+                                    <input data-ng-model="multiple" type="radio" value="false">One available
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label class="no-margin ">
+                                    <input data-ng-model="multiple" type="radio" value="true">Multiple available
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="multiple == 'true'">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label for="quantityAvailable">How many?</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input min="1" type="number" data-ng-model="quantityAvailable" name="quantityAvailable"
+                                       id="quantityAvailable"
+                                       placeholder="How many available?"
+                                       ng-class="{'error-border': (listingForm.quantityAvailable.$error.required && submitted)}"
+                                       required>
+
+                                <span ng-show="(listingForm.quantityAvailable.$dirty || submitted) && listingForm.quantityAvailable.$error.required"
+                                      class="has-error" style="margin-left: 5px">
+                                    Please enter a quantity available.
+                                </span>
+                                <span ng-show="(listingForm.quantityAvailable.$dirty || submitted) && listingForm.quantityAvailable.$error.min"
+                                      class="has-error" style="margin-left: 5px">
+                                    Please enter a valid quantity. Quantity cannot be less then 1.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="form-heading">
+                        Shipping options
+                    </h4>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="countries">Shipping to</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 margin-bottom-10">
+                            <div class="controls">
+                                <select class="form-control" ng-model="shipping.country"
+                                        ng-options="country as country.countryName for country in countries | orderBy:'countryName'"
+                                        ng-change="getShippingAreas(shipping.country, 'shipping')">
+                                    <option value="">Choose a country</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="controls">
+                                <select class="form-control" ng-model="shipping.area"
+                                        ng-options="area as area.name for area in shippingAreas | orderBy:'name'">
+                                    <option value="">Choose an area</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="shippingCost">Shipping cost</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input min="0" type="number" value="0" data-ng-model="shipping.shippingCost"
+                                       id="shippingCost" placeholder="Cost in AUD">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="shippingAdditionalCost">Additional cost</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input min="0" type="number" value="0" data-ng-model="shipping.shippingAdditionalCost"
+                                       id="shippingAdditionalCost" placeholder="Cost in AUD">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-3">
+                            <button class="btn btn-primary" ng-click="addShippingOption(shipping)">Add shipping option
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-striped" ng-if="shippingOptions.length">
+                                    <thead>
+                                    <td>Country</td>
+                                    <td>Area</td>
+                                    <td>Cost</td>
+                                    <td>Additional cost</td>
+                                    <td>Remove</td>
+                                    </thead>
+                                    <tbody ng-repeat="shippingOption in shippingOptions">
+                                    <tr>
+                                        <td>
+                                            {{shippingOption.country.countryName}}
+                                        </td>
+                                        <td>
+                                            {{shippingOption.area.name}}
+                                        </td>
+                                        <td>
+                                            {{shippingOption.shippingCost}} AUD
+                                        </td>
+                                        <td>
+                                            {{shippingOption.shippingAdditionalCost}} AUD
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary"
+                                                    ng-click="removeShippingMethod(shippingOption, $index)">Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="submitted && shippingOptions.length === 0" class="text-danger">
+                                Please add at least one shipping method.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="info-text">
+                        You can add multiple shipping options for your product.
+                        <button class="btn btn-sm btn-secondary" ng-click="toggleShippingHelp()"><i
+                                class="icon icon-question"></i>
+                        </button>
+                    </p>
+                    <div class="alert alert-info" ng-if="shippingCostToggled">
+                        <ul>
+                            <li>
+                                Enter shipping amount
+                            </li>
+                            <li>
+                                Enter cost of shipping
+                            </li>
+                            <li>
+                                Enter additional cost
+                            </li>
+                        </ul>
+                        <p class="margin-top-20">
+                            Enter 0 into Additional cost if this item has free shipping with another purchase.
+                            <br>
+                            <br> When a buyer purchases multiple items, the item with the highest shipping cost will be
+                            used first, and the additional cost of any subsequent items will be added on top of this.
+                        </p>
+                    </div>
+                    <h4 class="form-heading">
+                        Item location
+                    </h4>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="name">Item location</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 margin-bottom-10" ng-if="defaultAddress.address">
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="defaultAddress.exists"/> Located at default address
+                                ({{defaultAddress.address}})
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 margin-bottom-10">
+                            <div class="controls">
+                                <select class="form-control" ng-disabled="defaultAddress.exists"
+                                        ng-model="itemLocation.country"
+                                        ng-options="country as country.countryName for country in countries | orderBy:'countryName'"
+                                        ng-change="getShippingAreas(itemLocation.country, 'location')">
+                                    <option value="">Choose a country</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="controls">
+                                <select ng-disabled="defaultAddress.exists" class="form-control" ng-model="itemLocation.area"
+                                        ng-options="area as area.name for area in locationAreas | orderBy:'name'">
+                                    <option value="">Choose an area</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="submitted && !defaultAddress.exists && !itemLocation" class="text-danger">
+                                Please enter the item dispatch location.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="estimatedDateOfDeliveryNational">ETA of delivery (amount of days)
+                                (national)</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input min="1" type="number" data-ng-model="listing.etaDeliveryNational"
+                                       id="estimatedDateOfDeliveryNational" name="estimatedDateOfDeliveryNational"
+                                       ng-class="{'error-border': (listingForm.estimatedDateOfDeliveryNational.$error.required && submitted)}"
+                                       placeholder="Delivery ETA (no. of days)" required />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.estimatedDateOfDeliveryNational.$dirty || submitted) && listingForm.estimatedDateOfDeliveryNational.$error.required"
+                               class="has-error">
+                                Please enter the estimated number of days the item will take for national delivery.
+                            </p>
+                            <p ng-show="(listingForm.estimatedDateOfDeliveryNational.$dirty || submitted) && listingForm.estimatedDateOfDeliveryNational.$error.min"
+                               class="has-error">
+                                Please enter a valid number of days. Number of days cannot be less then 1.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="estimatedDateOfDeliveryNational">ETA of delivery (amount of days)
+                                (international)</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <input min="0" type="number" data-ng-model="listing.etaDeliveryInternational"
+                                       id="estimatedDateOfDeliveryInternational"
+                                       placeholder="Delivery ETA (no. of days)">
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="form-heading">
+                        Shipping Information
+                    </h4>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="bulkyItem">Is this a bulky item?</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bulky-item-checkbox">
+                            <div class="checkbox">
+                                <label class="no-margin">
+                                    <input data-ng-model="bulkyItem" type="checkbox"> bulky item
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="shippingInformation">Shipping Information</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="controls">
+                                <textarea data-ng-model="shippingInformation" id="shippingInformation"
+                                          name="shippingInformation"
+                                          placeholder="Shipping information..." required
+                                          ng-class="{'error-border': (listingForm.shippingInformation.$error.required && submitted)}">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <p ng-show="(listingForm.shippingInformation.$dirty || submitted) && listingForm.shippingInformation.$error.required"
+                               class="has-error">
+                                Please specify a return policy.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="price">Set as default shipping information</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 returns-default-checkbox">
+                            <div class="checkbox">
+                                <label class="no-margin">
+                                    <input data-ng-model="defaultShippingInformation" type="checkbox"> Make default
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <h4 class="form-heading">
+                Upload Images
+            </h4>
+            <div ng-if="uuid" id="dropzone">
+                <form class="dropzone dz-clickable" id="demo-upload" dropzone>
+                    <div class="dz-message">Drop files here or click to upload.</div>
+                </form>
+            </div>
+            <h4 class="form-heading">
+                Submit your listing
+            </h4>
+            <div>
+                <p class="info-text">
+                    If you're sure all the information is accurate, then click below to submit your new listing.
+                </p>
+            </div>
+            <div class="col-xs-12 no-padding">
+                <button class="btn btn-primary create-listing-button" ng-class="{'disabled' : uploadingImage}"
+                        ng-click="create()">Create Listing
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div data-ng-show="error" class="text-danger fade-in margin-top-20">
+                        <p data-ng-bind="error"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

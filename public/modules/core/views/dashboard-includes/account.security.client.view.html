@@ -1,0 +1,109 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>
+            Security
+        </h2>
+        <hr>
+    </div>
+    <section>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fade-in">
+            <div>
+                <h4>
+                Change password
+            </h4>
+                <p>
+                    Use the link below to change your password.
+                </p>
+                <p>
+                    <a class="btn btn-primary" href="/#!/settings/password">Change Password</a>
+                    <hr>
+                </p>
+            </div>
+            <div>
+                <h4>
+                    Two factor authentication
+                </h4>
+            </div>
+            <div ng-if="user.faEnabled">
+                <p class="green">
+                    Google authenticator is enabled on this account!
+                </p>
+                <p class="alert alert-info">
+                    Enter your 6 digit code here to disable two factor authentication.
+                </p>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
+                    <form>
+                        <input placeholder="Random 6 digit number..." type="text" data-ng-model="randomNumber" class="form-control" required="required">
+                    </form>
+                    <div class="margin-top-20">
+                        <span class="margin-top-20 btn btn-secondary" ng-click="tryCreateFa(randomNumber, false)">Disable</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="user.faEnabled === 'false' || !user.faEnabled">
+                <p>
+                    Click the button below to setup google two factor authentication on Trajans login.
+                </p>
+                <p>
+                    <button ng-click="enableFa()" class="btn  btn-primary">Setup Google Authenticator</button>
+                </p>
+                <div ng-if="showQrSetup">
+                    <p class="alert alert-info">
+                        Scan the QR code to obtain your random 6 digit number.
+                    </p>
+                    <p>
+                        <img ng-src="{{user.faQr}}" />
+                    </p>
+                    <p>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <form>
+                                    <input placeholder="Random 6 digit number..." type="text" data-ng-model="randomNumber" class="form-control" required="required">
+                                </form>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <span class="margin-top-20 btn btn-primary" ng-click="tryCreateFa(randomNumber, true)">Submit</span>
+                                <span class="margin-top-20 btn btn-secondary" ng-click="hideFa()">Cancel</span>
+                            </div>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr>
+            <div>
+                <h4>E-mail PGP Encryption</h4>
+                <p class="text-muted">
+                    If you enter a PGP key, e-mails regarding multi-signature escrows and private keys will automatically be encrypted.
+                </p>
+            </div>
+            <div class="form-group">
+                <div>
+                    <div class="controls col-xs-6 no-padding no-margin">
+                        <textarea rows="5" type="text" id="pgpKey" name="pgpKey" class="form-control" data-ng-model="user.pgpKey" placeholder="Enter your public PGP Key here"></textarea>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  no-padding no-margin">
+                        <small class="red">Please be careful when entering a PGP key, trajans is not responsible if you cannot decrypt your e-mails.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding no-margin">
+                <button ng-click="updateUserProfile()" class="btn btn-large btn-primary margin-top-10">Save PGP Settings</button>
+            </div>
+            <p class="text-success small col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="emailSent" class="margin-top-20">
+                An email has been sent to billz@tutanota.com with further instructions, please click the link to confirm your updated PGP settings.
+            </p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr>
+            <div class="login-history billing-section">
+                <h4>Login History</h4>
+                <h5>Last 10 Logins</h5>
+                <div ng-repeat="login in user.loginHistory.slice().reverse() | limitTo:10" class="last-logins">
+                    <p><strong>{{$index+1}}.</strong> {{login | date:"dd MMM yyyy 'at' h:mma"}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

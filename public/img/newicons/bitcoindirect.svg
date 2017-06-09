@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="208px" height="208px" viewBox="0 0 208 208" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>BITCOIN DIRECT</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="BITCOIN-DIRECT" transform="translate(4.000000, 4.000000)">
+            <circle id="Oval-6-Copy" stroke="#282D33" stroke-width="7" fill="#FFFFFF" cx="100" cy="100" r="100"></circle>
+            <circle id="Oval-6" stroke="#282D33" stroke-width="7" fill="#FFE2A9" cx="100" cy="100" r="82"></circle>
+            <text id="B" font-family="BanglaSangamMN, Bangla Sangam MN" font-size="115" font-weight="normal" letter-spacing="16.3420925" fill="#282D33">
+                <tspan x="68.284531" y="144">B</tspan>
+            </text>
+            <path d="M65.3183594,139.5 L84.0078125,139.5" id="Path-15" stroke="#282D33" stroke-width="9"></path>
+            <path d="M64,58 L83.6894531,58" id="Path-15-Copy" stroke="#282D33" stroke-width="9"></path>
+            <path d="M90.3447266,42.1552734 L90.3447266,60.8447266" id="Path-15-Copy-2" stroke="#282D33" stroke-width="9"></path>
+            <path d="M107,42 L107,60.6894531" id="Path-15-Copy-3" stroke="#282D33" stroke-width="9"></path>
+            <path d="M90,137 L90,155.689453" id="Path-15-Copy-5" stroke="#282D33" stroke-width="9"></path>
+            <path d="M107,137 L107,155.689453" id="Path-15-Copy-4" stroke="#282D33" stroke-width="9"></path>
+        </g>
+    </g>
+</svg>

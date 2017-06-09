@@ -1,0 +1,63 @@
+<div>
+    <div ng-if="user._id !== listing.user._id && !reviewHidden">
+        <div ng-if="user._id" class="leave-review cssFade">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 review-title">
+                    <h4 class="margin-top-20">
+                        Leave a review for <a ng-href="/#!/users/{{order.seller._id}}">{{order.seller.displayName}}</a>
+                    </h4>
+                </div>
+            </div>
+            <form name="reviewForm" data-ng-submit="addReview(review)" autocomplete="off">
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span>Order ID:</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        {{order._id}}
+                    </div>
+                </div>
+                <div class="row margin-top-20">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span>Review title</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <input type="text" name="" id="input" class="form-control" value="" data-ng-model="review.title" required>
+                    </div>
+                </div>
+                <div class="review-rating row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span>Rating</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="rating">
+                            <input type="radio" id="star5" name="rating" value="5" data-ng-model="review.rating" />
+                            <label for="star5">5 stars</label>
+                            <input type="radio" id="star4" name="rating" value="4" data-ng-model="review.rating" />
+                            <label for="star4">4 stars</label>
+                            <input type="radio" id="star3" name="rating" value="3" data-ng-model="review.rating" />
+                            <label for="star3">3 stars</label>
+                            <input type="radio" id="star2" name="rating" value="2" data-ng-model="review.rating" />
+                            <label for="star2">2 stars</label>
+                            <input type="radio" id="star1" name="rating" value="1" data-ng-model="review.rating" />
+                            <label for="star1">1 star</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-textarea row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <span>Review</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <textarea class="form-control" rows="10" data-ng-model="review.description" required></textarea>
+                    </div>
+                </div>
+                <div class="row submit-review">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-md-offset-2">
+                        <button type="submit" class="btn btn-primary" ng-class="{disabled : disableButton}">submit review</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

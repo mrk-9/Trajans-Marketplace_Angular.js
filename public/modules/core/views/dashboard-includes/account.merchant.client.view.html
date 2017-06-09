@@ -1,0 +1,134 @@
+<div class="dashboard-wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Merchant Settings</h2>
+        <hr>
+    </div>
+    <section class="row text-center content" ng-if="confirm">
+        <h3 class="col-md-12">
+            <i class="icon icon-checkmark green"></i> Confirm profile update
+        </h3>
+        <p class="text-muted">
+            Great! We have e-mailed you a confirmation link.
+        </p>
+        <p class="text-muted">
+            Please check your email and confirm your profile update by clicking on the link we sent you. Sometimes there are delays sending profile update e-mails, please also check your junk mail if you haven't recieved an e-mail from Trajans before.
+        </p>
+    </section>
+    <div class="col-md-12 col-xs-12" ng-if="!confirm">
+        <form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="username">Merchant Name</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="merchantName" name="merchantName" class="form-control" data-ng-model="user.merchantName" placeholder="Merchant Name" ng-maxlength="25">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="profileBlurb">Merchant Bio</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <textarea type="text" id="profileBlurb" name="profileBlurb" class="form-control" data-ng-model="user.profileBlurb" placeholder="Profile description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <label for="profileBlurb">Merchant Banner</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="alert alert-info">
+                                <p>
+                                    Upload a banner to display on both your listings page and your profile page.
+                                </p>
+                            </div>
+                            <p>*recommended dimensions 1170px x 150px</p>
+                            <p class="max-upload-size">Maximum upload file size: 2MB.</p>
+                            <!--Dropzone-->
+                            <div class="btn btn-primary user-banner-button" dropzone>
+                                Upload Profile Banner
+                            </div>
+                            <!--End dropzone-->
+                            <div ng-if="user.userBannerName" class="margin-top-20">
+                                <p>Your user banner will look like this:</p>
+                                <div style="background-image : url({{user.userBannerName}})" class="user-banner">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-heading">
+                        <h4>Business Address</h4>
+                        <p>Only City and Country will be displayed on your Merchant Profile Page.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="streetAddress">Street Address</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="streetAddress" name="streetAddress" class="form-control" data-ng-model="user.streetAddress" placeholder="Street Address">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="town">Town</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="town" name="town" class="form-control" data-ng-model="user.town" placeholder="Town">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="city">City, Country</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" ng-model="user.country" placeholder="Search location" typeahead-loading="loadingLocations" typeahead="address for address in getLocation($viewValue)" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="postcode">Postcode</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="postcode" name="postcode" class="form-control" data-ng-model="user.postcode" placeholder="Postcode">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="telephoneNumber">Telephone</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <input type="text" id="telephoneNumber" name="telephoneNumber" class="form-control" data-ng-model="user.telephoneNumber" placeholder="Telephone">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-large btn-primary">Save Merchant Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

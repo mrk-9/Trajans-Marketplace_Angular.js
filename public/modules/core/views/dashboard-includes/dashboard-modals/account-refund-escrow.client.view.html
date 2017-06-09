@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h3 class="modal-title">Request Refund On Escrow?</h3>
+    <hr>
+</div>
+<div class="modal-body text-left">
+    <p class="text-muted">
+        You are requesting a refund on this escrow.  Please enter your refund address and reason for the refund.  We will notify the freelancer that you wish to have a refund.
+    </p>
+    <form>
+        <div class="text-left">
+            <span class="bold">Refund to which address?</span>
+        </div>
+        <input type="text" ng-model="refund.refundAddress" placeholder="Refund to which address?" class="form-control" required="required">
+        <div class="margin-top-20">
+            <textarea placeholder="Enter a reason for refund..." class="form-control margin-top-20" rows="5" ng-model="refund.refundReason" required></textarea>
+        </div>
+        <button class="btn btn-sm btn-primary margin-top-20" ng-click="confirmRefundRequest(escrow)">Request Refund</button>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-sm btn-secondary" ng-click="dontCancel()">Cancel</button>
+</div>

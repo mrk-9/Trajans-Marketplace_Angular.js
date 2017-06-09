@@ -1,0 +1,465 @@
+<div class="container-fluid border-bottom"></div>
+<section class="listings-controller-view" data-ng-controller="ListingsController" data-ng-init="findOne('view')">
+    <div class="listing" data-ng-init="updateViewCount(listing)">
+        <div class="container-fluid">
+            <div class="row">
+                <div same-height class="col-xs-12 col-sm-12 col-md-6 col-lg-6 visible-lg visible-md listing-image-col large-image no-padding-left">
+                    <div class="col-lg-10 col-1440-12 col-lg-push-2">
+                        <div id="slider">
+                            <!-- Top part of the slider -->
+                            <div class="row">
+                                <div class="col-sm-12" id="carousel-bounding-box">
+                                    <img class="img-responsive" ng-src="{{visibleListingImage.croppedPath ? visibleListingImage.croppedPath : visibleListingImage.path}}"
+                                        src="{{visibleListingImage.croppedPath ? visibleListingImage.croppedPath : visibleListingImage.path}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-1440-12 col-lg-pull-10" id="slider-thumbs">
+                        <div class="thumb-container">
+                            <ul class="hide-bullets">
+                                <li ng-repeat="img in listing.images">
+                                    <img class="img-responsive" ng-src="{{img.croppedPath ? img.croppedPath : img.path}}" ng-mouseover="setAsLargeImage(img)" />
+                                </li>
+                            </ul>
+                            <div class="carousel-controls-vertical">
+                                 <a class="top-carousel-control" ng-click="">
+                                    <img class="icon-up" ng-src="/img/icons/up.svg" width="40" />
+                                </a>
+                                 <a class="bottom-carousel-control" ng-click="">
+                                    <img class="icon-down" ng-src="/img/icons/down.svg" width="40" />
+                                </a>
+                            </div>
+                            <div class="carousel-controls-horizontal">
+                                 <a class="top-carousel-control" ng-click="">
+                                    <img class="icon-right" ng-src="/img/icons/Previous.svg" height="40" />
+                                </a>
+                                 <a class="bottom-carousel-control" ng-click="">
+                                    <img class="icon-left" ng-src="/img/icons/Next.svg" height="40" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Slider-->
+                </div>
+
+                <!-- Mobile/Tablet Slider -->
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 visible-xs visible-sm listing-image-col no-padding-left">
+                    <div class="listing-images-main">
+                        <div class="big-image">
+                            <div class="main">
+                                <div class="table-div">
+                                    <div class="table-div-inner">
+                                        <div class="carousel-container">
+                                            <carousel interval="sliderInterval" disable-animation="true">
+                                                <slide ng-repeat="img in listing.images | orderBy:'-primaryImage'" active="img.active2">
+                                                    <img class="img-responsive" ng-class="{'cropped': img.croppedPath, 'original': !img.croppedPath}" ng-src="{{img.croppedPath ? img.croppedPath : img.path}}">
+                                                </slide>
+                                                <script id="template/carousel/carousel.html" type="text/ng-template">
+                                                  <div ng-mouseenter="pause()" ng-mouseleave="play()" class="carousel" ng-swipe-right="prev()" ng-swipe-left="next()">
+                                                    <div class="listing-carousel-indicators">
+                                                    <ol class="carousel-indicators" ng-show="slides.length > 1">
+                                                        <li ng-repeat="slide in slides track by $index" ng-class="{active: isActive(slide)}" ng-click="select(slide)"></li>
+                                                    </ol>
+                                                    <div class="carousel-inner" ng-transclude></div>
+                                                        <a class="left carousel-control" ng-click="prev()" ng-show="slides.length > 1"><img class="icon-prev" ng-src="/img/icons/Previous.svg" height="40" /></a>
+                                                        <a class="right carousel-control" ng-click="next()" ng-show="slides.length > 1"><img class="icon-prev" ng-src="/img/icons/Next.svg" height="40" /></a>
+                                                        
+                                                    </div>
+                                                </script>
+                                            </carousel>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Mobile/Tablet Slider -->
+
+                <!-- Desktop Listing Details -->
+                <div ng-style="divheight" class="col-xs-12 col-sm-12 col-md-6 col-lg-6 listing-image-col listing-brief-info-container visible-md visible-lg">
+                    <div class="listing-information col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <h1 class="listing-title">
+                                {{listing.name}}
+                            </h1>
+                        </div>
+
+                        <div class="col-md-12 col-lg-12 listing-features-list" ng-repeat="feature in listing.keyFeatures track by $index">
+                            <div><i class="glyphicon glyphicon-ok" /> {{feature | htmlToPlainText}}</div>
+                        </div>
+
+                        <div class="listing-purchases listing-price col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="bold">
+                                <div>{{listing.priceFiat | exchange}}</div>
+                                <div ng-if="listing.showSaving" class="price-saving bold">
+                                    <span class="was">Was {{listing.oldPriceFiat | exchange}} &nbsp;</span> <span class="overall-saving">Save {{listing.saving | exchange}}</span>
+                                </div>
+                            </div>
+
+                            <div class="bitcoin-price bold">
+                                <div>{{listing.priceFiat | exchangebitcoin}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 listing-btn-container">
+                            <div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 purchase-buy-sign no-padding" data-ng-show="authentication.user._id === listing.user._id">
+                                    <div ng-show="authentication.user._id">
+                                        <a ng-href="/#!/dashboard/managelistings/{{listing._id}}" class="btn btn-large btn-red listing-buy-now">
+                                            Edit Listing
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 purchase-buy-sign no-padding" data-ng-show="authentication.user._id !== listing.user._id">
+                                    <div ng-show="authentication.user._id">
+                                        <a ng-href="{{basketUrl}}" ng-bind="buyNow" class="btn btn-large btn-red listing-buy-now" ng-click="addToBasket()">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 login-signup-buttons text-center" ng-show="!authentication.user._id">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                                            <h5>Login or sign up to purchase this item...</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
+                                            <a ng-href="/#!/signin" class="btn listing-buy-now">Sign in</a>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding text-right">
+                                            <a ng-href="/#!/signup" class="btn btn-secondary listing-buy-now">Sign up</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 listing-merchant-info hidden-xs hidden-sm hidden-md">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                <div class="listing-user-image text-center">
+                                    <a ng-href="/#!/users/{{listing.user._id}}"><img ng-src="{{listing.user.profileImage}}" /></a>
+                                </div>
+                                <div class="listing-merchant-name text-center">
+                                    <a ng-href="/#!/users/{{listing.user._id}}">
+                                        <div ng-if="listing.user.merchantName" data-ng-bind="listing.user.merchantName"></div>
+                                        <div ng-if="!listing.user.merchantName" data-ng-bind="listing.user.username"></div>
+                                    </a>
+                                </div>
+                                <div class="listing-merchant-rating">
+                                    <div class="rating-stars">
+                                        <span ng-if="starScore === 0">
+                                        <i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                    </span>
+                                        <span ng-if="starScore === 1">
+                                        <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                    </span>
+                                        <span ng-if="starScore === 2">
+                                        <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                    </span>
+                                        <span ng-if="starScore === 3">
+                                        <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                    </span>
+                                        <span ng-if="starScore === 4">
+                                        <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/>
+                                    </span>
+                                        <span ng-if="starScore === 5">
+                                        <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/>
+                                    </span>
+                                        <span class="listing-numeric-rating">({{decimalScore}})</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-9 col-lg-9 listing-merchant-icon-box">
+                                <div class="row">
+                                    <div class="listing-labels">
+                                        <div ng-if="listing.user.verified">
+                                            <div class="tool-pos" tooltip-placement="top" tooltip="A verified merchant label indicates that this merchant has been successfully I.D verified.">
+                                                <div class="blue-label"><span></span>Verified Merchant</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="listing.offerBitcoinDirect">
+                                            <div class="tool-pos" tooltip-placement="top" tooltip="A bitcoin direct label indicates that this merchant accepts bitcoin payment direct to their digital wallet.">
+                                                <div class="green-label"><span></span>Bitcoin Direct</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="listing.offerBuyerProtection">
+                                            <div class="tool-pos" tooltip-placement="top" tooltip="A buyer protection label indicates that this merchant accepts a multisignature escrow payment on this listing.">
+                                                <div class="orange-label"><span></span>Buyer Protection</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="transactions col-xs-12">
+                                        <div class="transaction-container">
+                                            <div class="transaction-count">{{listing.user.totalTransactions}}</div> Transactions
+                                        </div>
+                                        <div class="marker-container">
+                                            <div class="marker"><i class="glyphicon glyphicon-map-marker" /></div>
+                                            <div class="location-text">{{listing.user.country}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- *END* Desktop Listing Details -->
+            </div>
+
+            <div class="row hidden-lg ">
+                <div class="col-xs-12 col-sm-12 col-md-12 listing-merchant-info">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-offset-2 col-md-2">
+                            <div class="listing-user-image">
+                                <a ng-href="/#!/users/{{listing.user._id}}"><img ng-src="{{listing.user.profileImage}}" /></a>
+                            </div>
+                            <div class="listing-merchant-name">
+                                <a ng-href="/#!/users/{{listing.user._id}}">
+                                    <div ng-if="listing.user.merchantName" data-ng-bind="listing.user.merchantName"></div>
+                                    <div ng-if="!listing.user.merchantName" data-ng-bind="listing.user.username"></div>
+                                </a>
+                            </div>
+                            <div class="listing-merchant-rating">
+                                <div class="rating-stars">
+                                    <span ng-if="starScore === 0">
+                                    <i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                </span>
+                                    <span ng-if="starScore === 1">
+                                    <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                </span>
+                                    <span ng-if="starScore === 2">
+                                    <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                </span>
+                                    <span ng-if="starScore === 3">
+                                    <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/><i class="glyphicon glyphicon-star not-lit"/>
+                                </span>
+                                    <span ng-if="starScore === 4">
+                                    <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star not-lit"/>
+                                </span>
+                                    <span ng-if="starScore === 5">
+                                    <i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/><i class="glyphicon glyphicon-star"/>
+                                </span>
+                                    <span class="listing-numeric-rating">({{allReviews.length}})</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-8 listing-merchant-icon-box">
+                            <div class="row">
+                                <div class="listing-labels">
+                                    <div ng-if="listing.user.verified">
+                                        <div class="tool-pos" tooltip-placement="top" tooltip-trigger="click" tooltip="A verified merchant label indicates that this merchant has been successfully I.D verified.">
+                                            <div class="blue-label"><span></span>Verified Merchant</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="listing.offerBitcoinDirect">
+                                        <div class="tool-pos" tooltip-placement="top" tooltip-trigger="click" tooltip="A bitcoin direct label indicates that this merchant accepts bitcoin payment direct to their digital wallet.">
+                                            <div class="green-label"><span></span>Bitcoin Direct</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="listing.offerBuyerProtection">
+                                        <div class="tool-pos" tooltip-placement="top" tooltip-trigger="click" tooltip="A buyer protection label indicates that this merchant accepts a multisignature escrow payment on this listing.">
+                                            <div class="orange-label"><span></span>Buyer Protection</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row hidden-xs">
+                            <div class="transactions-location margin-top-10 no-padding-left col-xs-12">
+                                <div class="transaction-container padding-top-5">
+                                    <div class="transaction-count-mobile">{{listing.user.totalTransactions}}</div> Transactions
+                                </div>
+                                <div class="marker-container">
+                                    <div class="marker-mobile"><i class="glyphicon glyphicon-map-marker" /></div>
+                                    <div class="location-text-mobile">{{listing.user.country}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row hidden-md hidden-sm max-w">
+                    <div class="transactions-location margin-top-30 margin-bottom-20 col-xs-12 text-center">
+                        <div class="transaction-container padding-top-5">
+                            <div class="transaction-count-mobile">{{listing.user.totalTransactions}}</div> Transactions
+                        </div>
+                        <div class="marker-container">
+                            <div class="marker-mobile"><i class="glyphicon glyphicon-map-marker" /></div>
+                            <div class="location-text-mobile">{{listing.user.country}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <!-- Mobile/Tablet Listing Details -->
+            <div class="visible-xs visible-sm">
+                <div class="listing-information text-center">
+                    <h1 class="listing-title">
+                        {{listing.name}}
+                    </h1>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 purchase-buy-sign margin-bottom-20" data-ng-if="authentication.user._id === listing.user._id">
+                        <div ng-show="authentication.user._id">
+                            <a ng-href="/#!/dashboard/managelistings/{{listing._id}}" class="btn btn-large btn-red listing-buy-now">
+                                    Edit Listing
+                                </a>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-12 listing-features-list" ng-repeat="feature in listing.keyFeatures track by $index">
+                        <div><i class="glyphicon glyphicon-ok" /> {{feature | htmlToPlainText}}</div>
+                    </div>
+                    <!-- ONLY VISIBLE FOR MOBILE/TABLET -->
+                    <div class="listing-purchases listing-price">
+                        <div class="col-xs-12 col-sm-12 bold">
+                            <div>{{listing.priceFiat | exchange}}</div>
+                        </div>
+
+                        <div ng-if="listing.showSaving" class="price-saving bold">
+                            <span class="was">Was ${{listing.oldPriceFiat | number:2}} &nbsp;</span> <span class="overall-saving">Save ${{listing.saving}}</span>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 bold padding-bottom-20">
+                            <div>{{listing.priceFiat | exchangebitcoin}}</div>
+                        </div>
+                    </div>
+                    <!-- -->
+
+                    <div class="listing-btn-container text-center">
+                        <div class="purchase-buy-sign no-padding-right text-center" data-ng-show="authentication.user._id !== listing.user._id">
+                            <div ng-show="authentication.user._id">
+                                <a ng-href="{{basketUrl}}" ng-bind="buyNow" class="btn btn-large btn-red listing-buy-now" ng-click="addToBasket()">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="login-signup-buttons" ng-show="!authentication.user._id">
+                            <div class="text-center">
+                                <div class="no-padding">
+                                    <h5>Login or sign up to purchase this item...</h5>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
+                                    <a ng-href="/#!/signin" class="btn listing-buy-now">Sign in</a>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding text-right">
+                                    <a ng-href="/#!/signup" class="btn btn-secondary listing-buy-now">Sign up</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Mobile Lsiting Details -->
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <h2>Product Details:</h2>
+
+                <h3>
+                    {{listing.name}}
+                </h3>
+                <span class="small">SKU: {{listing.sku}}</span>
+                <div class="listing-description-main">
+                    <p ng-bind-html="listing.description"></p>
+                </div>
+
+                <div class="margin-top-20" data-ng-show="authentication.user._id !== listing.user._id">
+                    <div ng-show="authentication.user._id">
+                        <a ng-href="{{basketUrl}}" ng-bind="buyNow" class="btn btn-large btn-red listing-buy-now" ng-click="addToBasket()">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 login-signup-buttons" ng-show="!authentication.user._id">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 no-padding">
+                            <h5>Login or sign up to purchase this item...</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 no-padding">
+                            <a ng-href="/#!/signin" class="btn listing-buy-now">Sign in</a>
+                            <a ng-href="/#!/signup" class="btn btn-secondary listing-buy-now">Sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 shipping">
+                <h2><span></span>Shipping Info:</h2>
+                <div class="table-responsive">
+                    <table class="table" ng-if="shippingOptions.length" ng-repeat="shippingOption in shippingOptions">
+                        <tr>
+                            <td>
+                                <strong>Ships From:</strong>
+                            </td>
+
+                            <td>
+                                {{listing.itemLocation}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Ships To:</strong>
+                            </td>
+                            <td>
+                                {{shippingOption.country.countryName}}, {{shippingOption.area.name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Cost:</strong>
+                            </td>
+                            <td>
+                                {{shippingOption.shippingCost}} AUD
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>ETA of Delivery (national):</strong>
+                            </td>
+                            <td>
+                                {{listing.etaDeliveryNational}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>ETA of Delivery (International):</strong>
+                            </td>
+                            <td>
+                                {{listing.etaDeliveryInternational}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Bulky Item:</strong>
+                            </td>
+                            <td>
+                                {{listing.bulkyItem ? 'Yes' : 'No'}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 returns">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 listing-returns-policy">
+                        <h2>Shipping Information</h2>
+                        {{listing.shippingInformation}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="recommendedListings.length" class="row recommended">
+                <h2 class="purple no-top-margin">Recommended Products</h2>
+                <div class="recommended-listings">
+                    <div ng-include="'modules/listings/views/includes/recommended-listings.client.view.html'"></div>
+                </div>
+            </div>
+        </div>
+</section>
+<div class="container-fluid border-bottom"></div>
