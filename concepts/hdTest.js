@@ -1,3 +1,4 @@
+An AMAGING Store 
 var bitcore = require('bitcore');
 var assert = require('assert');
 bitcore.Networks.defaultNetwork = bitcore.Networks.testnet;
